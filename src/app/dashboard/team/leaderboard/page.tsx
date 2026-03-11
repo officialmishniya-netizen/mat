@@ -5,8 +5,8 @@ import { count, eq, sql } from "drizzle-orm";
 import { LeaderboardClient } from "./LeaderboardClient";
 
 export const metadata = {
-    title: 'Team Leaderboard | PTC Nexus',
-    description: 'See the top referrers and earners in the PTC Nexus community.',
+    title: 'Team Leaderboard | MatClick',
+    description: 'See the top referrers and earners in the MatClick community.',
 };
 
 export default async function LeaderboardPage() {
@@ -50,7 +50,7 @@ export default async function LeaderboardPage() {
         <div className="space-y-6">
             <div>
                 <h1 className="text-3xl font-black text-[#151d48]">Global Leaderboard</h1>
-                <p className="text-[#737791]">See who's building the biggest teams on PTC Nexus. Compete for the top spot!</p>
+                <p className="text-[#737791]">See who's building the biggest teams on MatClick. Compete for the top spot!</p>
             </div>
 
             <LeaderboardClient initialLeaderboard={topReferrers} />

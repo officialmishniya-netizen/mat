@@ -13,6 +13,9 @@ export type SiteSettings = {
     enable_team_emails: boolean;
     enable_direct_messages: boolean;
     enable_training_hub: boolean;
+    mailgun_api_key: string | null;
+    mailgun_domain: string | null;
+    mailgun_from_email: string | null;
 };
 
 const DEFAULT_SETTINGS: SiteSettings = {
@@ -28,6 +31,9 @@ const DEFAULT_SETTINGS: SiteSettings = {
     enable_team_emails: true,
     enable_direct_messages: true,
     enable_training_hub: true,
+    mailgun_api_key: null,
+    mailgun_domain: null,
+    mailgun_from_email: "notifications@matclick.com",
 };
 
 export const getSiteSettings = async (): Promise<SiteSettings> => {

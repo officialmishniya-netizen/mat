@@ -5,7 +5,7 @@ import { eq, desc } from "drizzle-orm";
 import { TrackingLinksClient } from "./TrackingLinksClient";
 
 export const metadata = {
-    title: 'Tracking Links | PTC Nexus',
+    title: 'Tracking Links | MatClick',
     description: 'Generate and track affiliate links for your marketing campaigns.',
 };
 

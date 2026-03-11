@@ -282,7 +282,7 @@ export function DashboardOverview({
                     <div className="bg-blue-500/10 w-10 h-10 rounded-xl flex items-center justify-center text-blue-500 mb-4 group-hover:scale-110 transition-transform">
                         <MousePointerClick size={20} />
                     </div>
-                    <p className="text-xs font-bold text-[#737791] uppercase tracking-widest mb-1">Matrix Click Earnings</p>
+                    <p className="text-xs font-bold text-[#737791] uppercase tracking-widest mb-1">Ad Click Earnings</p>
                     <h4 className="text-2xl font-black text-[#151d48]">{formatMoney(adRewardTotal)}</h4>
                 </div>
 
@@ -290,7 +290,7 @@ export function DashboardOverview({
                 <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-50 group hover:shadow-xl transition-all relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/5 rounded-full -mr-8 -mt-8 group-hover:scale-150 transition-transform duration-700"></div>
                     <div className="flex justify-between items-center mb-6">
-                        <p className="text-[10px] font-black text-[#737791] uppercase tracking-[0.2em]">Matrix Mastery</p>
+                        <p className="text-[10px] font-black text-[#737791] uppercase tracking-[0.2em]">Ad Click Mastery</p>
                         <div className="bg-orange-100 p-2 rounded-xl text-orange-600">
                             <Award size={18} />
                         </div>

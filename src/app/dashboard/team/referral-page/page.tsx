@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { ReferralPageClient } from "./ReferralPageClient";
 
 export const metadata = {
-    title: 'My Referral Page | PTC Nexus',
+    title: 'My Referral Page | MatClick',
     description: 'Customize your public referral landing page.',
 };
 

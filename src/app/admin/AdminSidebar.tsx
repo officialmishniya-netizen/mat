@@ -110,8 +110,9 @@ const navGroups = [
         name: "System Settings",
         icon: Settings,
         items: [
-            { name: "White-Label UI", href: "/admin/settings/ui" },
+            { name: "White-Label UI", href: "/admin/settings" },
             { name: "Payments Config", href: "/admin/settings/payments" },
+            { name: "Email Templates", href: "/admin/emails" },
             { name: "Simulation Engine", href: "/admin/settings/simulation" }
         ]
     },
@@ -141,7 +142,7 @@ export default function AdminSidebar() {
     const { t } = useTranslation();
     const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
         "Dashboard": true,
-        "PTC Ads Center": true,
+        "Ad Click Center": true,
         "Matrix & Levels": true
     });
 

@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { ProofCardsClient } from "./ProofCardsClient";
 
 export const metadata = {
-    title: 'Earning Proof Cards | PTC Nexus',
+    title: 'Earning Proof Cards | MatClick',
     description: 'Generate shareable images to show off your earnings and invite others.',
 };
 

@@ -15,9 +15,9 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
     const cardRef = useRef<HTMLDivElement>(null);
 
     const captions = [
-        `Just hit $${amount} in passive income with PTC Nexus! 🚀 It's fully automated and free to join. Check out my link in bio to start earning today! #PassiveIncome #PTC #Crypto`,
-        `Another milestone reached! 💸 Earning daily with PTC Nexus has been a game-changer. Want to learn how? Join my team for free: [Your Link] #EarnOnline #SideHustle`,
-        `Who said making money online was hard? Simply clicking ads and building a team on PTC Nexus got me to $${amount}! Join my network and let's grow together 📈 #TeamBuilding`
+        `Just hit $${amount} in passive income with MatClick! 🚀 It's fully automated and free to join. Check out my link in bio to start earning today! #PassiveIncome #PTC #Crypto`,
+        `Another milestone reached! 💸 Earning daily with MatClick has been a game-changer. Want to learn how? Join my team for free: [Your Link] #EarnOnline #SideHustle`,
+        `Who said making money online was hard? Simply clicking ads and building a team on MatClick got me to $${amount}! Join my network and let's grow together 📈 #TeamBuilding`
     ];
 
     const handleDownload = () => {
@@ -165,7 +165,7 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
                     {/* Bottom: CTA */}
                     <div className="z-10 bg-black/10 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between border border-white/10">
                         <div>
-                            <p className="font-black text-sm">PTC Nexus Matrix</p>
+                            <p className="font-black text-sm">MatClick Matrix</p>
                             <p className="text-[10px] opacity-80 font-bold uppercase tracking-widest mt-0.5">Automated Earnings</p>
                         </div>
                         <div className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest ${template === 'light' ? 'bg-[#151d48] text-white' : 'bg-white text-[#151d48]'}`}>

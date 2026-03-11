@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 export function ReferralPageClient({ currentUser }: { currentUser: any }) {
     const [title, setTitle] = useState(`Join ${currentUser.username}'s Team`);
-    const [welcomeMessage, setWelcomeMessage] = useState("I'm looking for motivated individuals to join my PTC Nexus network. Let's grow together!");
+    const [welcomeMessage, setWelcomeMessage] = useState("I'm looking for motivated individuals to join my MatClick network. Let's grow together!");
     const [showContact, setShowContact] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
 
@@ -121,7 +121,7 @@ export function ReferralPageClient({ currentUser }: { currentUser: any }) {
                                 <div className="h-12 w-full bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold opacity-90 shadow-lg shadow-orange-500/20">
                                     Join {currentUser.username}'s Team
                                 </div>
-                                <p className="text-xs text-gray-400 mt-3">Powered by PTC Nexus</p>
+                                <p className="text-xs text-gray-400 mt-3">Powered by MatClick</p>
                             </div>
                         </div>
                     </div>

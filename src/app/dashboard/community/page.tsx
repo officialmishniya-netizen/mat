@@ -15,21 +15,33 @@ import Link from "next/link";
 export default async function CommunityPage() {
     const supabase = await createServerSupabaseClient();
 
-    // Mock data for top earners
-    const topEarners = [
-        { id: 1, name: "Jesse Thomas", username: "jesset", earnings: "12,450.00", growth: "+24%", rank: 1 },
-        { id: 2, name: "Thisal Mathiya", username: "thisal_m", earnings: "9,120.50", growth: "+18%", rank: 2 },
-        { id: 3, name: "Sarah Connor", username: "sarahc", earnings: "8,980.00", growth: "+15%", rank: 3 },
-        { id: 4, name: "John Wick", username: "babayaga", earnings: "7,540.20", growth: "+12%", rank: 4 },
-        { id: 5, name: "Ellen Ripley", username: "ripley", earnings: "6,210.00", growth: "+10%", rank: 5 },
-    ];
+    // Fetch Real Top Earners (by ad_credits as proxy for now)
+    const { data: topEarnersData } = await supabase
+        .from("users")
+        .select("id, username, full_name, ad_credits, rank")
+        .order("ad_credits", { ascending: false })
+        .limit(10);
 
-    // Mock data for top recruiters
-    const topRecruiters = [
-        { id: 6, name: "Marcus Aurelius", username: "stoic", referrals: 450, rank: 1 },
-        { id: 7, name: "Lucius Fox", username: "fox_tech", referrals: 380, rank: 2 },
-        { id: 8, name: "Peter Parker", username: "spidey", referrals: 310, rank: 3 },
-    ];
+    const topEarners = (topEarnersData || []).map((u, i) => ({
+        id: u.id,
+        name: u.full_name || u.username,
+        username: u.username,
+        earnings: u.ad_credits.toString(), // Using credits as display for now
+        growth: "+0%", 
+        rank: i + 1
+    }));
+
+    // Fetch Top Recruiters (count distinct referrals)
+    const { data: recruitersData } = await supabase
+        .rpc('get_top_recruiters_v2'); // I should check if this exists or use a simple query
+
+    const topRecruiters = (recruitersData || []).slice(0, 5).map((u, i) => ({
+        id: u.id,
+        name: u.username,
+        username: u.username,
+        referrals: u.referral_count,
+        rank: i + 1
+    }));
 
     return (
         <div className="space-y-12 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-6 duration-1000">
@@ -44,7 +56,7 @@ export default async function CommunityPage() {
                         <span>Global Rewards Program</span>
                     </div>
                     <h1 className="text-5xl font-black tracking-tight mb-4">Community Hall of Fame</h1>
-                    <p className="text-xl text-blue-200 font-medium leading-relaxed">Recognizing our top performers and visionaries who are building the future of the ultimate matrix.</p>
+                    <p className="text-xl text-blue-200 font-medium leading-relaxed">Recognizing our top performers and visionaries who are building the MatClick community.</p>
                 </div>
             </div>
 

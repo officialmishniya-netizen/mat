@@ -5,7 +5,7 @@ import { eq, or } from "drizzle-orm";
 import { MessagesClient } from "./MessagesClient";
 
 export const metadata = {
-    title: 'Messages | PTC Nexus',
+    title: 'Messages | MatClick',
     description: 'Direct messages with your team',
 };
 

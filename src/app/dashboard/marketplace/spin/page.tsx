@@ -8,7 +8,7 @@ import { SpinWheelClient } from "./SpinWheelClient";
 import { Sparkles, Trophy, Zap, Info } from "lucide-react";
 
 export const metadata = {
-    title: "Rewards Spin Wheel | PTC Nexus"
+    title: "Rewards Spin Wheel | MatClick"
 };
 
 export default async function SpinWheelPage() {

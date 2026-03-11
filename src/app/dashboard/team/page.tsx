@@ -11,7 +11,7 @@ import Link from "next/link";
 import { TeamGrid } from "./TeamGrid"; // We'll create this client component
 
 export const metadata = {
-    title: 'Downline Overview | PTC Nexus',
+    title: 'Downline Overview | MatClick',
     description: 'Manage your referrals, track their progress, and communicate with your downline.',
 };
 

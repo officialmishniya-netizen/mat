@@ -30,8 +30,26 @@ CREATE TABLE IF NOT EXISTS public.settings (
   service_fee_percent NUMERIC(5, 2) DEFAULT 0.00,
   seo_title TEXT DEFAULT 'Earn with the Ultimate Matrix',
   seo_description TEXT DEFAULT 'Join the premier PTC and Matrix platform.',
+  mailgun_api_key TEXT DEFAULT '',
+  mailgun_domain TEXT DEFAULT '',
+  mailgun_from_email TEXT DEFAULT 'notifications@matclick.com',
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- 3.1 Email Templates Table
+CREATE TABLE IF NOT EXISTS public.email_templates (
+  id SERIAL PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
+  subject TEXT NOT NULL,
+  body TEXT NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Insert default templates
+INSERT INTO public.email_templates (slug, subject, body) VALUES 
+('welcome', 'Welcome to MatClick!', 'Hi {username}, welcome to our platform!'),
+('cycle_complete', 'Matrix Cycle Complete!', 'Congratulations {username}, you just completed a matrix cycle and earned {amount}!')
+ON CONFLICT (slug) DO NOTHING;
 
 -- Insert default settings row
 INSERT INTO public.settings (id) VALUES (1) ON CONFLICT DO NOTHING;

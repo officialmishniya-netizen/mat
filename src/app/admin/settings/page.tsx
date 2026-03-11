@@ -15,11 +15,14 @@ export default async function AdminSettingsPage() {
             nowpayments_api_key: formData.get("nowpayments_api_key") as string,
             withdrawal_fee_percent: parseFloat(formData.get("withdrawal_fee_percent") as string) || 0,
             service_fee_percent: parseFloat(formData.get("service_fee_percent") as string) || 0,
-            seo_title: formData.get("seo_title") as string || "PTC Matrix",
+            seo_title: formData.get("seo_title") as string || "MatClick",
             seo_description: formData.get("seo_description") as string || "Join our amazing platform.",
             enable_team_emails: formData.get("enable_team_emails") === "on",
             enable_direct_messages: formData.get("enable_direct_messages") === "on",
             enable_training_hub: formData.get("enable_training_hub") === "on",
+            mailgun_api_key: formData.get("mailgun_api_key") as string,
+            mailgun_domain: formData.get("mailgun_domain") as string,
+            mailgun_from_email: formData.get("mailgun_from_email") as string,
         });
 
         // Refresh all pages to instantly apply the new styles/branding globally
@@ -143,6 +146,41 @@ export default async function AdminSettingsPage() {
                         defaultValue={settings.nowpayments_api_key || ""}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     />
+                </div>
+
+                <div className="border-t pt-4">
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Mailgun Configuration</h3>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Mailgun API Key</label>
+                            <input
+                                type="password"
+                                name="mailgun_api_key"
+                                defaultValue={settings.mailgun_api_key || ""}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Mailgun Domain</label>
+                            <input
+                                type="text"
+                                name="mailgun_domain"
+                                defaultValue={settings.mailgun_domain || ""}
+                                placeholder="mg.yourdomain.com"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">From Email Address</label>
+                            <input
+                                type="email"
+                                name="mailgun_from_email"
+                                defaultValue={settings.mailgun_from_email || ""}
+                                placeholder="notifications@matclick.com"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <div className="border-t pt-4 space-y-4">

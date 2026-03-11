@@ -87,3 +87,25 @@ BEGIN
   RETURN TRUE;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- 3. Get Top Recruiters
+CREATE OR REPLACE FUNCTION get_top_recruiters_v2()
+RETURNS TABLE (
+  id UUID,
+  username TEXT,
+  referral_count BIGINT
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    u.id, 
+    u.username, 
+    COUNT(r.id)::BIGINT as referral_count
+  FROM public.users u
+  LEFT JOIN public.users r ON r.sponsor_id = u.id
+  GROUP BY u.id, u.username
+  HAVING COUNT(r.id) > 0
+  ORDER BY referral_count DESC
+  LIMIT 10;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;

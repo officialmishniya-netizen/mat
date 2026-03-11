@@ -5,7 +5,7 @@ import { eq, desc } from "drizzle-orm";
 import { FollowUpsClient } from "./FollowUpsClient";
 
 export const metadata = {
-    title: 'Automated Follow-Ups | PTC Nexus',
+    title: 'Automated Follow-Ups | MatClick',
     description: 'Set up automated messages to guide your referrals.',
 };
 

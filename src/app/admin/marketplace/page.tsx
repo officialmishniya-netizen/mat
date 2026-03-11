@@ -210,7 +210,7 @@ export default function AdminMarketplace() {
                     <h1 className="text-4xl font-black tracking-tight text-[#151d48] flex items-center gap-4">
                         Marketplace <span className="text-indigo-600 italic font-medium">Control</span>
                     </h1>
-                    <p className="text-[#737791] font-medium">Powering the digital economy of PTC Nexus.</p>
+                    <p className="text-[#737791] font-medium">Powering the digital economy of MatClick.</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
                     <Button variant="secondary" size="md" onClick={() => window.open('/dashboard/marketplace', '_blank')}>

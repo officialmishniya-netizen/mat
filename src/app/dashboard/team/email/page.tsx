@@ -5,7 +5,7 @@ import { eq, desc } from "drizzle-orm";
 import { EmailComposerClient } from "./EmailComposerClient";
 
 export const metadata = {
-    title: 'Email My Team | PTC Nexus',
+    title: 'Email My Team | MatClick',
     description: 'Compose and send bulk emails to your referrals.',
 };
 

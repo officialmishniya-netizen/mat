@@ -9,7 +9,7 @@ import Link from "next/link";
 import { InviteTableClient } from "./InviteTableClient";
 
 export const metadata = {
-    title: 'Invite Manager | PTC Nexus',
+    title: 'Invite Manager | MatClick',
     description: 'Track your funnel and manage recent signups.',
 };
 

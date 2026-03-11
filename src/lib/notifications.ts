@@ -1,5 +1,6 @@
 import { supabase } from './supabase';
 import { toMoney } from './money';
+import { getSiteSettings } from './settings';
 
 export type NotificationType = 'earning' | 'cycle' | 'credit' | 'system' | 'withdrawal' | 'deposit';
 
@@ -63,28 +64,89 @@ export const createNotification = async (
 export const sendEmailNotification = async (email: string, title: string, body: string) => {
     console.log(`[EMAIL DISPATCH] To: ${email} | Subject: ${title} | Body: ${body}`);
 
-    // Example Resend implementation (uncomment when API keys are available):
-    /*
     try {
-        const response = await fetch('https://api.resend.com/emails', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-            },
-            body: JSON.stringify({
-                from: 'PTC Nexus <notifications@ptcnexus.com>',
-                to: [email],
-                subject: title,
-                html: `<p>${body}</p>`,
-            }),
-        });
-        return response.ok;
+        const settings = await getSiteSettings();
+        
+        if (settings.mailgun_api_key && settings.mailgun_domain) {
+            const formData = new URLSearchParams();
+            formData.append('from', settings.mailgun_from_email || `MatClick <notifications@${settings.mailgun_domain}>`);
+            formData.append('to', email);
+            formData.append('subject', title);
+            formData.append('html', body);
+
+            const auth = Buffer.from(`api:${settings.mailgun_api_key}`).toString('base64');
+            const response = await fetch(`https://api.mailgun.net/v3/${settings.mailgun_domain}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Basic ${auth}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            });
+
+            if (!response.ok) {
+                const err = await response.text();
+                console.error('Mailgun error:', err);
+                return false;
+            }
+            return true;
+        }
     } catch (e) {
         console.error('Email dispatch failed:', e);
     }
-    */
+    
     return true;
+};
+
+/**
+ * Sends an email using a template from the database.
+ */
+export const sendTemplateEmail = async (
+    userId: string,
+    templateSlug: string,
+    placeholders: Record<string, string>
+) => {
+    try {
+        const { data: user } = await supabase
+            .from('users')
+            .select('email, username')
+            .eq('id', userId)
+            .single();
+
+        if (!user?.email) return false;
+
+        const { data: template } = await supabase
+            .from('email_templates')
+            .select()
+            .eq('slug', templateSlug)
+            .single();
+
+        if (!template) {
+            console.error(`Template ${templateSlug} not found`);
+            return false;
+        }
+
+        let body = template.body;
+        let subject = template.subject;
+
+        // Add default user placeholders
+        const allPlaceholders = {
+            ...placeholders,
+            username: user.username,
+        };
+
+        // Replace placeholders {key} with value
+        Object.entries(allPlaceholders).forEach(([key, value]) => {
+            const regex = new RegExp(`{${key}}`, 'g');
+            body = body.replace(regex, value);
+            subject = subject.replace(regex, value);
+        });
+
+        return await sendEmailNotification(user.email, subject, body);
+    } catch (e) {
+        console.error('Failed to send template email:', e);
+        return false;
+    }
 };
 
 /**

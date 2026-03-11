@@ -31,6 +31,17 @@ export const settings = pgTable("settings", {
     seo_title: text("seo_title").default("MatClick — High-Yield Matrix Engine"),
     seo_description: text("seo_description").default("Join the premier community-driven matrix platform."),
     telegram_bot_username: text("telegram_bot_username").default("MatClickBot"),
+    mailgun_api_key: text("mailgun_api_key"),
+    mailgun_domain: text("mailgun_domain"),
+    mailgun_from_email: text("mailgun_from_email"),
+    updated_at: timestamp("updated_at").defaultNow().notNull()
+});
+
+export const emailTemplates = pgTable("email_templates", {
+    id: serial("id").primaryKey(),
+    slug: text("slug").notNull().unique(), // welcome, cycle_complete, etc.
+    subject: text("subject").notNull(),
+    body: text("body").notNull(),
     updated_at: timestamp("updated_at").defaultNow().notNull()
 });
 
@@ -845,7 +856,7 @@ export const telegramAdminSettings = pgTable('telegram_admin_settings', {
     // Bot identity (read from here, not hardcoded)
     botToken: text('bot_token'),
     // Encrypted in DB. Falls back to TELEGRAM_BOT_TOKEN env var.
-    botUsername: text('bot_username'),    // e.g. "PTCNexusBot" — editable
+    botUsername: text('bot_username'),    // e.g. "MatClickBot" — editable
     botDisplayName: text('bot_display_name'), // shown in messages header
 
     // Global on/off switches per event type

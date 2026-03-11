@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { TrainingHubClient } from "./TrainingHubClient";
 
 export const metadata = {
-    title: 'Referral Training Hub | PTC Nexus',
+    title: 'Referral Training Hub | MatClick',
     description: 'Provide resources and duplicate your success with your team.',
 };
 

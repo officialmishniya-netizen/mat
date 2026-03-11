@@ -104,7 +104,7 @@ export function TrainingHubClient({ currentUser }: { currentUser: any }) {
                                     <span className="font-black text-lg">1</span>
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-[#151d48]">Getting Started with PTC Nexus</h4>
+                                    <h4 className="font-bold text-[#151d48]">Getting Started with MatClick</h4>
                                     <p className="text-xs text-gray-500">The basics of clicking ads and earning.</p>
                                 </div>
                             </div>
