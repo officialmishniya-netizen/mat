@@ -112,6 +112,7 @@ export default async function BotPatternsPage() {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
+                          <div className="text-xs text-gray-500">Ad Click Fraud Velocity</div>
                           <div className="w-20 h-2 bg-gray-100 rounded-full overflow-hidden">
                             <div
                               className={`h-full rounded-full ${score >= 90 ? "bg-red-500" : score >= 70 ? "bg-orange-500" : "bg-yellow-400"}`}

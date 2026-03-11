@@ -1,6 +1,6 @@
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { getEffectiveUserId } from "@/app/actions/impersonate";
-import PTCViewer from "./PTCViewer";
+import AdClickViewer from "./AdClickViewer";
 import { redirect } from "next/navigation";
 
 export default async function UserAdsPage() {
@@ -46,5 +46,5 @@ export default async function UserAdsPage() {
         }
     }
 
-    return <PTCViewer ads={availableAds as any} />;
+    return <AdClickViewer ads={availableAds as any} />;
 }

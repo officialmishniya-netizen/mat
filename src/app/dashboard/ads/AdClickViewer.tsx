@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 type AdParams = { id: string; title: string; url: string; duration: number; reward: string };
 
-export default function PTCViewer({ ads }: { ads: AdParams[] }) {
+export default function AdClickViewer({ ads }: { ads: AdParams[] }) {
     const router = useRouter();
 
     const [activeAd, setActiveAd] = useState<AdParams | null>(null);
@@ -191,7 +191,7 @@ export default function PTCViewer({ ads }: { ads: AdParams[] }) {
 
     return (
         <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-gray-900 border-b pb-4">Earn Money (PTC)</h1>
+            <h1 className="text-3xl font-bold text-gray-900 border-b pb-4">Earn Money (Ad Click)</h1>
 
             {error && (
                 <div className="p-4 bg-red-100 text-red-800 rounded font-bold">
