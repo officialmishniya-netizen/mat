@@ -48,6 +48,8 @@ interface DashboardOverviewProps {
     adRewardTotal: string;
     recentTransactions: any[];
     communityPoolTotal: string;
+    topEarners: any[];
+    recentShouts: any[];
 }
 
 const getTypeConfig = (type: string) => {
@@ -116,7 +118,9 @@ export function DashboardOverview({
     referralLink,
     adRewardTotal,
     recentTransactions,
-    communityPoolTotal
+    communityPoolTotal,
+    topEarners,
+    recentShouts
 }: DashboardOverviewProps) {
     const { t, language } = useTranslation();
 
@@ -469,38 +473,38 @@ export function DashboardOverview({
                         <Link href="/dashboard/community" className="text-xs font-black text-primary hover:secondary bg-primary/5 px-4 py-2 rounded-full transition-all">View Leaderboard</Link>
                     </div>
                     <div className="space-y-4">
-                        {[
-                            { name: "Jesse Thomas", points: "2,450", growth: "up", rank: 1, avatarColor: "bg-blue-100" },
-                            { name: "Thisal Mathiya", points: "2,120", growth: "down", rank: 2, avatarColor: "bg-orange-100" },
-                            { name: "John Doe", points: "1,980", growth: "up", rank: 3, avatarColor: "bg-green-100" }
-                        ].map((user, i) => (
-                            <div key={i} className="flex items-center justify-between p-4 rounded-3xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group relative">
-                                <div className="flex items-center space-x-5">
-                                    <div className="relative">
-                                        <div className={`w-14 h-14 rounded-2xl ${user.avatarColor} overflow-hidden shadow-inner flex items-center justify-center`}>
-                                            <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} alt={user.name} className="w-12 h-12" />
+                        {topEarners.length === 0 ? (
+                             <div className="py-10 text-center text-gray-400 font-bold italic">No data yet.</div>
+                        ) : (
+                            topEarners.map((user, i) => (
+                                <div key={i} className="flex items-center justify-between p-4 rounded-3xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group relative">
+                                    <div className="flex items-center space-x-5">
+                                        <div className="relative">
+                                            <div className={`w-14 h-14 rounded-2xl bg-primary/5 overflow-hidden shadow-inner flex items-center justify-center`}>
+                                                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`} alt={user.username} className="w-12 h-12" />
+                                            </div>
+                                            <div className="absolute -top-2 -left-2 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[10px] font-black text-[#151d48] shadow-md border border-gray-100">
+                                                #{i + 1}
+                                            </div>
                                         </div>
-                                        <div className="absolute -top-2 -left-2 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[10px] font-black text-[#151d48] shadow-md border border-gray-100">
-                                            #{user.rank}
+                                        <div>
+                                            <p className="font-black text-base text-[#151d48]">@{user.username}</p>
+                                            <div className="flex items-center space-x-2">
+                                                <p className="text-[10px] text-[#737791] font-black uppercase tracking-widest">{user.ad_credits} Credits</p>
+                                                <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+                                                <p className="text-[10px] font-black text-primary uppercase">{user.rank || 'Member'}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <p className="font-black text-base text-[#151d48]">@{user.name.split(' ')[0].toLowerCase()}</p>
-                                        <div className="flex items-center space-x-2">
-                                            <p className="text-[10px] text-[#737791] font-black uppercase tracking-widest">{user.points} USD EARNED</p>
-                                            <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-                                            <p className="text-[10px] font-black text-green-500 uppercase">Top 1%</p>
+                                    <div className="flex items-center pr-2">
+                                        {i === 0 && <Award className="text-orange-500 mr-4" size={24} />}
+                                        <div className={`w-10 h-10 rounded-2xl flex items-center justify-center bg-green-50 text-green-600`}>
+                                            <TrendingUp size={20} />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex items-center pr-2">
-                                    {user.rank === 1 && <Award className="text-orange-500 mr-4" size={24} />}
-                                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${user.growth === 'up' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
-                                        {user.growth === "up" ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
 
@@ -511,24 +515,24 @@ export function DashboardOverview({
                         <MessageSquare size={20} className="text-primary" />
                     </div>
                     <div className="flex-1 space-y-5">
-                        {[
-                            { user: "MatrixMaster", text: "Just completed Level 5! Thanks everyone! 🎉", time: "2m ago", color: "text-blue-500" },
-                            { user: "ProfitPro", text: "Matching bonus just hit, PTCNexus is legit 💸", time: "15m ago", color: "text-green-500" },
-                            { user: "NewEarner", text: "How many ads do I need for Level 1?", time: "24m ago", color: "text-orange-500" }
-                        ].map((shout, i) => (
-                            <div key={i} className="flex space-x-4 p-4 rounded-3xl bg-gray-50/50 border border-transparent hover:border-gray-100 transition-all">
-                                <div className={`w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center font-black ${shout.color}`}>
-                                    {shout.user.charAt(0)}
-                                </div>
-                                <div className="flex-1">
-                                    <div className="flex justify-between items-center mb-1">
-                                        <span className="text-xs font-black text-[#151d48]">@{shout.user}</span>
-                                        <span className="text-[10px] font-bold text-gray-400">{shout.time}</span>
+                        {recentShouts.length === 0 ? (
+                            <div className="py-10 text-center text-gray-400 font-bold italic">No shouts yet.</div>
+                        ) : (
+                            recentShouts.map((shout, i) => (
+                                <div key={i} className="flex space-x-4 p-4 rounded-3xl bg-gray-50/50 border border-transparent hover:border-gray-100 transition-all">
+                                    <div className={`w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center font-black text-primary`}>
+                                        {shout.users?.username.charAt(0).toUpperCase()}
                                     </div>
-                                    <p className="text-sm text-[#444a6d] font-medium leading-relaxed">{shout.text}</p>
+                                    <div className="flex-1">
+                                        <div className="flex justify-between items-center mb-1">
+                                            <span className="text-xs font-black text-[#151d48]">@{shout.users?.username}</span>
+                                            <span className="text-[10px] font-bold text-gray-400">{formatDate(shout.created_at)}</span>
+                                        </div>
+                                        <p className="text-sm text-[#444a6d] font-medium leading-relaxed">{shout.content}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                     <Link href="/dashboard/community" className="w-full mt-6 py-4 bg-[#151d48] text-white text-xs font-black uppercase tracking-widest rounded-3xl hover:secondary transition-all flex items-center justify-center space-x-3 shadow-lg shadow-blue-900/20 group">
                         <span>Join the conversation</span>

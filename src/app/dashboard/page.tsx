@@ -73,6 +73,21 @@ export default async function DashboardPage() {
 
     const totalPoolBalance = pools?.reduce((sum, p) => sum + parseFloat(p.total_locked || "0"), 0).toFixed(2) || "0.00";
 
+    // Fetch Hall of Fame (Top 3 by cycles or rankings)
+    const { data: topEarners } = await supabase
+        .from("users")
+        .select("username, ad_credits, rank")
+        .order("ad_credits", { ascending: false })
+        .limit(3);
+
+    // Fetch Recent Shouts (Last 3)
+    const { data: recentShouts } = await supabase
+        .from("messages")
+        .select("*, users(username)")
+        .eq("channel_id", "public")
+        .order("created_at", { ascending: false })
+        .limit(3);
+
     const username = profile?.username || session.user.id;
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const referralLink = `${baseUrl}/r/${username}`;
@@ -93,6 +108,8 @@ export default async function DashboardPage() {
             adRewardTotal={adRewardTotal}
             recentTransactions={recentLedger || []}
             communityPoolTotal={totalPoolBalance}
+            topEarners={topEarners || []}
+            recentShouts={recentShouts || []}
         />
     );
 }
