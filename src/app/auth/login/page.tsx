@@ -33,14 +33,11 @@ export default function LoginPage() {
 
             <div className="relative z-10 w-full max-w-[440px] px-6 py-12">
                 {/* Brand Logo & Header */}
-                <div className="text-center mb-10">
-                    <div className="inline-flex items-center justify-center p-3 mb-6 rounded-2xl bg-gradient-to-br from-primary to-orange-600 shadow-lg shadow-primary/20 ring-1 ring-white/10 group">
-                        <Cpu className="text-white group-hover:rotate-12 transition-transform duration-300" size={32} />
-                    </div>
-                    <h1 className="text-4xl font-black text-white tracking-tight mb-2">
-                        PTC <span className="text-primary">NEXUS</span>
-                    </h1>
-                    <p className="text-gray-400 font-medium">Professional Earning Platform</p>
+                <div className="text-center mb-10 flex flex-col items-center">
+                    <Link href="/" className="inline-block mb-6">
+                        <img src="/logo.PNG" alt="Brand Logo" className="h-16 w-auto object-contain" />
+                    </Link>
+                    <p className="text-gray-400 font-medium mt-2">Professional Earning Platform</p>
                 </div>
 
                 {/* Glassmorphism Auth Card */}

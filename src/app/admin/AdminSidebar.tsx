@@ -156,16 +156,9 @@ export default function AdminSidebar() {
         <aside className="w-[280px] bg-white h-screen fixed left-0 top-0 flex flex-col border-r border-gray-100 z-20 overflow-hidden">
             {/* Logo */}
             <div className="h-24 flex items-center px-8 shrink-0">
-                <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-[#f97316] rounded-xl flex items-center justify-center">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </div>
-                    <span className="text-xl font-bold text-[#151d48]">PTC Nexus</span>
-                </div>
+                <Link href="/admin" className="block w-full">
+                    <img src="/logo.PNG" alt="Admin Logo" className="h-10 w-auto object-contain" />
+                </Link>
             </div>
 
             {/* Navigation Layout */}

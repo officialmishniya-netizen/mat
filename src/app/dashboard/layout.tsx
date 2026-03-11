@@ -54,9 +54,9 @@ export default async function DashboardLayout({
             <aside className="w-full md:w-80 bg-white border-r border-gray-100 flex flex-col shrink-0 h-screen sticky top-0 overflow-hidden">
                 <div className="flex flex-col h-full pt-5">
                     <div className="flex items-center flex-shrink-0 px-8 mb-6">
-                        <h1 className="text-2xl font-black text-[#151d48] tracking-tight">
-                            PTC <span className="text-primary uppercase">Nexus</span>
-                        </h1>
+                        <Link href="/dashboard" className="block w-full">
+                            <img src="/logo.PNG" alt="Logo" className="h-10 w-auto object-contain" />
+                        </Link>
                     </div>
 
                     <div className="px-6 mb-6 shrink-0">
