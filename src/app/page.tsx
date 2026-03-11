@@ -159,7 +159,6 @@ export default async function LandingPage() {
                 Start Earning Free
                 <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
               </span>
-              {/* Shine sweep */}
               <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
             </Link>
             <a href="#how-it-works" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white/60 border border-white/10 hover:bg-white/5 hover:text-white transition-all text-base">
@@ -271,7 +270,7 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ══ VERIFIED EARNINGS SECTION (no "ironclad" anywhere) ══ */}
+      {/* ══ VERIFIED EARNINGS ══ */}
       <section className="py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-br from-[#111118] to-[#0c0c14]">
@@ -290,10 +289,7 @@ export default async function LandingPage() {
                   Every Cent Tracked.<br /><span className="text-orange-400">Every Transaction Verified.</span>
                 </h2>
                 <p className="text-white/45 text-base leading-relaxed mb-4">
-                  From a $0.01 ad click to a $500 matrix cycle — every event is recorded on our tamper-proof internal ledger. No rounding. No estimates. No manipulation.
-                </p>
-                <p className="text-white/45 text-base leading-relaxed mb-8">
-                  What you earn is <span className="text-white font-semibold">exactly</span> what you receive. Auditable in real time, always.
+                  From a $0.01 ad click to a $500 matrix cycle — every event is recorded on our tamper-proof internal ledger.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link
@@ -311,7 +307,7 @@ export default async function LandingPage() {
 
               {/* Animated Ledger Card */}
               <ScrollReveal scale delay={150} className="flex justify-center lg:justify-end">
-                <div className="w-full max-w-sm bg-[#07070f] border border-white/10 rounded-2xl p-6 shadow-2xl hover:border-orange-500/25 transition-all duration-500">
+                <div className="w-full max-w-sm bg-[#07070f] border border-white/10 rounded-2xl p-6 shadow-2xl">
                   <div className="flex justify-between items-center mb-5">
                     <div>
                       <div className="text-[10px] text-white/25 uppercase tracking-[0.15em] font-mono">Live Account Ledger</div>
@@ -324,12 +320,11 @@ export default async function LandingPage() {
                   </div>
                   <div className="space-y-3 font-mono text-xs mb-5">
                     {[
-                      { cls: "ledger-row-1", time: "09:14:22", label: "Ad Click #291", amt: "+$0.30", color: "text-emerald-400" },
-                      { cls: "ledger-row-2", time: "09:31:05", label: "Matrix Buy L2",  amt: "-$10.00", color: "text-red-400" },
-                      { cls: "ledger-row-3", time: "10:02:44", label: "Matching Bonus", amt: "+$5.00",  color: "text-emerald-400" },
-                      { cls: "ledger-row-4", time: "10:45:17", label: "Cycle Revenue L1", amt: "+$25.00", color: "text-emerald-400" },
+                      { time: "09:14:22", label: "Ad Click #291", amt: "+$0.30", color: "text-emerald-400" },
+                      { time: "09:31:05", label: "Matrix Buy L2",  amt: "-$10.00", color: "text-red-400" },
+                      { time: "10:02:44", label: "Matching Bonus", amt: "+$5.00",  color: "text-emerald-400" },
                     ].map((row) => (
-                      <div key={row.time} className={`${row.cls} flex justify-between text-white/35`}>
+                      <div key={row.time} className="flex justify-between text-white/35">
                         <span>[{row.time}] {row.label}</span>
                         <span className={row.color}>{row.amt}</span>
                       </div>
@@ -338,15 +333,6 @@ export default async function LandingPage() {
                   <div className="pt-4 border-t border-white/5 flex justify-between items-center">
                     <span className="text-white/35 text-[10px] font-mono uppercase tracking-widest">Net Balance</span>
                     <span className="text-orange-400 text-2xl font-black">$20.30</span>
-                  </div>
-                  {/* Progress to next withdrawal */}
-                  <div className="mt-4">
-                    <div className="flex justify-between text-[10px] text-white/25 mb-1.5">
-                      <span>Progress to Withdrawal</span><span>$20.30 / $25.00</span>
-                    </div>
-                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                      <div className="h-full w-[81%] bg-gradient-to-r from-orange-500 to-red-500 rounded-full animate-gradient" />
-                    </div>
                   </div>
                 </div>
               </ScrollReveal>
@@ -357,10 +343,8 @@ export default async function LandingPage() {
 
       {/* ══ PLANS ══ */}
       <section id="plans" className="py-28 relative overflow-hidden">
-        {/* Background atmosphere */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-orange-600/5 rounded-full blur-[140px]" />
-          <div className="absolute top-0 left-1/4 w-[300px] h-[300px] bg-violet-600/5 rounded-full blur-[80px]" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -374,72 +358,41 @@ export default async function LandingPage() {
             </p>
           </ScrollReveal>
 
-          {/* Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4 items-end mt-12">
             {plans.map((plan, i) => {
               const accents = [
-                { bar: "from-slate-400 to-slate-500",   glow: "rgba(148,163,184,0.15)", ring: "border-slate-500/20", glowBg: "bg-slate-500/5", glowBorder: "border-slate-500/10" },
-                { bar: "from-blue-400 to-blue-600",      glow: "rgba(59,130,246,0.15)", ring: "border-blue-500/20", glowBg: "bg-blue-500/5", glowBorder: "border-blue-500/10" },
-                { bar: "from-violet-400 to-violet-600",  glow: "rgba(139,92,246,0.15)", ring: "border-violet-500/20", glowBg: "bg-violet-500/5", glowBorder: "border-violet-500/10" },
-                { bar: "from-orange-400 to-red-500",     glow: "rgba(249,115,22,0.25)", ring: "border-orange-500/40", glowBg: "bg-orange-500/5", glowBorder: "border-orange-500/20" },
-                { bar: "from-amber-300 to-amber-500",    glow: "rgba(245,158,11,0.2)",  ring: "border-amber-500/30", glowBg: "bg-amber-500/5", glowBorder: "border-amber-500/10" },
+                { hex: "#94a3b8", bg: "from-slate-500/20 to-slate-900/40", border: "border-slate-500/30", text: "text-slate-400", button: "bg-slate-500 hover:bg-slate-400" },
+                { hex: "#3b82f6", bg: "from-blue-500/20 to-blue-900/40", border: "border-blue-500/30", text: "text-blue-400", button: "bg-blue-600 hover:bg-blue-500" },
+                { hex: "#8b5cf6", bg: "from-violet-500/20 to-violet-900/40", border: "border-violet-500/30", text: "text-violet-400", button: "bg-violet-600 hover:bg-violet-500" },
+                { hex: "#f97316", bg: "from-orange-500/20 to-red-900/40", border: "border-orange-500/50", text: "text-orange-400", button: "bg-gradient-to-r from-orange-500 to-red-600" },
+                { hex: "#f59e0b", bg: "from-amber-500/20 to-amber-900/40", border: "border-amber-500/30", text: "text-amber-400", button: "bg-amber-600 hover:bg-amber-500" },
               ];
               const a = accents[i];
               return (
-                <ScrollReveal key={plan.name} scale delay={i * 80} className={`${plan.highlight ? 'lg:-translate-y-4 relative z-10' : ''}`}>
-                  <div
-                    className={`relative rounded-[2rem] border flex flex-col overflow-hidden transition-all duration-500 group
-                      ${plan.highlight
-                        ? `bg-[#0a0604] shadow-[0_0_60px_rgba(249,115,22,0.2)] border-orange-500/50`
-                        : `bg-[#0c0c14] hover:bg-[#11111a] hover:-translate-y-2 hover:shadow-2xl border-white/5`
-                      }`}
-                  >
-                    {/* Animated top accent bar */}
-                    <div className={`h-1.5 w-full bg-gradient-to-r ${a.bar} ${plan.highlight ? "animate-gradient" : "opacity-80"}`}
-                      style={{ backgroundSize: "200% 100%" }} />
-
-                    {/* Gradient overlay */}
-                    <div className={`absolute top-0 inset-x-0 h-40 bg-gradient-to-b ${a.glowBg} to-transparent opacity-50 pointer-events-none`} />
-
-                    {/* Badge */}
+                <ScrollReveal key={plan.name} scale delay={i * 80} className={`${plan.highlight ? 'lg:-translate-y-6 relative z-10' : ''}`}>
+                  <div className={`relative rounded-3xl border backdrop-blur-2xl flex flex-col overflow-hidden transition-all duration-500 group ${plan.highlight ? `bg-gradient-to-b ${a.bg} ${a.border} shadow-[0_0_50px_rgba(249,115,22,0.25)] ring-1 ring-orange-500/50` : `bg-white/[0.03] hover:bg-gradient-to-b hover:${a.bg} ${a.border} hover:-translate-y-2`}`}>
+                    {plan.highlight && <div className="absolute -top-24 -right-24 w-64 h-64 bg-orange-500/30 rounded-full blur-[80px] pointer-events-none" />}
+                    <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-50" />
                     {plan.badge && (
-                      <div className={`absolute top-6 right-6 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full
-                        ${plan.highlight
-                          ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg shadow-orange-900/50"
-                          : "bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-400 border border-amber-500/30"
-                        }`}>
+                      <div className={`absolute top-5 right-5 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-xl ${plan.highlight ? "bg-white text-orange-600 border border-white" : `bg-[#13131a] ${a.text} border ${a.border}`}`}>
                         {plan.badge}
                       </div>
                     )}
-
                     <div className="p-8 flex flex-col flex-1 relative z-10">
-                      {/* Plan name + entry */}
-                      <div className="mb-10">
-                        <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.25em] mb-3">Entry Price</p>
-                        <div className="flex items-end gap-2">
-                          <span className={`text-4xl lg:text-5xl font-black tabular-nums tracking-tight ${plan.highlight ? "text-white drop-shadow-md" : "text-white/90"}`}>
-                            {plan.price}
-                          </span>
+                      <div className="mb-8">
+                        <div className={`inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-6 shadow-Inner ${plan.highlight ? 'bg-gradient-to-br from-orange-400 to-red-600' : 'bg-white/5 border border-white/10'}`}>
+                          <DollarSign size={24} className={plan.highlight ? 'text-white' : a.text} />
                         </div>
-                        <p className={`text-sm font-black mt-3 uppercase tracking-[0.2em] ${plan.highlight ? "text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]" : "text-white/40"}`}>
-                          {plan.name}
-                        </p>
+                        <p className={`text-xl font-black uppercase tracking-widest ${plan.highlight ? 'text-white drop-shadow-md' : a.text}`}>{plan.name}</p>
+                        <div className="flex items-baseline gap-1 mt-2">
+                          <span className={`text-5xl font-black tabular-nums tracking-tighter ${plan.highlight ? 'text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70' : 'text-white'}`}>{plan.price}</span>
+                          <span className="text-white/30 font-medium text-sm">/ once</span>
+                        </div>
                       </div>
-
-                      {/* HERO — Cycle Payout */}
-                      <div className={`rounded-2xl p-6 mb-10 text-center relative overflow-hidden group-hover:scale-[1.03] transition-all duration-500
-                        ${plan.highlight
-                          ? "bg-gradient-to-b from-emerald-500/[0.08] to-emerald-500/[0.02] border border-emerald-500/40 shadow-[inset_0_0_30px_rgba(16,185,129,0.1)] ring-1 ring-emerald-500/20"
-                          : `bg-white/[0.02] border ${a.glowBorder}`
-                        }`}>
-                        {plan.highlight && <div className="absolute inset-0 bg-emerald-500/10 mix-blend-overlay animate-pulse" />}
-                        <p className="relative z-10 text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-2">Total Cycle Payout</p>
-                        <p className={`relative z-10 font-black tabular-nums tracking-tight ${plan.highlight ? "text-4xl lg:text-[2.75rem] text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.4)]" : "text-3xl text-emerald-500/80 drop-shadow-sm"}`}>
-                          {plan.cyclePayout}
-                        </p>
+                      <div className={`rounded-2xl p-6 mb-8 relative overflow-hidden group-hover:scale-[1.03] transition-all duration-500 ${plan.highlight ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/40 shadow-[inset_0_0_30px_rgba(16,185,129,0.2)]" : "bg-black/20 border border-white/5"}`}>
+                        <p className="relative z-10 text-[11px] font-black text-white/50 uppercase tracking-[0.2em] mb-1">Total Return</p>
+                        <p className={`relative z-10 font-black tabular-nums tracking-tight ${plan.highlight ? "text-4xl text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]" : "text-3xl text-emerald-500/80"}`}>{plan.cyclePayout}</p>
                       </div>
-
-                      {/* Stats grid */}
                       <div className="space-y-4 mb-10 flex-1">
                         {[
                           { label: "Ad Credits", value: plan.credits },
@@ -447,28 +400,13 @@ export default async function LandingPage() {
                           { label: "Sponsor Bonus", value: plan.sponsor, highlight: true },
                         ].map((row) => (
                           <div key={row.label} className="flex justify-between items-center border-b border-white/5 pb-4 last:border-0 last:pb-0">
-                            <span className="text-sm font-medium text-white/40">{row.label}</span>
-                            <span className={`text-sm font-bold tabular-nums
-                              ${row.highlight
-                                ? (plan.highlight ? "text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" : "text-blue-400/80")
-                                : "text-white/80"
-                              }`}>
-                              {row.value}
-                            </span>
+                            <span className="text-sm font-medium text-white/50">{row.label}</span>
+                            <span className={`text-sm font-bold tabular-nums ${row.highlight ? a.text : "text-white"}`}>{row.value}</span>
                           </div>
                         ))}
                       </div>
-
-                      {/* CTA */}
-                      <Link
-                        href="/auth/register"
-                        className={`w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-2xl text-[15px] font-black tracking-wide transition-all duration-300
-                          ${plan.highlight
-                            ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] hover:scale-[1.03] animate-gradient"
-                            : "bg-white/[0.03] border border-white/10 text-white/70 hover:bg-white/[0.08] hover:text-white"
-                          }`}
-                      >
-                        Select Plan <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform" />
+                      <Link href="/auth/register" className={`w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-2xl text-[15px] font-black tracking-wide transition-all duration-300 shadow-xl ${plan.highlight ? "bg-white text-orange-600 hover:scale-[1.03]" : `${a.button} text-white hover:scale-[1.03]`}`}>
+                        Get Started <ArrowRight size={16} />
                       </Link>
                     </div>
                   </div>
@@ -477,7 +415,6 @@ export default async function LandingPage() {
             })}
           </div>
 
-          {/* Bottom note */}
           <ScrollReveal className="mt-10 flex flex-wrap gap-6 justify-center">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
@@ -491,241 +428,28 @@ export default async function LandingPage() {
         </div>
       </section>
 
-
-      {/* ══ PLATFORM EXTRAS ══ */}
-      <section className="py-28 relative">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-violet-600/5 rounded-full blur-[100px]" />
-          <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-orange-600/5 rounded-full blur-[100px]" />
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <ScrollReveal className="text-center mb-16">
-            <span className="text-xs font-black text-orange-400 uppercase tracking-[0.2em]">Beyond the Matrix</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-black text-white">
-              More Ways to Win.<br /><span className="text-white/30">Every Single Day.</span>
-            </h2>
-            <p className="mt-5 max-w-xl mx-auto text-white/45">
-              Earning doesn&apos;t stop at ads and matrix cycles. Three exclusive platform features turbocharge your daily rewards.
-            </p>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            {/* Spin Wheel */}
-            <ScrollReveal scale delay={0}>
-              <div className="glow-card relative bg-white/[0.03] border border-white/5 rounded-2xl p-8 h-full overflow-hidden group">
-                <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-orange-500/5 blur-[40px] group-hover:bg-orange-500/10 transition-all duration-500" />
-                {/* Big emoji icon */}
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center mb-6 text-3xl shadow-lg shadow-orange-900/30 group-hover:scale-110 transition-transform duration-300 animate-float">
-                  🎡
-                </div>
-                <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-3 py-1 mb-4">
-                  <span className="text-[10px] font-black text-orange-400 uppercase tracking-wider">Daily Free Spin</span>
-                </div>
-                <h3 className="text-xl font-black text-white mb-3">Spin the Wheel</h3>
-                <p className="text-white/45 text-sm leading-relaxed mb-5">
-                  Log in every day and spin our rewards wheel for a chance to win bonus credits, extra ad earnings, matching boosts, or even a free matrix position upgrade.
-                </p>
-                <ul className="space-y-2.5">
-                  {["Free spin every 24 hours", "Win bonus ad credits", "Matrix upgrade drops", "Jackpot cash prizes"].map((f) => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-white/55">
-                      <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </ScrollReveal>
-
-            {/* Boosters */}
-            <ScrollReveal scale delay={120}>
-              <div className="glow-card relative bg-white/[0.03] border border-white/5 rounded-2xl p-8 h-full overflow-hidden group">
-                <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-violet-500/5 blur-[40px] group-hover:bg-violet-500/10 transition-all duration-500" />
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-6 text-3xl shadow-lg shadow-violet-900/30 group-hover:scale-110 transition-transform duration-300 animate-float delay-200">
-                  ⚡
-                </div>
-                <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-3 py-1 mb-4">
-                  <span className="text-[10px] font-black text-violet-400 uppercase tracking-wider">Multiplier Power</span>
-                </div>
-                <h3 className="text-xl font-black text-white mb-3">Earning Boosters</h3>
-                <p className="text-white/45 text-sm leading-relaxed mb-5">
-                  Activate time-limited boosters that multiply your Ad Click earnings, speed up matrix cycles, and amplify matching bonuses — all with a single click from your dashboard.
-                </p>
-                <ul className="space-y-2.5">
-                  {["2× Ad Click value for 24hrs", "Fast-cycle matrix booster", "Matching bonus amplifier", "Team-wide unlock events"].map((f) => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-white/55">
-                      <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </ScrollReveal>
-
-            {/* Marketplace */}
-            <ScrollReveal scale delay={240}>
-              <div className="glow-card relative bg-white/[0.03] border border-white/5 rounded-2xl p-8 h-full overflow-hidden group">
-                <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-emerald-500/5 blur-[40px] group-hover:bg-emerald-500/10 transition-all duration-500" />
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-6 text-3xl shadow-lg shadow-emerald-900/30 group-hover:scale-110 transition-transform duration-300 animate-float delay-400">
-                  🏪
-                </div>
-                <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1 mb-4">
-                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider">Member Marketplace</span>
-                </div>
-                <h3 className="text-xl font-black text-white mb-3">Rewards Marketplace</h3>
-                <p className="text-white/45 text-sm leading-relaxed mb-5">
-                  Spend earned points in our exclusive marketplace. Redeem for plan upgrades, booster packs, spin wheel extra turns, or even trade credits peer-to-peer with other members.
-                </p>
-                <ul className="space-y-2.5">
-                  {["Redeem points for plan upgrades", "Buy & sell booster packs", "Extra spin wheel turns", "Peer-to-peer credit trading"].map((f) => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-white/55">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ══ TESTIMONIALS ══ */}
-      <section id="testimonials" className="py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal className="text-center mb-16">
-            <span className="text-xs font-black text-orange-400 uppercase tracking-[0.2em]">Real People. Real Money.</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-black text-white">
-              Trusted by <span className="text-white/30">6,300 Members</span>
-            </h2>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {testimonials.map((t, i) => (
-              <ScrollReveal key={t.name} delay={i * 100} scale>
-                <div className="glow-card h-full bg-white/[0.03] border border-white/5 rounded-2xl p-7">
-                  <div className="flex gap-0.5 mb-5">
-                    {Array.from({ length: t.stars }).map((_, j) => (
-                      <Star key={j} size={13} className="text-orange-400 fill-orange-400" />
-                    ))}
-                  </div>
-                  <p className="text-white/50 text-sm leading-relaxed mb-6 italic">&ldquo;{t.text}&rdquo;</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xs font-black shrink-0">
-                      {t.avatar}
-                    </div>
-                    <div>
-                      <div className="text-white text-sm font-bold">{t.name}</div>
-                      <div className="text-white/30 text-xs">{t.country}</div>
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══ CTA ══ */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal scale>
-            <div className="relative rounded-3xl overflow-hidden text-center py-20 px-8">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-600 via-red-600 to-pink-700 animate-gradient" style={{ backgroundSize: "300% 300%" }} />
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 left-1/4 w-72 h-72 rounded-full bg-white/10 blur-[80px]" />
-                <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full bg-white/5 blur-[60px]" />
-                {/* Dot grid overlay */}
-                <div className="absolute inset-0 opacity-10" style={{
-                  backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)",
-                  backgroundSize: "32px 32px"
-                }} />
-              </div>
-              <div className="relative">
-                <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-4 py-1.5 mb-8">
-                  <Award size={13} className="text-white" />
-                  <span className="text-xs font-bold text-white uppercase tracking-widest">Join 6,300 Members Today</span>
-                </div>
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-5 leading-tight">
-                  Your Next Withdrawal<br />Starts Right Now.
-                </h2>
-                <p className="max-w-xl mx-auto text-white/75 text-lg mb-10">
-                  Stop watching others earn. Join MatClick free today — start building your dual income stream from day one.
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Link
-                    href="/auth/register"
-                    className="group inline-flex items-center gap-2 px-10 py-4 rounded-full font-black text-orange-600 bg-white hover:bg-orange-50 shadow-2xl transition-all hover:scale-105 text-base"
-                  >
-                    Create Free Account
-                    <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
-                  </Link>
-                  <Link href="/auth/login" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white border-2 border-white/30 hover:bg-white/10 transition-all text-base">
-                    Login to Dashboard
-                  </Link>
-                </div>
-                <p className="mt-6 text-white/45 text-sm">
-                  Free forever Ad Click access · No credit card required · Cancel anytime
-                </p>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
       {/* ══ FOOTER ══ */}
       <footer className="border-t border-white/5 bg-[#050509]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Main footer grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-16">
-            <div className="lg:col-span-1">
-              <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
-                <img src="/logo.PNG" alt={settings.site_name} className="h-20 w-auto object-contain group-hover:scale-105 transition-transform" />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 py-16">
+            <div className="md:col-span-2">
+              <Link href="/" className="inline-flex items-center gap-3 mb-6">
+                <img src="/logo.PNG" alt={settings.site_name} className="h-20 w-auto object-contain" />
               </Link>
-              <p className="text-white/35 text-sm leading-relaxed mb-5">
-                The world&apos;s most transparent hybrid MatClick investment platform. Built for long-term digital income.
-              </p>
-              <div className="flex items-center gap-2">
-                <ShieldCheck size={15} className="text-emerald-400" />
-                <span className="text-emerald-400 text-xs font-semibold">SSL Secured & Encrypted</span>
-              </div>
+              <p className="text-white/35 text-sm leading-relaxed mb-5 max-w-sm">The world&apos;s most transparent MatClick investment platform. Built for long-term digital income.</p>
+              <div className="flex items-center gap-2"><ShieldCheck size={15} className="text-emerald-400" /><span className="text-emerald-400 text-xs font-semibold">SSL Secured & Encrypted</span></div>
             </div>
-
             <div>
               <h4 className="text-white font-black text-xs mb-5 uppercase tracking-widest">Platform</h4>
-              <ul className="space-y-3">
-                {["How It Works", "Matrix System", "Ad Click Earnings", "Matching Bonuses", "Withdrawal Policy"].map((l) => (
-                  <li key={l}><a href="#" className="text-white/35 text-sm hover:text-orange-400 transition-colors">{l}</a></li>
-                ))}
-              </ul>
+              <ul className="space-y-3">{["Plans", "Matrix System", "Ad Click", "Matching Bonus"].map(l => (<li key={l}><a href="#" className="text-white/35 text-sm hover:text-orange-400 transition-colors">{l}</a></li>))}</ul>
             </div>
-
-            <div>
-              <h4 className="text-white font-black text-xs mb-5 uppercase tracking-widest">Account</h4>
-              <ul className="space-y-3">
-                {[{ label: "Register", href: "/auth/register" }, { label: "Login", href: "/auth/login" }, { label: "Dashboard", href: "/dashboard" }, { label: "Referral Program", href: "#" }, { label: "Support", href: "#" }].map((l) => (
-                  <li key={l.label}><Link href={l.href} className="text-white/35 text-sm hover:text-orange-400 transition-colors">{l.label}</Link></li>
-                ))}
-              </ul>
-            </div>
-
             <div>
               <h4 className="text-white font-black text-xs mb-5 uppercase tracking-widest">Legal</h4>
-              <ul className="space-y-3">
-                {["Terms of Service", "Privacy Policy", "Earnings Disclaimer", "Anti-Fraud Policy", "Cookie Policy"].map((l) => (
-                  <li key={l}><a href="#" className="text-white/35 text-sm hover:text-orange-400 transition-colors">{l}</a></li>
-                ))}
-              </ul>
+              <ul className="space-y-3">{["Terms", "Privacy", "Disclaimer"].map(l => (<li key={l}><a href="#" className="text-white/35 text-sm hover:text-orange-400 transition-colors">{l}</a></li>))}</ul>
             </div>
           </div>
-
-          {/* Bottom bar */}
           <div className="border-t border-white/5 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-white/25 text-sm">© 2026 {settings.site_name}. All rights reserved.</p>
-            <p className="text-white/15 text-xs text-center max-w-lg">
-              Earnings are not guaranteed. Results depend on individual effort, referral activity, and market conditions.
-              Please read our <a href="#" className="underline hover:text-white/30 transition-colors">Earnings Disclaimer</a>.
-            </p>
           </div>
         </div>
       </footer>

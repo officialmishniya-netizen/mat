@@ -16,15 +16,15 @@ export type SiteSettings = {
 };
 
 const DEFAULT_SETTINGS: SiteSettings = {
-    site_name: "PTC Matrix Platform",
+    site_name: "MatClick",
     logo_url: null,
     primary_color: "#ea580c",
     secondary_color: "#fdba74",
     nowpayments_api_key: null,
     withdrawal_fee_percent: 0,
     service_fee_percent: 0,
-    seo_title: "Earn with the Ultimate Matrix",
-    seo_description: "Join the premier PTC and Matrix platform.",
+    seo_title: "MatClick - Professional Earning Platform",
+    seo_description: "Join the premier Ad Click and earning platform.",
     enable_team_emails: true,
     enable_direct_messages: true,
     enable_training_hub: true,

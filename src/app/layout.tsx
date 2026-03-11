@@ -17,6 +17,7 @@ import { getSiteSettings } from "@/lib/settings";
 import { LanguageProvider } from "@/lib/i18n/context";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
