@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS public.users (
 -- 3. Settings Table (Global Admin Configuration & White-labeling)
 CREATE TABLE IF NOT EXISTS public.settings (
   id SERIAL PRIMARY KEY,
-  site_name TEXT DEFAULT 'PTC Matrix Platform',
+  site_name TEXT DEFAULT 'MatClick',
   logo_url TEXT DEFAULT '',
   primary_color TEXT DEFAULT '#ea580c',  -- orange-600
   secondary_color TEXT DEFAULT '#fdba74', -- orange-300

@@ -16,7 +16,6 @@ function RegisterForm() {
     const [password, setPassword] = useState("");
     const [sponsorId, setSponsorId] = useState("");
     const [telegramUsername, setTelegramUsername] = useState("");
-    const [isRegistered, setIsRegistered] = useState(false);
     const [botUsername, setBotUsername] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -78,66 +77,14 @@ function RegisterForm() {
                         telegram_username: cleanTelegram,
                         is_connected: false
                     });
-                    setIsRegistered(true);
-                } else {
-                    router.push("/dashboard");
-                    router.refresh();
                 }
+                router.push("/dashboard");
+                router.refresh();
             }
         }
 
         setLoading(false);
     };
-
-    if (isRegistered) {
-        return (
-            <div className="text-center space-y-8 py-4 animate-in fade-in zoom-in duration-500">
-                <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-6 rounded-3xl">
-                    <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <ShieldCheck size={32} />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Account Created!</h3>
-                    <p className="text-sm text-gray-400">One last step to activate your Telegram notifications:</p>
-                </div>
-
-                <div className="space-y-4">
-                    <div className="bg-white/5 border border-white/10 p-6 rounded-3xl text-left space-y-4">
-                        <div className="flex gap-4 items-start">
-                            <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold flex-shrink-0">1</div>
-                            <p className="text-sm text-gray-300 pt-1">Open <b>Telegram</b> app</p>
-                        </div>
-                        <div className="flex gap-4 items-start">
-                            <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold flex-shrink-0">2</div>
-                            <p className="text-sm text-gray-300 pt-1">Search for: <b className="text-white">@{botUsername || "PTCNexusBot"}</b></p>
-                        </div>
-                        <div className="flex gap-4 items-start">
-                            <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold flex-shrink-0">3</div>
-                            <p className="text-sm text-gray-300 pt-1">Press <b>START</b> to activate alerts</p>
-                        </div>
-                    </div>
-
-                    <a
-                        href={`https://t.me/${botUsername || "PTCNexusBot"}?start`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full py-4 bg-primary hover:secondary text-white font-bold rounded-2xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-primary/20"
-                    >
-                        Open Telegram Bot <ArrowRight size={18} />
-                    </a>
-
-                    <button
-                        onClick={() => {
-                            router.push("/dashboard");
-                            router.refresh();
-                        }}
-                        className="w-full py-4 text-gray-500 font-bold hover:text-white transition-colors"
-                    >
-                        Skip for now
-                    </button>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <form className="space-y-5" onSubmit={handleRegister}>

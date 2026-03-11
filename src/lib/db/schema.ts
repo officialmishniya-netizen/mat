@@ -28,9 +28,9 @@ export const settings = pgTable("settings", {
     nowpayments_api_key: text("nowpayments_api_key"),
     withdrawal_fee_percent: decimal("withdrawal_fee_percent", { precision: 5, scale: 2 }).default("0.00"),
     service_fee_percent: decimal("service_fee_percent", { precision: 5, scale: 2 }).default("0.00"),
-    seo_title: text("seo_title").default("Earn with the Ultimate Matrix"),
-    seo_description: text("seo_description").default("Join the premier PTC and Matrix platform."),
-    telegram_bot_username: text("telegram_bot_username"),
+    seo_title: text("seo_title").default("MatClick — High-Yield Matrix Engine"),
+    seo_description: text("seo_description").default("Join the premier community-driven matrix platform."),
+    telegram_bot_username: text("telegram_bot_username").default("MatClickBot"),
     updated_at: timestamp("updated_at").defaultNow().notNull()
 });
 
