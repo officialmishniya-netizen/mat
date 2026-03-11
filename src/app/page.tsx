@@ -77,11 +77,11 @@ export default async function LandingPage() {
   ];
 
   const tickerItems = [
-    "🟢 Ahmad W. just withdrew $240", "🟢 James K. just joined", "🟢 Priya S. earned $18 in Ad Click today",
-    "🟢 Carlos M. just joined from Mexico", "🟢 Sarah L. withdrew $520 via USDT", "🟢 David O. just joined",
-    "🟢 Nour A. earned $60 matching bonus", "🟢 Wei C. clicked 80 ads today — +$24",
-    "🟢 Ahmad W. just withdrew $240", "🟢 James K. just joined", "🟢 Priya S. earned $18 in Ad Click today",
-    "🟢 Carlos M. just joined from Mexico", "🟢 Sarah L. withdrew $520 via USDT", "🟢 David O. just joined",
+    "🟢 Ahmad W. just joined", "🟢 James K. just joined", "🟢 Priya S. just joined",
+    "🟢 Carlos M. just joined from Mexico", "🟢 Sarah L. just joined", "🟢 David O. just joined",
+    "🟢 Nour A. just joined", "🟢 Wei C. just joined",
+    "🟢 Michael R. just joined", "🟢 Emma T. just joined", "🟢 Liam H. just joined",
+    "🟢 Sofia G. just joined from Brazil", "🟢 Noah J. just joined", "🟢 Isabella P. just joined",
   ];
 
   return (
@@ -92,7 +92,7 @@ export default async function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <Link href="/" className="flex items-center gap-3 animate-fade-in group">
-              <img src="/logo.PNG" alt={settings.site_name} className="h-10 w-auto object-contain group-hover:scale-105 transition-transform" />
+              <img src="/logo.PNG" alt={settings.site_name} className="h-[75px] w-auto object-contain group-hover:scale-105 transition-transform" />
             </Link>
             <div className="hidden md:flex items-center gap-8 animate-fade-in delay-100">
               {["#features", "#how-it-works", "#plans", "#testimonials"].map((href, i) => (
@@ -102,7 +102,6 @@ export default async function LandingPage() {
               ))}
             </div>
             <div className="flex items-center gap-3 animate-fade-in delay-200">
-              <Link href="/admin" className="text-sm font-semibold text-white/60 hover:text-white transition-colors">Admin Panel</Link>
               <Link href="/auth/login" className="text-sm font-semibold text-white/60 hover:text-white transition-colors">Log In</Link>
               <Link href="/auth/register" className="text-sm font-black px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 animate-gradient hover:scale-105 transition-transform shadow-lg shadow-orange-900/40">
                 Join Free →
@@ -169,7 +168,7 @@ export default async function LandingPage() {
           </div>
 
           {/* Stats bar */}
-          <div className="animate-fade-up delay-400 grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 rounded-2xl overflow-hidden border border-white/5">
+          <div className="animate-fade-up delay-400 grid grid-cols-2 gap-px bg-white/5 rounded-2xl overflow-hidden border border-white/5">
             {stats.map((s) => (
               <div key={s.label} className="bg-[#07070f] px-6 py-5 text-center group hover:bg-white/[0.03] transition-colors">
                 <div className="text-2xl font-black text-white mb-1">
@@ -678,7 +677,7 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-16">
             <div className="lg:col-span-1">
               <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
-                <img src="/logo.PNG" alt={settings.site_name} className="h-12 w-auto object-contain group-hover:scale-105 transition-transform" />
+                <img src="/logo.PNG" alt={settings.site_name} className="h-20 w-auto object-contain group-hover:scale-105 transition-transform" />
               </Link>
               <p className="text-white/35 text-sm leading-relaxed mb-5">
                 The world&apos;s most transparent hybrid MatClick investment platform. Built for long-term digital income.
