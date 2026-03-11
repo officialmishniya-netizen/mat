@@ -56,7 +56,7 @@ export async function logAdminAction(opts: {
   });
 }
 
-/** Add delta to a user's risk score (clamped 0–100) and optionally push a flag. */
+/** Add delta to a user's risk score (clamped 0â€“100) and optionally push a flag. */
 export async function updateRiskScore(userId: string, delta: number, flag?: string) {
   const existing = await db.query.userAccountStatus.findFirst({
     where: eq(userAccountStatus.userId, userId),

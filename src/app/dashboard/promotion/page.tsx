@@ -100,7 +100,7 @@ export default async function PromotionCenterPage() {
 
                 {(!materials || materials.filter(m => m.type === 'banner').length === 0) && (
                     <div className="bg-white p-12 rounded-2xl border border-gray-200 text-center shadow-sm">
-                        <div className="text-5xl mb-4">🖼️</div>
+                        <div className="text-5xl mb-4">ðŸ–¼ï¸</div>
                         <h3 className="text-xl font-bold text-gray-800 mb-2">No Banners Available</h3>
                         <p className="text-gray-500 font-medium max-w-md mx-auto">The system administrator has not uploaded any animated .gif or image banners yet. Please check back later or start using your direct referral link above.</p>
                     </div>

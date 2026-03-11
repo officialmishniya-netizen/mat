@@ -54,7 +54,7 @@ export default async function VpnDetectorPage() {
           VPN / Proxy Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Cross-referenced login IPs against {vpnRanges.length} known VPN/proxy ranges — {settings.site_name}
+          Cross-referenced login IPs against {vpnRanges.length} known VPN/proxy ranges â€” {settings.site_name}
         </p>
       </div>
 

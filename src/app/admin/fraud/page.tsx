@@ -72,7 +72,7 @@ export default async function FraudAlertCenter() {
           Fraud Alert Center
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Unified live feed from all 11 detectors — {settings.site_name}
+          Unified live feed from all 11 detectors â€” {settings.site_name}
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export default async function FraudAlertCenter() {
             {allAlerts.length === 0 && (
               <div className="flex flex-col items-center justify-center py-20 text-gray-300">
                 <CheckCircle size={40} className="mb-3" />
-                <p className="font-semibold">No alerts yet — all clear!</p>
+                <p className="font-semibold">No alerts yet â€” all clear!</p>
               </div>
             )}
             {allAlerts.map((alert) => (

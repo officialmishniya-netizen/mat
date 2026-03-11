@@ -41,7 +41,7 @@ export default async function SpeedViolationsPage() {
           Speed Violation Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Ad submissions faster than required watch duration — {settings.site_name}
+          Ad submissions faster than required watch duration â€” {settings.site_name}
         </p>
       </div>
 

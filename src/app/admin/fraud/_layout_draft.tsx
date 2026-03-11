@@ -29,6 +29,6 @@ export default function FraudLayout({ children }: { children: React.ReactNode })
 
 function FraudSubNav() {
   "use client";
-  // next/navigation requires client — wrap in its own file below
+  // next/navigation requires client â€” wrap in its own file below
   return null;
 }

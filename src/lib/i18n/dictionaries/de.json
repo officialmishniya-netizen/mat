@@ -1,20 +1,20 @@
 {
     "dashboard": {
-        "overview": "Übersicht",
+        "overview": "Ãœbersicht",
         "my_matrix": "Meine Matrix",
         "ad_cycles": "Werbe-Zyklen",
         "promo_center": "Promo-Center",
         "community": "Gemeinschaft",
         "admin_panel": "Admin-Bereich",
         "sign_out": "Abmelden",
-        "welcome_back": "Willkommen zurück! Hier ist Ihre Verdienstübersicht für heute.",
-        "available_balance": "Verfügbares Guthaben",
+        "welcome_back": "Willkommen zurÃ¼ck! Hier ist Ihre VerdienstÃ¼bersicht fÃ¼r heute.",
+        "available_balance": "VerfÃ¼gbares Guthaben",
         "matrix_positions": "Matrix-Positionen",
         "total_referrals": "Gesamte Referrals",
         "active_cycles": "Aktive Zyklen",
         "ad_cycle_progress": "Werbezyklus-Fortschritt",
         "watch_ads_now": "Jetzt Werbung ansehen",
-        "explore_ad_plans": "Werbepläne erkunden",
+        "explore_ad_plans": "WerbeplÃ¤ne erkunden",
         "recruitment_hub": "Rekrutierungs-Hub",
         "copy_referral_link": "Empfehlungslink kopieren"
     },
@@ -34,7 +34,7 @@
         "payout_on_cycle": "Auszahlung pro Zyklus",
         "earning_per_click": "Verdienst pro Klick",
         "clicks_per_cycle": "Klicks pro Zyklus",
-        "daily_click_limit": "Tägliches Klicklimit",
+        "daily_click_limit": "TÃ¤gliches Klicklimit",
         "purchase_level": "Level kaufen"
     }
 }

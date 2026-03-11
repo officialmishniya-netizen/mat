@@ -1,159 +1,49 @@
-import { db } from "@/lib/db";
-import {
-    users, userAccountStatus, ledger, userAdPositions,
-    adPlans, withdrawals, adminUserNotes, adminMessages, adminAuditLog
-} from "@/lib/db/schema";
-import { eq, desc, and, sum } from "drizzle-orm";
-import UserDetailClient from "./UserDetailClient";
-import { notFound } from "next/navigation";
+import { supabase } from "@/lib/supabase";
+import { startImpersonation } from "@/app/actions/impersonate";
 
-export const dynamic = 'force-dynamic';
+export default async function ImpersonationPage() {
+    // Fetch users for the dropdown/list
+    const { data: users } = await supabase
+        .from("users")
+        .select("id, username, email")
+        .order("username", { ascending: true });
 
-export default async function AdminUserDetailPage({ params }: { params: { userId: string } }) {
-    const userId = params.userId;
+    return (
+        <div className="p-8 max-w-4xl mx-auto space-y-6">
+            <h1 className="text-3xl font-bold text-gray-900 border-b pb-4">Impersonate User</h1>
+            <p className="text-gray-600">
+                Logging in as a user allows you to see exactly what they see on their dashboard.
+                Your admin session will remain active, and you can return to the Admin Panel at any time by clicking "Stop Impersonating" in the navigation.
+            </p>
 
-    // 1. Base User + Status
-    const user = await db.query.users.findFirst({
-        where: eq(users.id, userId)
-    });
-    if (!user) return notFound();
+            <div className="bg-white p-6 shadow rounded-lg border-t-4 border-orange-500">
+                <h2 className="text-xl font-bold mb-4">Select User to Login As</h2>
 
-    let status = await db.query.userAccountStatus.findFirst({
-        where: eq(userAccountStatus.userId, userId)
-    });
+                <form action={startImpersonation} className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Target User</label>
+                        <select
+                            name="user_id"
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                        >
+                            <option value="">-- Select a User --</option>
+                            {users?.map((u) => (
+                                <option key={u.id} value={u.id}>
+                                    {u.username} ({u.email})
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-    if (!status) {
-        // Fallback default status if missing
-        status = {
-            id: 'mock', userId, status: 'active', isFrozen: false,
-            isBanned: false, isDeleted: false, riskScore: 0,
-            withdrawalsEnabled: true, earningsEnabled: true,
-            twoFaEnabled: false
-        } as any;
-    }
-
-    // Ensure status is treated as non-nullable for the rest of the function
-    const activeStatus = status!;
-
-    // 2. Ledger Aggregates
-    const ledgerTotals = await db.select({
-        totalBalance: sum(ledger.amount)
-    }).from(ledger).where(eq(ledger.user_id, userId));
-
-    const totalEarnedQuery = await db.select({
-        totalEarned: sum(ledger.amount)
-    }).from(ledger).where(and(eq(ledger.user_id, userId), eq(ledger.type, 'cycle_revenue'))); // or total credits > 0
-
-    const totalWithdrawnQuery = await db.select({
-        totalWithdrawn: sum(withdrawals.amount)
-    }).from(withdrawals).where(and(eq(withdrawals.user_id, userId), eq(withdrawals.status, 'paid')));
-
-    const totalBalance = Number(ledgerTotals[0]?.totalBalance || 0).toFixed(2);
-    const totalEarned = Number(totalEarnedQuery[0]?.totalEarned || 0).toFixed(2);
-    const totalWithdrawn = Number(totalWithdrawnQuery[0]?.totalWithdrawn || 0).toFixed(2);
-
-    // 3. Ledger History
-    const ledgerHistory = await db.query.ledger.findMany({
-        where: eq(ledger.user_id, userId),
-        orderBy: [desc(ledger.created_at)],
-        limit: 50
-    });
-
-    // 4. Active Plans
-    const activePlans = await db.select({
-        id: userAdPositions.id,
-        planName: adPlans.name,
-        clickGoal: userAdPositions.clickGoalSnapshot,
-        lockedBalance: userAdPositions.lockedBalance,
-        adsWatchedToday: userAdPositions.adsWatchedToday,
-        dailyAds: adPlans.dailyAds,
-        totalCycles: (userAdPositions as any).totalCycles || 0,
-        status: userAdPositions.status
-    }).from(userAdPositions)
-        .innerJoin(adPlans, eq(userAdPositions.adPlanId, adPlans.id))
-        .where(eq(userAdPositions.userId, userId));
-
-    const totalCyclesCount = activePlans.reduce((sum, p) => sum + (p.totalCycles || 0), 0);
-
-    // 5. Withdrawals
-    const userWithdrawals = await db.query.withdrawals.findMany({
-        where: eq(withdrawals.user_id, userId),
-        orderBy: [desc(withdrawals.created_at)],
-    });
-
-    // 6. Notes
-    const notes = await db.query.adminUserNotes.findMany({
-        where: eq(adminUserNotes.userId, userId),
-        orderBy: [desc(adminUserNotes.isPinned), desc(adminUserNotes.createdAt)],
-    });
-
-    // 7. Messages
-    const messages = await db.query.adminMessages.findMany({
-        where: eq(adminMessages.toUserId, userId),
-        orderBy: [desc(adminMessages.sentAt)],
-    });
-
-    // 8. Audit Log
-    const auditLogs = await db.query.adminAuditLog.findMany({
-        where: eq(adminAuditLog.targetUserId, userId),
-        orderBy: [desc(adminAuditLog.createdAt)],
-        limit: 100
-    });
-
-    // 9. Referrals info
-    const referralsCount = await db.select().from(users).where(eq(users.sponsor_id, userId));
-    const sponsor = user.sponsor_id ? await db.query.users.findFirst({ where: eq(users.id, user.sponsor_id) }) : null;
-
-    // Compile prop object
-    const userData = {
-        user: {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            role: user.role,
-            rank: user.rank,
-            createdAt: user.created_at?.toISOString() || '',
-            sponsorId: user.sponsor_id,
-        },
-        sponsor: sponsor ? { id: sponsor.id, username: sponsor.username } : null,
-        referralsCount: referralsCount.length,
-        status: {
-            ...activeStatus,
-            frozenAt: activeStatus?.frozenAt?.toISOString() || null,
-            frozenUntil: activeStatus?.frozenUntil?.toISOString() || null,
-            bannedAt: activeStatus?.bannedAt?.toISOString() || null,
-            banExpiresAt: activeStatus?.banExpiresAt?.toISOString() || null,
-            deletedAt: activeStatus?.deletedAt?.toISOString() || null,
-            withdrawalHoldUntil: activeStatus?.withdrawalHoldUntil?.toISOString() || null,
-        },
-        financials: {
-            totalBalance,
-            totalEarned,
-            totalWithdrawn,
-            totalCycles: totalCyclesCount,
-        },
-        ledger: ledgerHistory.map(l => ({
-            ...l,
-            created_at: l.created_at?.toISOString() || ''
-        })),
-        activePlans,
-        withdrawals: userWithdrawals.map(w => ({
-            ...w,
-            createdAt: w.created_at?.toISOString() || ''
-        })),
-        notes: notes.map(n => ({
-            ...n,
-            createdAt: n.createdAt?.toISOString() || ''
-        })),
-        messages: messages.map(m => ({
-            ...m,
-            sentAt: m.sentAt?.toISOString() || ''
-        })),
-        auditLogs: auditLogs.map(a => ({
-            ...a,
-            createdAt: a.createdAt?.toISOString() || ''
-        }))
-    };
-
-    return <UserDetailClient userData={userData as any} />;
+                    <button
+                        type="submit"
+                        className="w-full flex justify-center py-3 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-red-600 hover:bg-red-700 focus:outline-none"
+                    >
+                        LOGIN AS SELECTED USER
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
 }

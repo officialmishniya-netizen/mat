@@ -28,7 +28,7 @@ export const settings = pgTable("settings", {
     nowpayments_api_key: text("nowpayments_api_key"),
     withdrawal_fee_percent: decimal("withdrawal_fee_percent", { precision: 5, scale: 2 }).default("0.00"),
     service_fee_percent: decimal("service_fee_percent", { precision: 5, scale: 2 }).default("0.00"),
-    seo_title: text("seo_title").default("MatClick — High-Yield Matrix Engine"),
+    seo_title: text("seo_title").default("MatClick â€” High-Yield Matrix Engine"),
     seo_description: text("seo_description").default("Join the premier community-driven matrix platform."),
     telegram_bot_username: text("telegram_bot_username").default("MatClickBot"),
     mailgun_api_key: text("mailgun_api_key"),
@@ -209,15 +209,15 @@ export const withdrawals = pgTable("withdrawals", {
     updated_at: timestamp("updated_at").defaultNow().notNull()
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // MARKETPLACE CATEGORIES (admin creates/edits/reorders)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const marketplaceCategories = pgTable('marketplace_categories', {
     id: uuid('id').primaryKey().defaultRandom(),
     name: text('name').notNull(),                    // "Watch Boosters", "Cycle Tools" etc.
     slug: text('slug').notNull().unique(),            // "watch-boosters"
     description: text('description'),
-    iconEmoji: text('icon_emoji').notNull().default('🛒'),
+    iconEmoji: text('icon_emoji').notNull().default('ðŸ›’'),
     colorHex: text('color_hex').notNull().default('#f97316'),
     sortOrder: integer('sort_order').notNull().default(0),
     isActive: boolean('is_active').notNull().default(true),
@@ -226,9 +226,9 @@ export const marketplaceCategories = pgTable('marketplace_categories', {
     updatedAt: timestamp('updated_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // MARKETPLACE ITEMS (fully dynamic, every field editable)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const marketplaceItems = pgTable('marketplace_items', {
     id: uuid('id').primaryKey().defaultRandom(),
     categoryId: uuid('category_id').notNull().references(() => marketplaceCategories.id),
@@ -236,25 +236,25 @@ export const marketplaceItems = pgTable('marketplace_items', {
     slug: text('slug').notNull().unique(),
     tagline: text('tagline'),                        // short marketing line
     description: text('description'),               // full description shown in modal
-    iconEmoji: text('icon_emoji').notNull().default('📦'),
+    iconEmoji: text('icon_emoji').notNull().default('ðŸ“¦'),
     colorHex: text('color_hex').notNull().default('#f97316'),
     badgeText: text('badge_text'),                  // "POPULAR", "NEW", "LIMITED" etc.
     badgeColorHex: text('badge_color_hex'),
 
-    // ── PRICING ──────────────────────────────────────────
+    // â”€â”€ PRICING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     price: numeric('price', { precision: 10, scale: 2 }).notNull(),
     originalPrice: numeric('original_price', { precision: 10, scale: 2 }),
     // if set, shows strikethrough + discount %
     currency: text('currency').notNull().default('USD'),
     priceLabel: text('price_label'),                // override display e.g. "Free with Pro"
 
-    // ── ITEM TYPE (controls what effect it has) ──────────
+    // â”€â”€ ITEM TYPE (controls what effect it has) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     itemType: text('item_type').notNull(),
 
-    // ── EFFECT CONFIGURATION (dynamic per itemType) ──────
+    // â”€â”€ EFFECT CONFIGURATION (dynamic per itemType) â”€â”€â”€â”€â”€â”€
     effectMetadata: jsonb('effect_metadata').notNull().default('{}'),
 
-    // ── AVAILABILITY & LIMITS ─────────────────────────────
+    // â”€â”€ AVAILABILITY & LIMITS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     isActive: boolean('is_active').notNull().default(true),
     isVisible: boolean('is_visible').notNull().default(true),
     isFeatured: boolean('is_featured').notNull().default(false),
@@ -263,25 +263,25 @@ export const marketplaceItems = pgTable('marketplace_items', {
     maxPerUser: integer('max_per_user'),             // null = unlimited
     maxPerUserPeriod: text('max_per_user_period'),   // 'day' | 'week' | 'month' | 'lifetime'
 
-    // ── PURCHASE REQUIREMENTS ─────────────────────────────
+    // â”€â”€ PURCHASE REQUIREMENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     requiresActivePlan: boolean('requires_active_plan').default(false),
     requiredPlanIds: jsonb('required_plan_ids'),     // [] = any active plan
     requiredRank: text('required_rank'),             // min rank to purchase
     requiredMinCycles: integer('required_min_cycles'), // must have cycled X times
     requiredMinDeposit: numeric('required_min_deposit', { precision: 10, scale: 2 }),
 
-    // ── SCHEDULING ────────────────────────────────────────
+    // â”€â”€ SCHEDULING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     availableFrom: timestamp('available_from'),      // null = always available
     availableUntil: timestamp('available_until'),    // null = no expiry
     isTimeLimited: boolean('is_time_limited').default(false),
 
-    // ── DISPLAY ───────────────────────────────────────────
+    // â”€â”€ DISPLAY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     sortOrder: integer('sort_order').notNull().default(0),
     imageUrl: text('image_url'),
     hoverImageUrl: text('hover_image_url'),          // image swap on hover
     tags: jsonb('tags').default('[]'),               // ["popular", "limited", "new"]
 
-    // ── STATS (auto-updated) ──────────────────────────────
+    // â”€â”€ STATS (auto-updated) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     totalPurchases: integer('total_purchases').notNull().default(0),
     totalRevenue: numeric('total_revenue', { precision: 12, scale: 2 }).default('0'),
 
@@ -290,9 +290,9 @@ export const marketplaceItems = pgTable('marketplace_items', {
     createdByAdminId: uuid('created_by_admin_id').references(() => users.id),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // USER PURCHASES (every purchase recorded here)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const marketplacePurchases = pgTable('marketplace_purchases', {
     id: uuid('id').primaryKey().defaultRandom(),
     userId: uuid('user_id').notNull().references(() => users.id),
@@ -314,9 +314,9 @@ export const marketplacePurchases = pgTable('marketplace_purchases', {
     updatedAt: timestamp('updated_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // USER INVENTORY (items that persist in user's account)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const userInventory = pgTable('user_inventory', {
     id: uuid('id').primaryKey().defaultRandom(),
     userId: uuid('user_id').notNull().references(() => users.id),
@@ -351,9 +351,9 @@ export const userInventory = pgTable('user_inventory', {
     consumedAt: timestamp('consumed_at'),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // DISCOUNT CODES (admin creates, users apply)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const discountCodes = pgTable('discount_codes', {
     id: uuid('id').primaryKey().defaultRandom(),
     code: text('code').notNull().unique(),
@@ -380,9 +380,9 @@ export const discountCodeUsages = pgTable('discount_code_usages', {
     usedAt: timestamp('used_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // FLASH SALE EVENTS (time-limited price overrides)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const flashSaleEvents = pgTable('flash_sale_events', {
     id: uuid('id').primaryKey().defaultRandom(),
     name: text('name').notNull(),
@@ -391,15 +391,15 @@ export const flashSaleEvents = pgTable('flash_sale_events', {
     applicableCategoryIds: jsonb('applicable_category_ids'),
     startsAt: timestamp('starts_at').notNull(),
     endsAt: timestamp('ends_at').notNull(),
-    bannerText: text('banner_text'),                 // "⚡ FLASH SALE — 30% OFF!"
+    bannerText: text('banner_text'),                 // "âš¡ FLASH SALE â€” 30% OFF!"
     bannerColorHex: text('banner_color_hex').default('#ef4444'),
     isActive: boolean('is_active').notNull().default(true),
     createdAt: timestamp('created_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // MARKETPLACE HOMEPAGE LAYOUT (admin drag-and-drop)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const marketplaceLayout = pgTable('marketplace_layout', {
     id: uuid('id').primaryKey().defaultRandom(),
     sectionType: text('section_type').notNull(),
@@ -617,9 +617,9 @@ export const notifications = pgTable('notifications', {
     createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // AD POSITIONS (for PTC / Watch Boosters)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const adPlans = pgTable('ad_plans', {
     id: uuid('id').primaryKey().defaultRandom(),
     name: text('name').notNull(),
@@ -668,9 +668,9 @@ export const userAdPositions = pgTable('user_ad_positions', {
     updatedAt: timestamp('updated_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // COMMUNITY POOL
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const communityPool = pgTable('community_pool', {
     id: uuid('id').primaryKey().defaultRandom(),
     name: text('name').notNull(),
@@ -689,9 +689,9 @@ export const communityPoolLedger = pgTable('community_pool_ledger', {
     createdAt: timestamp('created_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // AD WATCH LOG & HISTORY
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const adWatchLog = pgTable('ad_watch_log', {
     id: uuid('id').primaryKey().defaultRandom(),
     userId: uuid('user_id').notNull().references(() => users.id),
@@ -703,7 +703,7 @@ export const adWatchLog = pgTable('ad_watch_log', {
     adToken: text('ad_token'),
     adSignature: text('ad_signature'),
     ipAddress: text('ip_address'),
-    tokenIssuedAt: timestamp('token_issued_at'), // nullable — only populated for new watches
+    tokenIssuedAt: timestamp('token_issued_at'), // nullable â€” only populated for new watches
     createdAt: timestamp('created_at').defaultNow(),
 });
 
@@ -729,9 +729,9 @@ export const adCycleHistory = pgTable('ad_cycle_history', {
     createdAt: timestamp('created_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // SPIN WHEEL SYSTEM
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const spinWheelConfigs = pgTable('spin_wheel_configs', {
     id: uuid('id').primaryKey().defaultRandom(),
     name: text('name').notNull(), // 'Standard Wheel' | 'VIP Wheel'
@@ -774,9 +774,9 @@ export const spinEvents = pgTable('spin_events', {
     isActive: boolean('is_active').default(true),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // TELEGRAM USER SETTINGS (per user)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const userTelegramSettings = pgTable('user_telegram_settings', {
     id: uuid('id').primaryKey().defaultRandom(),
     userId: uuid('user_id').notNull().unique().references(() => users.id),
@@ -828,9 +828,9 @@ export const userTelegramSettings = pgTable('user_telegram_settings', {
     updatedAt: timestamp('updated_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // TELEGRAM NOTIFICATION LOG (every message sent)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const telegramNotificationLog = pgTable('telegram_notification_log', {
     id: uuid('id').primaryKey().defaultRandom(),
     userId: uuid('user_id').references(() => users.id),
@@ -847,16 +847,16 @@ export const telegramNotificationLog = pgTable('telegram_notification_log', {
     sentAt: timestamp('sent_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ADMIN TELEGRAM NOTIFICATION SETTINGS (global controls)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const telegramAdminSettings = pgTable('telegram_admin_settings', {
     id: uuid('id').primaryKey().defaultRandom(),
 
     // Bot identity (read from here, not hardcoded)
     botToken: text('bot_token'),
     // Encrypted in DB. Falls back to TELEGRAM_BOT_TOKEN env var.
-    botUsername: text('bot_username'),    // e.g. "MatClickBot" — editable
+    botUsername: text('bot_username'),    // e.g. "MatClickBot" â€” editable
     botDisplayName: text('bot_display_name'), // shown in messages header
 
     // Global on/off switches per event type
@@ -917,9 +917,9 @@ export const telegramAdminSettings = pgTable('telegram_admin_settings', {
     updatedByAdminId: uuid('updated_by_admin_id').references(() => users.id),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // TELEGRAM BROADCAST HISTORY
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const telegramBroadcasts = pgTable('telegram_broadcasts', {
     id: uuid('id').primaryKey().defaultRandom(),
     adminId: uuid('admin_id').references(() => users.id),
@@ -940,9 +940,9 @@ export const telegramBroadcasts = pgTable('telegram_broadcasts', {
     createdAt: timestamp('created_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ADMIN AUDIT LOG (every admin action recorded here)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const adminAuditLog = pgTable('admin_audit_log', {
     id: uuid('id').primaryKey().defaultRandom(),
     adminId: uuid('admin_id').notNull().references(() => users.id),
@@ -975,9 +975,9 @@ export const adminAuditLog = pgTable('admin_audit_log', {
     createdAt: timestamp('created_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // USER ACCOUNT FLAGS & STATUS
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const userAccountStatus = pgTable('user_account_status', {
     id: uuid('id').primaryKey().defaultRandom(),
     userId: uuid('user_id').notNull().unique().references(() => users.id),
@@ -1047,9 +1047,9 @@ export const userAccountStatus = pgTable('user_account_status', {
     updatedByAdminId: uuid('updated_by_admin_id'),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ADMIN NOTES (internal notes per user)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const adminUserNotes = pgTable('admin_user_notes', {
     id: uuid('id').primaryKey().defaultRandom(),
     userId: uuid('user_id').notNull().references(() => users.id),
@@ -1067,9 +1067,9 @@ export const adminUserNotes = pgTable('admin_user_notes', {
     deletedAt: timestamp('deleted_at'),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // IP BAN LIST
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const ipBanList = pgTable('ip_ban_list', {
     id: uuid('id').primaryKey().defaultRandom(),
     ipAddress: text('ip_address').notNull(),
@@ -1081,9 +1081,9 @@ export const ipBanList = pgTable('ip_ban_list', {
     createdAt: timestamp('created_at').defaultNow(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ADMIN MESSAGES (direct message to user)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const adminMessages = pgTable('admin_messages', {
     id: uuid('id').primaryKey().defaultRandom(),
     fromAdminId: uuid('from_admin_id').references(() => users.id),
@@ -1098,9 +1098,9 @@ export const adminMessages = pgTable('admin_messages', {
 });
 
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // FRAUD INTELLIGENCE CENTER
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 
 
@@ -1217,9 +1217,9 @@ export const fraudSettings = pgTable('fraud_settings', {
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // COMMUNICATION & PROMOTION TOOLS
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const teamEmails = pgTable('team_emails', {
     id: uuid('id').primaryKey().defaultRandom(),

@@ -19,7 +19,7 @@ async function getUserBalance(userId: string): Promise<string> {
     return result[0]?.total || '0.00';
 }
 
-// ── HELPER: Log admin action ─────────────────────────────
+// â”€â”€ HELPER: Log admin action â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function logAdminAction(
     tx: any,
     adminId: string,
@@ -40,7 +40,7 @@ async function logAdminAction(
     } as any);
 }
 
-// ── HELPER: Verify admin ─────────────────────────────────
+// â”€â”€ HELPER: Verify admin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function verifyAdmin() {
     const supabase = await createClient();
     // Try getUser first; fall back to getSession for dummy-proxy compatibility
@@ -49,7 +49,7 @@ async function verifyAdmin() {
         const { data: { user } } = await supabase.auth.getUser();
         userId = user?.id;
     } catch {
-        // getUser not available in dummy proxy � fall back
+        // getUser not available in dummy proxy — fall back
     }
     if (!userId) {
         const { data: { session } } = await supabase.auth.getSession();
@@ -63,9 +63,9 @@ async function verifyAdmin() {
     return admin;
 }
 
-// ────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ACCOUNT STATUS ACTIONS
-// ────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 // Freeze account
 export async function freezeUser(
@@ -313,9 +313,9 @@ export async function restoreUser(targetUserId: string, reason: string) {
     }
 }
 
-// ────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // FINANCIAL ACTIONS
-// ────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 // Add balance (credit)
 export async function addBalance(
@@ -592,7 +592,7 @@ export async function setEarningsMultiplier(
             await logAdminAction(tx, admin.id, admin.username,
                 'earnings_multiplier_set', 'financial',
                 targetUserId, target.username,
-                `Earnings multiplier set to ${multiplier}×: ${reason}`,
+                `Earnings multiplier set to ${multiplier}Ã—: ${reason}`,
                 { multiplier, reason }, 'high'
             );
 
@@ -646,9 +646,9 @@ export async function placeWithdrawalHold(
     }
 }
 
-// ────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ACCOUNT MANAGEMENT ACTIONS
-// ────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 // Change user role
 export async function changeUserRole(
@@ -980,7 +980,7 @@ export async function sendDirectMessage(
             }
         });
 
-        // If telegram or all — trigger telegram notification
+        // If telegram or all â€” trigger telegram notification
         if (channel === 'telegram' || channel === 'all') {
             await notifyUser(targetUserId, 'system_announcement', {
                 announcement_text: `${subject}\n\n${message}`,
@@ -1015,7 +1015,7 @@ export async function banIpAddress(
             adminUsername: admin.username,
             action: 'ip_ban',
             category: 'security',
-            description: `IP banned: ${ipAddress} — ${reason}`,
+            description: `IP banned: ${ipAddress} â€” ${reason}`,
             metadata: { ipAddress, reason, expiresAt },
             severity: 'high',
         } as any);
@@ -1168,7 +1168,7 @@ export async function unfreezeUserAccount(userId: string, reason: string) {
 
 
 
-// banIPAddress � block an IP from the platform
+// banIPAddress — block an IP from the platform
 export async function banIPAddress(ipAddress: string, reason: string) {
     try {
         await getAdminForRequest();

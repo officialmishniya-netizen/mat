@@ -169,7 +169,7 @@ export default function NetworkGraphClient({ nodes, edges }: Props) {
           <Search size={14} className="text-gray-400" />
           <input
             className="flex-1 bg-transparent text-sm outline-none"
-            placeholder="Search by username…"
+            placeholder="Search by usernameâ€¦"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
@@ -183,7 +183,7 @@ export default function NetworkGraphClient({ nodes, edges }: Props) {
         <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="p-2 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
           <RefreshCw size={16} className="text-gray-500" />
         </button>
-        <span className="text-xs text-gray-400">{nodes.length} nodes · {edges.length} edges</span>
+        <span className="text-xs text-gray-400">{nodes.length} nodes Â· {edges.length} edges</span>
       </div>
 
       {/* Canvas */}

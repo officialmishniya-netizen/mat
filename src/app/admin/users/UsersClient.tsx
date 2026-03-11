@@ -34,7 +34,7 @@ const ROLE_BADGE: Record<string, string> = {
     advertiser: 'bg-purple-100 text-purple-700',
 };
 
-/* ── Generic Modal ── */
+/* â”€â”€ Generic Modal â”€â”€ */
 function Modal({ open, onClose, title, wide, children }: { open: boolean; onClose: () => void; title: string; wide?: boolean; children: React.ReactNode }) {
     useEffect(() => {
         const h = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -55,7 +55,7 @@ function Modal({ open, onClose, title, wide, children }: { open: boolean; onClos
     );
 }
 
-/* ── Detail tabs modal ── */
+/* â”€â”€ Detail tabs modal â”€â”€ */
 type TabKey = 'profile' | 'ledger' | 'plans' | 'audit' | 'notes' | 'withdrawals';
 function DetailModal({ user, open, onClose }: { user: UserData; open: boolean; onClose: () => void }) {
     const [tab, setTab] = useState<TabKey>('profile');
@@ -86,7 +86,7 @@ function DetailModal({ user, open, onClose }: { user: UserData; open: boolean; o
     const Th = ({ c }: { c: string }) => <th className="px-3 py-2 text-xs font-semibold text-gray-400 text-left uppercase tracking-wide">{c}</th>;
 
     return (
-        <Modal open={open} onClose={onClose} title={`@${user.username} — Details`} wide>
+        <Modal open={open} onClose={onClose} title={`@${user.username} â€” Details`} wide>
             {/* Tabs */}
             <div className="flex gap-1 bg-gray-100 p-1 rounded-xl mb-5">
                 {tabs.map(t => (
@@ -108,11 +108,11 @@ function DetailModal({ user, open, onClose }: { user: UserData; open: boolean; o
                         <div className="grid grid-cols-2 gap-3">
                             {[
                                 ['ID', data.user.id],
-                                ['Username', data.user.username || '—'],
-                                ['Email', data.user.email || '—'],
+                                ['Username', data.user.username || 'â€”'],
+                                ['Email', data.user.email || 'â€”'],
                                 ['Role', data.user.role],
-                                ['Rank', data.user.rank || '—'],
-                                ['Joined', data.user.created_at ? new Date(data.user.created_at).toLocaleDateString() : '—'],
+                                ['Rank', data.user.rank || 'â€”'],
+                                ['Joined', data.user.created_at ? new Date(data.user.created_at).toLocaleDateString() : 'â€”'],
                                 ['Telegram', data.user.telegramUsername || 'Not linked'],
                                 ['2FA', data.user.two_fa_enabled ? 'Enabled' : 'Disabled'],
                             ].map(([k, v]) => (
@@ -135,8 +135,8 @@ function DetailModal({ user, open, onClose }: { user: UserData; open: boolean; o
                                         <tr key={l.id}>
                                             <Td c={l.type} />
                                             <td className={`px-3 py-2 text-xs font-bold ${Number(l.amount) >= 0 ? 'text-green-600' : 'text-red-500'}`}>${Number(l.amount).toFixed(4)}</td>
-                                            <Td c={l.reference_id || '—'} />
-                                            <Td c={l.created_at ? new Date(l.created_at).toLocaleString() : '—'} />
+                                            <Td c={l.reference_id || 'â€”'} />
+                                            <Td c={l.created_at ? new Date(l.created_at).toLocaleString() : 'â€”'} />
                                         </tr>
                                     ))}
                                 </tbody>
@@ -153,7 +153,7 @@ function DetailModal({ user, open, onClose }: { user: UserData; open: boolean; o
                                     {(data.plans || []).length === 0 && <tr><td colSpan={5} className="text-center py-8 text-gray-400 text-sm">No plans</td></tr>}
                                     {(data.plans || []).map((p: any) => (
                                         <tr key={p.id}>
-                                            <td className="px-3 py-2 text-xs text-gray-500 font-mono">{p.id.slice(0, 8)}…</td>
+                                            <td className="px-3 py-2 text-xs text-gray-500 font-mono">{p.id.slice(0, 8)}â€¦</td>
                                             <Td c={p.status} />
                                             <Td c={`$${Number(p.lockedBalance || 0).toFixed(2)}`} />
                                             <Td c={String(p.adsWatchedToday || 0)} />
@@ -176,8 +176,8 @@ function DetailModal({ user, open, onClose }: { user: UserData; open: boolean; o
                                         <tr key={w.id}>
                                             <td className="px-3 py-2 text-xs font-bold text-gray-800">${Number(w.amount).toFixed(2)}</td>
                                             <Td c={w.status} />
-                                            <Td c={w.payment_method || '—'} />
-                                            <Td c={w.created_at ? new Date(w.created_at).toLocaleDateString() : '—'} />
+                                            <Td c={w.payment_method || 'â€”'} />
+                                            <Td c={w.created_at ? new Date(w.created_at).toLocaleDateString() : 'â€”'} />
                                         </tr>
                                     ))}
                                 </tbody>
@@ -195,7 +195,7 @@ function DetailModal({ user, open, onClose }: { user: UserData; open: boolean; o
                                     <div className="flex-1 min-w-0">
                                         <div className="text-xs font-semibold text-gray-800">{a.action}</div>
                                         <div className="text-xs text-gray-500 mt-0.5">{a.description}</div>
-                                        <div className="text-xs text-gray-400 mt-1">by {a.adminUsername} · {a.createdAt ? new Date(a.createdAt).toLocaleString() : '—'}</div>
+                                        <div className="text-xs text-gray-400 mt-1">by {a.adminUsername} Â· {a.createdAt ? new Date(a.createdAt).toLocaleString() : 'â€”'}</div>
                                     </div>
                                 </div>
                             ))}
@@ -210,7 +210,7 @@ function DetailModal({ user, open, onClose }: { user: UserData; open: boolean; o
                                 <div key={n.id} className="border-l-4 border-orange-300 bg-orange-50 rounded-r-xl p-3">
                                     <div className="text-xs font-semibold text-gray-800">{n.category}</div>
                                     <div className="text-sm text-gray-700 mt-1">{n.note}</div>
-                                    <div className="text-xs text-gray-400 mt-1">{n.adminUsername} · {n.createdAt ? new Date(n.createdAt).toLocaleString() : '—'}</div>
+                                    <div className="text-xs text-gray-400 mt-1">{n.adminUsername} Â· {n.createdAt ? new Date(n.createdAt).toLocaleString() : 'â€”'}</div>
                                 </div>
                             ))}
                         </div>
@@ -221,7 +221,7 @@ function DetailModal({ user, open, onClose }: { user: UserData; open: boolean; o
     );
 }
 
-/* ── IP Log + Ban Modal ── */
+/* â”€â”€ IP Log + Ban Modal â”€â”€ */
 function IPBanModal({ user, open, onClose }: { user: UserData; open: boolean; onClose: () => void }) {
     const [ips, setIps] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
@@ -248,10 +248,10 @@ function IPBanModal({ user, open, onClose }: { user: UserData; open: boolean; on
     };
 
     return (
-        <Modal open={open} onClose={onClose} title={`IP Logs — @${user.username}`} wide>
+        <Modal open={open} onClose={onClose} title={`IP Logs â€” @${user.username}`} wide>
             <div className="mb-4">
                 <label className="text-xs font-semibold text-gray-500 uppercase mb-1.5 block">Ban Reason (applied to selected IP)</label>
-                <input value={reason} onChange={e => setReason(e.target.value)} placeholder="e.g. Fraud activity, multiple accounts…"
+                <input value={reason} onChange={e => setReason(e.target.value)} placeholder="e.g. Fraud activity, multiple accountsâ€¦"
                     className="w-full px-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-orange-400 bg-gray-50" />
             </div>
 
@@ -277,7 +277,7 @@ function IPBanModal({ user, open, onClose }: { user: UserData; open: boolean; on
                                 <tr key={ip.ip} className="hover:bg-gray-50">
                                     <td className="px-4 py-3 font-mono text-sm text-gray-800">{ip.ip}</td>
                                     <td className="px-4 py-3 text-sm text-gray-600">{ip.count}</td>
-                                    <td className="px-4 py-3 text-xs text-gray-400">{ip.lastSeen ? new Date(ip.lastSeen).toLocaleString() : '—'}</td>
+                                    <td className="px-4 py-3 text-xs text-gray-400">{ip.lastSeen ? new Date(ip.lastSeen).toLocaleString() : 'â€”'}</td>
                                     <td className="px-4 py-3">
                                         {ip.isBanned
                                             ? <span className="bg-red-50 text-red-600 border border-red-200 text-xs px-2 py-0.5 rounded-full font-semibold">Banned</span>
@@ -288,7 +288,7 @@ function IPBanModal({ user, open, onClose }: { user: UserData; open: boolean; on
                                         {!ip.isBanned && (
                                             <button onClick={() => doBan(ip.ip)} disabled={banning || !reason}
                                                 className="px-3 py-1 text-xs font-semibold bg-red-500 hover:bg-red-600 disabled:opacity-40 text-white rounded-lg transition-all">
-                                                {banning ? '…' : 'Ban IP'}
+                                                {banning ? 'â€¦' : 'Ban IP'}
                                             </button>
                                         )}
                                         {ip.isBanned && <span className="text-xs text-gray-400">Already banned</span>}
@@ -315,7 +315,7 @@ function IPBanModal({ user, open, onClose }: { user: UserData; open: boolean; on
     );
 }
 
-/* ── Action Slide-over ── */
+/* â”€â”€ Action Slide-over â”€â”€ */
 type ActionModal = 'freeze' | 'unfreeze' | 'ban' | 'msg' | 'add_bal' | 'deduct_bal' | 'delete' | 'ip_ban' | 'detail' | null;
 
 function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
@@ -354,7 +354,7 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
     const lbl = (t: string, el: React.ReactNode) => <div><label className="text-xs font-semibold text-gray-400 uppercase tracking-wide block mb-1.5">{t}</label>{el}</div>;
     const confirmBtn = (label: string, fn: () => void, danger = false) => (
         <button onClick={fn} disabled={loading} className={`px-4 py-2 text-sm font-semibold rounded-xl transition-all disabled:opacity-50 ${danger ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-orange-500 hover:bg-orange-600 text-white'}`}>
-            {loading ? 'Processing…' : label}
+            {loading ? 'Processingâ€¦' : label}
         </button>
     );
     const cancelBtn = () => <button onClick={() => setModal(null)} className="px-4 py-2 text-sm font-medium border border-gray-200 rounded-xl hover:bg-gray-50">Cancel</button>;
@@ -369,7 +369,7 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
 
     const actions = [
         { label: '+ Add Balance', icon: <DollarSign className="h-4 w-4" />, onClick: () => setModal('add_bal'), cls: 'text-green-600 hover:bg-green-50 border-green-200' },
-        { label: '− Deduct Balance', icon: <MinusCircle className="h-4 w-4" />, onClick: () => setModal('deduct_bal'), cls: 'text-yellow-600 hover:bg-yellow-50 border-yellow-200' },
+        { label: 'âˆ’ Deduct Balance', icon: <MinusCircle className="h-4 w-4" />, onClick: () => setModal('deduct_bal'), cls: 'text-yellow-600 hover:bg-yellow-50 border-yellow-200' },
         { label: 'Send Message', icon: <Mail className="h-4 w-4" />, onClick: () => setModal('msg'), cls: 'text-blue-600 hover:bg-blue-50 border-blue-200' },
         { label: 'Freeze Account', icon: <Lock className="h-4 w-4" />, onClick: () => setModal('freeze'), cls: 'text-blue-700 hover:bg-blue-50 border-blue-200' },
         { label: 'Unfreeze Account', icon: <Unlock className="h-4 w-4" />, onClick: () => setModal('unfreeze'), cls: 'text-teal-600 hover:bg-teal-50 border-teal-200' },
@@ -394,7 +394,7 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
                             </div>
                             <div>
                                 <div className="font-bold text-gray-900 text-sm">@{user.username}</div>
-                                <div className="text-xs text-gray-500">{user.email || '—'}</div>
+                                <div className="text-xs text-gray-500">{user.email || 'â€”'}</div>
                             </div>
                         </div>
                         <button onClick={onClose}><X className="h-5 w-5 text-gray-400 hover:text-gray-600" /></button>
@@ -410,7 +410,7 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
                         ))}
                     </div>
 
-                    {/* View Details — all inline, no navigation */}
+                    {/* View Details â€” all inline, no navigation */}
                     <div className="p-4 border-b border-gray-100">
                         <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">View Details</p>
                         {viewTabs.map(t => (
@@ -443,22 +443,22 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
             <IPBanModal user={user} open={modal === 'ip_ban'} onClose={() => setModal(null)} />
 
             {/* Add Balance */}
-            <Modal open={modal === 'add_bal'} onClose={() => setModal(null)} title={`Add Balance — @${user.username}`}>
+            <Modal open={modal === 'add_bal'} onClose={() => setModal(null)} title={`Add Balance â€” @${user.username}`}>
                 <div className="space-y-4">
                     {lbl('Amount (USD)', inp({ type: 'number', min: '0.01', step: '0.01', placeholder: '0.00', value: amt, onChange: e => setAmt(e.target.value) }))}
                     {lbl('Type', sel({ value: balType, onChange: e => setBalType(e.target.value) }, <><option value="admin_credit">Admin Credit</option><option value="bonus">Bonus</option><option value="refund">Refund</option><option value="cycle_correction">Cycle Correction</option></>))}
-                    {lbl('Reason', ta({ placeholder: 'Reason…', value: balDesc, onChange: e => setBalDesc(e.target.value) }))}
+                    {lbl('Reason', ta({ placeholder: 'Reasonâ€¦', value: balDesc, onChange: e => setBalDesc(e.target.value) }))}
                     <div className="flex gap-3 pt-1">{confirmBtn('Add Balance', () => run(() => addBalance(user.id, amt, balType, balDesc), `$${amt} added`))}{cancelBtn()}</div>
                 </div>
             </Modal>
 
             {/* Deduct Balance */}
-            <Modal open={modal === 'deduct_bal'} onClose={() => setModal(null)} title={`Deduct Balance — @${user.username}`}>
+            <Modal open={modal === 'deduct_bal'} onClose={() => setModal(null)} title={`Deduct Balance â€” @${user.username}`}>
                 <div className="space-y-4">
                     <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 text-xs text-yellow-700 flex gap-2"><AlertTriangle className="h-4 w-4 flex-shrink-0" />This reduces the user's wallet.</div>
                     {lbl('Amount', inp({ type: 'number', min: '0.01', step: '0.01', placeholder: '0.00', value: amt, onChange: e => setAmt(e.target.value) }))}
                     {lbl('Type', sel({ value: balType, onChange: e => setBalType(e.target.value) }, <><option value="admin_deduct">Admin Deduction</option><option value="fee_recovery">Fee Recovery</option><option value="fraud_recovery">Fraud Recovery</option></>))}
-                    {lbl('Reason', ta({ placeholder: 'Reason…', value: balDesc, onChange: e => setBalDesc(e.target.value) }))}
+                    {lbl('Reason', ta({ placeholder: 'Reasonâ€¦', value: balDesc, onChange: e => setBalDesc(e.target.value) }))}
                     <div className="flex gap-3 pt-1">{confirmBtn('Deduct', () => run(() => deductBalance(user.id, amt, balType, balDesc), `$${amt} deducted`), true)}{cancelBtn()}</div>
                 </div>
             </Modal>
@@ -467,8 +467,8 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
             <Modal open={modal === 'msg'} onClose={() => setModal(null)} title={`Message @${user.username}`}>
                 <div className="space-y-4">
                     {lbl('Channel', sel({ value: msgCh, onChange: e => setMsgCh(e.target.value as any) }, <><option value="platform">Platform Inbox</option><option value="telegram">Telegram</option></>))}
-                    {lbl('Subject', inp({ placeholder: 'Subject…', value: msgSubj, onChange: e => setMsgSubj(e.target.value) }))}
-                    {lbl('Message', ta({ placeholder: 'Write your message…', value: msgBody, onChange: e => setMsgBody(e.target.value) }))}
+                    {lbl('Subject', inp({ placeholder: 'Subjectâ€¦', value: msgSubj, onChange: e => setMsgSubj(e.target.value) }))}
+                    {lbl('Message', ta({ placeholder: 'Write your messageâ€¦', value: msgBody, onChange: e => setMsgBody(e.target.value) }))}
                     <div className="flex gap-3 pt-1">{confirmBtn('Send', () => run(() => sendDirectMessage(user.id, msgSubj, msgBody, msgCh), 'Message sent'))}{cancelBtn()}</div>
                 </div>
             </Modal>
@@ -486,7 +486,7 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
             <Modal open={modal === 'unfreeze'} onClose={() => setModal(null)} title={`Unfreeze @${user.username}`}>
                 <div className="space-y-4">
                     <div className="bg-green-50 border border-green-200 rounded-xl p-3 text-xs text-green-700 flex gap-2"><CheckCircle className="h-4 w-4 flex-shrink-0" />Restores normal access.</div>
-                    {lbl('Note (optional)', ta({ placeholder: 'Optional note…', value: reason, onChange: e => setReason(e.target.value) }))}
+                    {lbl('Note (optional)', ta({ placeholder: 'Optional noteâ€¦', value: reason, onChange: e => setReason(e.target.value) }))}
                     <div className="flex gap-3 pt-1">{confirmBtn('Unfreeze', () => run(() => unfreezeUserAccount(user.id, reason), `@${user.username} unfrozen`))}{cancelBtn()}</div>
                 </div>
             </Modal>
@@ -497,7 +497,7 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
                     <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-xs text-red-700 flex gap-2"><Ban className="h-4 w-4 flex-shrink-0" />User loses all platform access.</div>
                     {lbl('Type', sel({ value: banType, onChange: e => setBanType(e.target.value as any) }, <><option value="permanent">Permanent</option><option value="temporary">Temporary</option></>))}
                     {banType === 'temporary' && lbl('Duration (days)', inp({ type: 'number', min: '1', value: banDays, onChange: e => setBanDays(e.target.value) }))}
-                    {lbl('Reason', ta({ placeholder: 'Ban reason…', value: reason, onChange: e => setReason(e.target.value) }))}
+                    {lbl('Reason', ta({ placeholder: 'Ban reasonâ€¦', value: reason, onChange: e => setReason(e.target.value) }))}
                     <div className="flex gap-3 pt-1">{confirmBtn('Ban User', () => run(() => banUser(user.id, reason, banType, banType === 'temporary' ? parseInt(banDays) : undefined), `@${user.username} banned`), true)}{cancelBtn()}</div>
                 </div>
             </Modal>
@@ -505,8 +505,8 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
             {/* Delete */}
             <Modal open={modal === 'delete'} onClose={() => setModal(null)} title={`Delete @${user.username}`}>
                 <div className="space-y-4">
-                    <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-xs text-red-700 flex gap-2"><AlertTriangle className="h-4 w-4 flex-shrink-0" />Soft delete — data preserved but account deactivated.</div>
-                    {lbl('Reason', ta({ placeholder: 'Reason for deletion…', value: reason, onChange: e => setReason(e.target.value) }))}
+                    <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-xs text-red-700 flex gap-2"><AlertTriangle className="h-4 w-4 flex-shrink-0" />Soft delete â€” data preserved but account deactivated.</div>
+                    {lbl('Reason', ta({ placeholder: 'Reason for deletionâ€¦', value: reason, onChange: e => setReason(e.target.value) }))}
                     <div className="flex gap-3 pt-1">{confirmBtn('Confirm Delete', () => run(() => softDeleteUser(user.id, reason, 'soft'), `@${user.username} deleted`), true)}{cancelBtn()}</div>
                 </div>
             </Modal>
@@ -514,7 +514,7 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
     );
 }
 
-/* ── Main Page ── */
+/* â”€â”€ Main Page â”€â”€ */
 export default function UsersClient({ initialUsers }: { initialUsers: UserData[] }) {
     const [search, setSearch] = useState('');
     const [statusF, setStatusF] = useState('All');
@@ -541,7 +541,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
     const bulk = async (action: string) => {
         const reason = prompt(`Reason for "${action}":`);
         if (!reason) return;
-        const tid = toast.loading('Processing…');
+        const tid = toast.loading('Processingâ€¦');
         const r = await bulkUserAction(Array.from(selected), action, reason);
         r.success ? toast.success('Done.', { id: tid }) : toast.error(r.error || 'Failed', { id: tid });
     };
@@ -585,7 +585,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                 <div className="flex flex-wrap items-center gap-3 p-4 border-b border-gray-100">
                     <div className="relative flex-1 min-w-[200px]">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                        <input type="text" placeholder="Search username or email…" value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
+                        <input type="text" placeholder="Search username or emailâ€¦" value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
                             className="w-full pl-9 pr-8 py-2 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:border-orange-400 transition-all" />
                         {search && <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2"><X className="h-4 w-4 text-gray-400" /></button>}
                     </div>
@@ -603,7 +603,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                         <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-xl px-3 py-2 ml-auto">
                             <span className="text-sm font-semibold text-orange-700">{selected.size} selected</span>
                             <div className="w-px h-4 bg-orange-200" />
-                            {[['freeze', 'Freeze'], ['unfreeze', 'Unfreeze'], ['ban', '🚫 Ban'], ['send_notification', 'Message']].map(([a, l]) => (
+                            {[['freeze', 'Freeze'], ['unfreeze', 'Unfreeze'], ['ban', 'ðŸš« Ban'], ['send_notification', 'Message']].map(([a, l]) => (
                                 <button key={a} onClick={() => bulk(a)} className={`text-xs font-semibold hover:underline ${a === 'ban' ? 'text-red-600' : 'text-orange-600'}`}>{l}</button>
                             ))}
                             <button onClick={() => setSelected(new Set())}><X className="h-3.5 w-3.5 text-gray-400" /></button>
@@ -639,7 +639,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                                                 </div>
                                                 <div>
                                                     <button onClick={() => setActiveUser(user)} className="font-semibold text-gray-900 hover:text-orange-600 transition-colors text-left">@{user.username}</button>
-                                                    <div className="text-xs text-gray-400">{user.email || '—'}</div>
+                                                    <div className="text-xs text-gray-400">{user.email || 'â€”'}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -659,7 +659,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                                                 <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${sc.dot}`} />{user.status}
                                             </span>
                                         </td>
-                                        <td className="px-4 py-3.5 text-xs text-gray-400">{user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'}</td>
+                                        <td className="px-4 py-3.5 text-xs text-gray-400">{user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'â€”'}</td>
                                         <td className="px-4 py-3.5 text-center">
                                             <button onClick={() => setActiveUser(user)} className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-orange-500 hover:bg-orange-600 text-white transition-all shadow-sm">
                                                 Manage
@@ -680,13 +680,13 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                 </div>
 
                 <div className="flex items-center justify-between px-6 py-3 border-t border-gray-100 bg-gray-50 text-sm text-gray-500">
-                    <span>Showing {filtered.length === 0 ? 0 : (page - 1) * PER + 1}–{Math.min(page * PER, filtered.length)} of {filtered.length}</span>
+                    <span>Showing {filtered.length === 0 ? 0 : (page - 1) * PER + 1}â€“{Math.min(page * PER, filtered.length)} of {filtered.length}</span>
                     <div className="flex items-center gap-1">
-                        <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-3 py-1 rounded-lg border border-gray-200 bg-white disabled:opacity-30 hover:bg-gray-50">←</button>
+                        <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-3 py-1 rounded-lg border border-gray-200 bg-white disabled:opacity-30 hover:bg-gray-50">â†</button>
                         {Array.from({ length: Math.min(pages, 7) }, (_, i) => i + 1).map(p => (
                             <button key={p} onClick={() => setPage(p)} className={`px-3 py-1 rounded-lg border transition-colors ${p === page ? 'bg-orange-500 text-white border-orange-500' : 'border-gray-200 bg-white hover:bg-gray-50'}`}>{p}</button>
                         ))}
-                        <button onClick={() => setPage(p => Math.min(pages, p + 1))} disabled={page === pages} className="px-3 py-1 rounded-lg border border-gray-200 bg-white disabled:opacity-30 hover:bg-gray-50">→</button>
+                        <button onClick={() => setPage(p => Math.min(pages, p + 1))} disabled={page === pages} className="px-3 py-1 rounded-lg border border-gray-200 bg-white disabled:opacity-30 hover:bg-gray-50">â†’</button>
                     </div>
                 </div>
             </div>

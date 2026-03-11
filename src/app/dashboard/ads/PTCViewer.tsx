@@ -157,7 +157,7 @@ export default function PTCViewer({ ads }: { ads: AdParams[] }) {
                     </div>
                 ) : (
                     <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded text-green-800">
-                        <span className="text-2xl block mb-2">🎉</span>
+                        <span className="text-2xl block mb-2">ðŸŽ‰</span>
                         <h3 className="font-bold text-lg">Verification Complete</h3>
                         <p className="text-sm">Click the button below to submit the secure token and claim your reward.</p>
                     </div>
@@ -165,7 +165,7 @@ export default function PTCViewer({ ads }: { ads: AdParams[] }) {
 
                 {error && (
                     <div className="mb-6 p-3 bg-red-100 text-red-800 rounded font-bold animate-pulse">
-                        ⚠️ {error}
+                        âš ï¸ {error}
                     </div>
                 )}
 
@@ -195,13 +195,13 @@ export default function PTCViewer({ ads }: { ads: AdParams[] }) {
 
             {error && (
                 <div className="p-4 bg-red-100 text-red-800 rounded font-bold">
-                    ❌ {error}
+                    âŒ {error}
                 </div>
             )}
 
             {success && (
                 <div className="p-4 bg-green-100 text-green-800 border-l-4 border-green-600 rounded font-bold">
-                    ✅ {success}
+                    âœ… {success}
                 </div>
             )}
 
@@ -217,7 +217,7 @@ export default function PTCViewer({ ads }: { ads: AdParams[] }) {
                                 ${ad.reward}
                             </span>
                             <span className="bg-orange-100 text-orange-800 text-xs font-bold px-2 py-1 rounded flex items-center">
-                                <span className="mr-1">⏱️</span> {ad.duration}s
+                                <span className="mr-1">â±ï¸</span> {ad.duration}s
                             </span>
                         </div>
 

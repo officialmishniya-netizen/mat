@@ -3,11 +3,11 @@
         "overview": "Resumen",
         "my_matrix": "Mi Matriz",
         "ad_cycles": "Ciclos de Anuncios",
-        "promo_center": "Centro de Promoción",
+        "promo_center": "Centro de PromociÃ³n",
         "community": "Comunidad",
         "admin_panel": "Panel de Admin",
-        "sign_out": "Cerrar Sesión",
-        "welcome_back": "¡Bienvenido de nuevo! Aquí está tu pulso de ganancias para hoy.",
+        "sign_out": "Cerrar SesiÃ³n",
+        "welcome_back": "Â¡Bienvenido de nuevo! AquÃ­ estÃ¡ tu pulso de ganancias para hoy.",
         "available_balance": "Saldo Disponible",
         "matrix_positions": "Posiciones de Matriz",
         "total_referrals": "Referidos Totales",
@@ -21,7 +21,7 @@
     "admin": {
         "dashboard": "Tablero",
         "marketing_hub": "Centro de Marketing",
-        "user_management": "Gestión de Usuarios",
+        "user_management": "GestiÃ³n de Usuarios",
         "ad_cycle_center": "Centro de Ciclos de Anuncios",
         "marketplace": "Mercado",
         "matrix_levels": "Matriz y Niveles",
@@ -34,7 +34,7 @@
         "payout_on_cycle": "Pago al Ciclo",
         "earning_per_click": "Ganancia por Clic",
         "clicks_per_cycle": "Clics por Ciclo",
-        "daily_click_limit": "Límite Diario de Clics",
+        "daily_click_limit": "LÃ­mite Diario de Clics",
         "purchase_level": "Comprar Nivel"
     }
 }

@@ -14,7 +14,7 @@ export default function AdminLedgerPage() {
             </div>
 
             <div className="bg-white p-12 rounded-2xl border border-dashed border-gray-200 text-center shadow-sm">
-                <div className="text-5xl mb-4">📊</div>
+                <div className="text-5xl mb-4">ðŸ“Š</div>
                 <h3 className="text-xl font-bold text-gray-800 mb-2">Ledger System Initializing</h3>
                 <p className="text-gray-500 font-medium max-w-md mx-auto">This module is being wired to the live database. Detailed transaction filtering and CSV exports will be available here soon.</p>
             </div>

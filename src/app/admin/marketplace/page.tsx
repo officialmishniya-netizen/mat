@@ -476,7 +476,7 @@ export default function AdminMarketplace() {
                                         <div className="space-y-2">
                                             <Label>Visual Icon (Emoji)</Label>
                                             <Input
-                                                placeholder="💎"
+                                                placeholder="ðŸ’Ž"
                                                 value={formData.iconEmoji || ''}
                                                 onChange={(e: any) => setFormData({ ...formData, iconEmoji: e.target.value })}
                                                 required
@@ -563,7 +563,7 @@ export default function AdminMarketplace() {
                                         <div className="space-y-2">
                                             <Label>Product Icon</Label>
                                             <Input
-                                                placeholder="📦"
+                                                placeholder="ðŸ“¦"
                                                 value={formData.iconEmoji || ''}
                                                 onChange={(e: any) => setFormData({ ...formData, iconEmoji: e.target.value })}
                                             />

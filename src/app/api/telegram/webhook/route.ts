@@ -49,9 +49,9 @@ export async function POST(req: NextRequest) {
     }
 }
 
-// ─────────────────────────────────────────────
-// /start — Link Telegram to account
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// /start â€” Link Telegram to account
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function handleStart(
     chatId: string,
     text: string,
@@ -73,9 +73,9 @@ async function handleStart(
     }
 
     if (!linkedUser) {
-        // User not found — show registration prompt
+        // User not found â€” show registration prompt
         await sendTelegramMessage(chatId, `
-👋 <b>Welcome to ${platform.siteName}!</b>
+ðŸ‘‹ <b>Welcome to ${platform.siteName}!</b>
 
 To connect your account, you need to:
 
@@ -115,9 +115,9 @@ Need help? Visit: <a href="${platform.siteUrl}/support">${platform.siteUrl}/supp
     await sendTelegramMessage(chatId, welcomeMsg);
 }
 
-// ─────────────────────────────────────────────
-// /balance — Show wallet balance
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// /balance â€” Show wallet balance
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function handleBalance(chatId: string, telegramUsername?: string) {
     const platform = await getPlatform();
     const user = await getUserByTelegramChatId(chatId) as any;
@@ -134,21 +134,21 @@ async function handleBalance(chatId: string, telegramUsername?: string) {
     });
 
     const lockedInfo = activePosition
-        ? `\n🔒 Locked: <b>$${activePosition.lockedBalance}</b> / $${activePosition.clickGoalSnapshot}`
+        ? `\nðŸ”’ Locked: <b>$${activePosition.lockedBalance}</b> / $${activePosition.clickGoalSnapshot}`
         : '';
 
     await sendTelegramMessage(chatId, `
-💰 <b>Your ${platform.siteName} Wallet</b>
+ðŸ’° <b>Your ${platform.siteName} Wallet</b>
 
 Available Balance: <b>$${balance}</b>${lockedInfo}
 
-<a href="${platform.siteUrl}/dashboard/wallet">View Full Wallet →</a>
+<a href="${platform.siteUrl}/dashboard/wallet">View Full Wallet â†’</a>
   `);
 }
 
-// ─────────────────────────────────────────────
-// /status — Show daily ad status
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// /status â€” Show daily ad status
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function handleStatus(chatId: string, telegramUsername?: string) {
     const platform = await getPlatform();
     const user = await getUserByTelegramChatId(chatId) as any;
@@ -164,13 +164,13 @@ async function handleStatus(chatId: string, telegramUsername?: string) {
 
     if (!position) {
         await sendTelegramMessage(chatId, `
-📊 <b>Your Status</b>
+ðŸ“Š <b>Your Status</b>
 
 No active ad plan found.
 
-<a href="${platform.siteUrl}/dashboard/ad-plans/buy">Browse Plans →</a>
+<a href="${platform.siteUrl}/dashboard/ad-plans/buy">Browse Plans â†’</a>
 
-— ${platform.siteName}
+â€” ${platform.siteName}
     `);
         return;
     }
@@ -182,32 +182,32 @@ No active ad plan found.
     const progressBar = buildProgressBar(Number(progress));
 
     const nextAvailable = position.nextAdsAvailableAt
-        ? `\n⏳ Next session: ${formatTimeRemaining(position.nextAdsAvailableAt)}`
+        ? `\nâ³ Next session: ${formatTimeRemaining(position.nextAdsAvailableAt)}`
         : '';
 
     const streakLine = (position.currentStreak || 0) > 0
-        ? `\n🔥 Streak: ${position.currentStreak} days`
+        ? `\nðŸ”¥ Streak: ${position.currentStreak} days`
         : '';
 
     await sendTelegramMessage(chatId, `
-📊 <b>Your Status — ${plan.name}</b>
+ðŸ“Š <b>Your Status â€” ${plan.name}</b>
 
-📺 Ads today: ${position.adsWatchedToday}/${effectiveLimit}
-${adsRemaining > 0 ? `✅ ${adsRemaining} ads remaining` : '✅ Session complete'}${nextAvailable}
+ðŸ“º Ads today: ${position.adsWatchedToday}/${effectiveLimit}
+${adsRemaining > 0 ? `âœ… ${adsRemaining} ads remaining` : 'âœ… Session complete'}${nextAvailable}
 
 ${progressBar} ${progress}%
-💰 Locked: $${position.lockedBalance} / $${position.clickGoalSnapshot}
-🎯 Cycle #${((position as any).totalCycles || 0) + 1}${streakLine}
+ðŸ’° Locked: $${position.lockedBalance} / $${position.clickGoalSnapshot}
+ðŸŽ¯ Cycle #${((position as any).totalCycles || 0) + 1}${streakLine}
 
-<a href="${platform.siteUrl}/dashboard/ad-plans">Watch Ads →</a>
+<a href="${platform.siteUrl}/dashboard/ad-plans">Watch Ads â†’</a>
 
-— ${platform.siteName}
+â€” ${platform.siteName}
   `);
 }
 
-// ─────────────────────────────────────────────
-// /plans — Show active plans
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// /plans â€” Show active plans
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function handlePlans(chatId: string, telegramUsername?: string) {
     const platform = await getPlatform();
     const user = await getUserByTelegramChatId(chatId) as any;
@@ -223,36 +223,36 @@ async function handlePlans(chatId: string, telegramUsername?: string) {
 
     if (positions.length === 0) {
         await sendTelegramMessage(chatId, `
-📋 <b>Your Plans</b>
+ðŸ“‹ <b>Your Plans</b>
 
 You have no active plans.
 
-<a href="${platform.siteUrl}/dashboard/ad-plans/buy">Browse Plans →</a>
+<a href="${platform.siteUrl}/dashboard/ad-plans/buy">Browse Plans â†’</a>
 
-— ${platform.siteName}
+â€” ${platform.siteName}
     `);
         return;
     }
 
     const planLines = positions.map(p => {
         const pct = Math.min(100, (Number(p.lockedBalance) / Number(p.clickGoalSnapshot) * 100)).toFixed(0);
-        return `✅ <b>${(p as any).adPlan.name}</b> — ${pct}% to cycle`;
+        return `âœ… <b>${(p as any).adPlan.name}</b> â€” ${pct}% to cycle`;
     }).join('\n');
 
     await sendTelegramMessage(chatId, `
-📋 <b>Your Active Plans</b>
+ðŸ“‹ <b>Your Active Plans</b>
 
 ${planLines}
 
-<a href="${platform.siteUrl}/dashboard/ad-plans">Manage Plans →</a>
+<a href="${platform.siteUrl}/dashboard/ad-plans">Manage Plans â†’</a>
 
-— ${platform.siteName}
+â€” ${platform.siteName}
   `);
 }
 
-// ─────────────────────────────────────────────
-// /referrals — Show team stats
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// /referrals â€” Show team stats
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function handleReferrals(chatId: string, telegramUsername?: string) {
     const platform = await getPlatform();
     const user = await getUserByTelegramChatId(chatId) as any;
@@ -265,39 +265,39 @@ async function handleReferrals(chatId: string, telegramUsername?: string) {
     const totalReferrals = referrals.length;
 
     await sendTelegramMessage(chatId, `
-👥 <b>Your Team</b>
+ðŸ‘¥ <b>Your Team</b>
 
 Total referrals: <b>${totalReferrals}</b>
 
-<a href="${platform.siteUrl}/dashboard/team">View Full Team →</a>
+<a href="${platform.siteUrl}/dashboard/team">View Full Team â†’</a>
 
-— ${platform.siteName}
+â€” ${platform.siteName}
   `);
 }
 
-// ─────────────────────────────────────────────
-// /notifications — Show notification settings
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// /notifications â€” Show notification settings
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function handleNotificationSettings(
     chatId: string,
     telegramUsername?: string
 ) {
     const platform = await getPlatform();
     await sendTelegramMessage(chatId, `
-🔔 <b>Notification Settings</b>
+ðŸ”” <b>Notification Settings</b>
 
 To manage which notifications you receive,
 visit your account settings:
 
-<a href="${platform.siteUrl}/dashboard/settings/notifications">Manage Notifications →</a>
+<a href="${platform.siteUrl}/dashboard/settings/notifications">Manage Notifications â†’</a>
 
-— ${platform.siteName}
+â€” ${platform.siteName}
   `);
 }
 
-// ─────────────────────────────────────────────
-// /stop — Disconnect Telegram
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// /stop â€” Disconnect Telegram
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function handleStop(chatId: string, telegramUsername?: string) {
     const platform = await getPlatform();
     const user = await getUserByTelegramChatId(chatId) as any;
@@ -309,7 +309,7 @@ async function handleStop(chatId: string, telegramUsername?: string) {
     }
 
     await sendTelegramMessage(chatId, `
-✅ Notifications stopped.
+âœ… Notifications stopped.
 
 You will no longer receive messages from ${platform.siteName}.
 
@@ -317,37 +317,37 @@ To reconnect, send /start at any time.
   `);
 }
 
-// ─────────────────────────────────────────────
-// /help — Show all commands
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// /help â€” Show all commands
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function handleHelp(chatId: string) {
     const platform = await getPlatform();
     await sendTelegramMessage(chatId, `
-📖 <b>${platform.siteName} Bot Commands</b>
+ðŸ“– <b>${platform.siteName} Bot Commands</b>
 
-/start — Connect your account
-/balance — View your wallet balance
-/status — View today's ad progress
-/plans — View your active plans
-/referrals — View your team stats
-/notifications — Manage notifications
-/stop — Stop all notifications
-/help — Show this message
+/start â€” Connect your account
+/balance â€” View your wallet balance
+/status â€” View today's ad progress
+/plans â€” View your active plans
+/referrals â€” View your team stats
+/notifications â€” Manage notifications
+/stop â€” Stop all notifications
+/help â€” Show this message
 
-— ${platform.siteName}
+â€” ${platform.siteName}
   `);
 }
 
 async function handleUnknown(chatId: string) {
     const platform = await getPlatform();
     await sendTelegramMessage(chatId,
-        `❓ Unknown command. Send /help to see available commands.\n\n— ${platform.siteName}`
+        `â“ Unknown command. Send /help to see available commands.\n\nâ€” ${platform.siteName}`
     );
 }
 
 async function sendNotLinked(chatId: string, platform: any) {
     await sendTelegramMessage(chatId, `
-⚠️ <b>Account Not Linked</b>
+âš ï¸ <b>Account Not Linked</b>
 
 Your Telegram is not connected to a ${platform.siteName} account.
 
@@ -372,7 +372,7 @@ async function getUserByTelegramChatId(chatId: string) {
 function buildProgressBar(pct: number): string {
     const filled = Math.round(pct / 10);
     const empty = 10 - filled;
-    return '█'.repeat(filled) + '░'.repeat(empty);
+    return 'â–ˆ'.repeat(filled) + 'â–‘'.repeat(empty);
 }
 
 function formatTimeRemaining(date: Date): string {

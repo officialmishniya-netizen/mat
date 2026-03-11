@@ -1,39 +1,39 @@
 {
     "dashboard": {
-        "overview": "Visão Geral",
+        "overview": "VisÃ£o Geral",
         "my_matrix": "Minha Matriz",
-        "ad_cycles": "Ciclos de Anúncios",
-        "promo_center": "Centro de Promoção",
+        "ad_cycles": "Ciclos de AnÃºncios",
+        "promo_center": "Centro de PromoÃ§Ã£o",
         "community": "Comunidade",
         "admin_panel": "Painel do Administrador",
         "sign_out": "Sair",
-        "welcome_back": "Bem-vindo de volta! Aqui está o seu pulso de ganhos para hoje.",
-        "available_balance": "Saldo Disponível",
-        "matrix_positions": "Posições na Matriz",
-        "total_referrals": "Total de Referências",
+        "welcome_back": "Bem-vindo de volta! Aqui estÃ¡ o seu pulso de ganhos para hoje.",
+        "available_balance": "Saldo DisponÃ­vel",
+        "matrix_positions": "PosiÃ§Ãµes na Matriz",
+        "total_referrals": "Total de ReferÃªncias",
         "active_cycles": "Ciclos Ativos",
-        "ad_cycle_progress": "Progresso do Ciclo de Anúncio",
-        "watch_ads_now": "Ver Anúncios Agora",
-        "explore_ad_plans": "Explorar Planos de Anúncios",
+        "ad_cycle_progress": "Progresso do Ciclo de AnÃºncio",
+        "watch_ads_now": "Ver AnÃºncios Agora",
+        "explore_ad_plans": "Explorar Planos de AnÃºncios",
         "recruitment_hub": "Hub de Recrutamento",
-        "copy_referral_link": "Copiar Link de Referência"
+        "copy_referral_link": "Copiar Link de ReferÃªncia"
     },
     "admin": {
         "dashboard": "Painel de Controle",
         "marketing_hub": "Hub de Marketing",
-        "user_management": "Gerenciamento de Usuários",
-        "ad_cycle_center": "Centro de Ciclos de Anúncios",
-        "matrix_levels": "Matriz e Níveis",
-        "finance_ledger": "Finanças e Ledger",
+        "user_management": "Gerenciamento de UsuÃ¡rios",
+        "ad_cycle_center": "Centro de Ciclos de AnÃºncios",
+        "matrix_levels": "Matriz e NÃ­veis",
+        "finance_ledger": "FinanÃ§as e Ledger",
         "community": "Comunidade",
-        "system_settings": "Configurações do Sistema"
+        "system_settings": "ConfiguraÃ§Ãµes do Sistema"
     },
     "ad_click": {
-        "clicks_completed": "Cliques Concluídos",
+        "clicks_completed": "Cliques ConcluÃ­dos",
         "payout_on_cycle": "Pagamento por Ciclo",
         "earning_per_click": "Ganho por Clique",
         "clicks_per_cycle": "Cliques por Ciclo",
-        "daily_click_limit": "Limite Diário de Cliques",
-        "purchase_level": "Comprar Nível"
+        "daily_click_limit": "Limite DiÃ¡rio de Cliques",
+        "purchase_level": "Comprar NÃ­vel"
     }
 }

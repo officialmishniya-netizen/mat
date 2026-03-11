@@ -1,16 +1,16 @@
 {
     "dashboard": {
-        "overview": "Aperçu",
+        "overview": "AperÃ§u",
         "my_matrix": "Ma Matrice",
-        "ad_cycles": "Cycles de Publicité",
+        "ad_cycles": "Cycles de PublicitÃ©",
         "promo_center": "Centre de Promotion",
-        "community": "Communauté",
+        "community": "CommunautÃ©",
         "admin_panel": "Panneau d'Administration",
-        "sign_out": "Déconnexion",
+        "sign_out": "DÃ©connexion",
         "welcome_back": "Bon retour ! Voici votre pouls de gain pour aujourd'hui.",
         "available_balance": "Solde Disponible",
         "matrix_positions": "Positions de Matrice",
-        "total_referrals": "Total des Références",
+        "total_referrals": "Total des RÃ©fÃ©rences",
         "active_cycles": "Cycles Actifs",
         "ad_cycle_progress": "Progression du Cycle de Pub",
         "watch_ads_now": "Regarder les Pubs Maintenant",
@@ -26,11 +26,11 @@
         "marketplace": "Boutique",
         "matrix_levels": "Matrice & Niveaux",
         "finance_ledger": "Finance & Grand Livre",
-        "community": "Communauté",
-        "system_settings": "Paramètres du Système"
+        "community": "CommunautÃ©",
+        "system_settings": "ParamÃ¨tres du SystÃ¨me"
     },
     "ad_click": {
-        "clicks_completed": "Clics Complétés",
+        "clicks_completed": "Clics ComplÃ©tÃ©s",
         "payout_on_cycle": "Paiement sur Cycle",
         "earning_per_click": "Gain par Clic",
         "clicks_per_cycle": "Clics par Cycle",

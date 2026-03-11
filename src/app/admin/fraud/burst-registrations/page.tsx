@@ -32,7 +32,7 @@ export default async function BurstRegistrationsPage() {
           Burst Registration Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Coordinated fake signup campaigns — {settings.site_name}
+          Coordinated fake signup campaigns â€” {settings.site_name}
         </p>
       </div>
 
@@ -81,7 +81,7 @@ export default async function BurstRegistrationsPage() {
                 return (
                   <tr key={burst.bucket} className="hover:bg-gray-50">
                     <td className="px-6 py-4 font-mono text-xs text-gray-600">
-                      {burst.bucket ? new Date(burst.bucket).toLocaleString() : "—"}
+                      {burst.bucket ? new Date(burst.bucket).toLocaleString() : "â€”"}
                     </td>
                     <td className="px-6 py-4 font-bold text-orange-600">
                       <div className="flex items-center gap-1.5">

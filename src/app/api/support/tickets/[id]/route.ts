@@ -1,11 +1,8 @@
 import { createServerSupabaseClient } from "@/lib/supabase-server";
-import { addTicketMessage } from "@/lib/tickets";
+import { createTicket } from "@/lib/tickets";
 import { NextResponse } from "next/server";
 
-export async function POST(
-    req: Request,
-    { params }: { params: { id: string } }
-) {
+export async function POST(req: Request) {
     try {
         const supabase = await createServerSupabaseClient();
         const { data: { session } } = await supabase.auth.getSession();
@@ -14,17 +11,17 @@ export async function POST(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const { content } = await req.json();
+        const { subject, content, priority } = await req.json();
 
-        if (!content) {
-            return NextResponse.json({ error: "Content is required" }, { status: 400 });
+        if (!subject || !content) {
+            return NextResponse.json({ error: "Subject and content are required" }, { status: 400 });
         }
 
-        await addTicketMessage(params.id, session.user.id, content, false);
+        const ticket = await createTicket(session.user.id, subject, content, priority);
 
-        return NextResponse.json({ success: true });
+        return NextResponse.json(ticket);
     } catch (error: any) {
-        console.error("Error adding ticket message:", error);
+        console.error("Error creating ticket:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

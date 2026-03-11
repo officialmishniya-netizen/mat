@@ -1,146 +1,136 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
+    ArrowLeft,
     Send,
-    User,
-    ShieldCheck,
+    AlertCircle,
     Loader2,
-    AlertCircle
+    ShieldCheck
 } from "lucide-react";
+import Link from "next/link";
 
-interface Message {
-    id: string;
-    content: string;
-    is_admin: boolean;
-    created_at: string;
-    user_id: string;
-}
-
-interface TicketChatProps {
-    ticketId: string;
-    initialMessages: Message[];
-    currentUserId: string;
-}
-
-export function TicketChat({ ticketId, initialMessages, currentUserId }: TicketChatProps) {
-    const [messages, setMessages] = useState<Message[]>(initialMessages);
-    const [content, setContent] = useState("");
+export default function NewTicketPage() {
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const scrollRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        }
-    }, [messages]);
-
-    const handleSendMessage = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!content.trim() || loading) return;
-
         setLoading(true);
         setError("");
 
+        const formData = new FormData(e.currentTarget);
+
         try {
-            const response = await fetch(`/api/support/tickets/${ticketId}`, {
+            const response = await fetch("/api/support/tickets", {
                 method: "POST",
-                body: JSON.stringify({ content }),
-                headers: { "Content-Type": "application/json" }
+                body: JSON.stringify({
+                    subject: formData.get("subject"),
+                    content: formData.get("content"),
+                    priority: formData.get("priority")
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
             });
 
-            if (!response.ok) throw new Error("Failed to send message");
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.error || "Failed to create ticket");
+            }
 
-            // Optimistic update or just refresh
-            const newMessage: Message = {
-                id: Math.random().toString(),
-                content,
-                is_admin: false,
-                created_at: new Date().toISOString(),
-                user_id: currentUserId
-            };
-
-            setMessages([...messages, newMessage]);
-            setContent("");
+            const ticket = await response.json();
+            router.push(`/dashboard/support/${ticket.id}`);
+            router.refresh();
         } catch (err: any) {
             setError(err.message);
-        } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="bg-white rounded-[2.5rem] border border-gray-50 shadow-sm overflow-hidden flex flex-col h-[600px]">
-            {/* Messages Area */}
-            <div
-                ref={scrollRef}
-                className="flex-1 overflow-y-auto p-8 space-y-6 scroll-smooth bg-[#fcfdfe]"
+        <div className="max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <Link
+                href="/dashboard/support"
+                className="inline-flex items-center space-x-2 text-[#737791] hover:text-primary font-black text-xs uppercase tracking-widest mb-8 transition-colors"
             >
-                {messages.length === 0 ? (
-                    <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-                        <MessageCircle size={48} className="mb-4" />
-                        <p className="font-bold text-sm">No messages yet.</p>
+                <ArrowLeft size={16} />
+                <span>Back to Support</span>
+            </Link>
+
+            <div className="bg-white rounded-[3rem] border border-gray-50 shadow-xl shadow-blue-900/5 overflow-hidden">
+                <div className="bg-[#151d48] p-10 text-white relative">
+                    <div className="absolute top-0 right-0 p-8 opacity-10">
+                        <ShieldCheck size={80} />
                     </div>
-                ) : (
-                    messages.map((msg) => (
-                        <div
-                            key={msg.id}
-                            className={`flex ${msg.is_admin ? 'justify-start' : 'justify-end'} animate-in fade-in slide-in-from-bottom-2 duration-300`}
-                        >
-                            <div className={`flex gap-3 max-w-[80%] ${msg.is_admin ? 'flex-row' : 'flex-row-reverse'}`}>
-                                <div className={`w-10 h-10 rounded-xl shrink-0 flex items-center justify-center shadow-sm ${msg.is_admin ? 'bg-primary text-white' : 'bg-[#151d48] text-white'}`}>
-                                    {msg.is_admin ? <ShieldCheck size={20} /> : <User size={20} />}
-                                </div>
-                                <div className="space-y-1">
-                                    <div className={`p-4 rounded-2xl shadow-sm text-sm font-medium leading-relaxed ${msg.is_admin ? 'bg-white border border-gray-100 text-[#151d48] rounded-tl-none' : 'bg-primary text-white rounded-tr-none'}`}>
-                                        {msg.content}
-                                    </div>
-                                    <p className={`text-[10px] font-black uppercase tracking-wider text-gray-400 ${msg.is_admin ? 'text-left' : 'text-right'}`}>
-                                        {msg.is_admin ? 'Support Team' : 'You'} • {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </p>
-                                </div>
+                    <h1 className="text-3xl font-black tracking-tight mb-2">Create New Ticket</h1>
+                    <p className="text-blue-200 font-medium">Please provide as much detail as possible so we can help you.</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="p-10 space-y-8">
+                    {error && (
+                        <div className="bg-red-50 text-red-500 p-4 rounded-2xl flex items-center gap-3 border border-red-100 text-sm font-bold animate-in shake duration-300">
+                            <AlertCircle size={20} />
+                            <span>{error}</span>
+                        </div>
+                    )}
+
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-[10px] font-black text-[#737791] uppercase tracking-[0.2em] mb-2 px-1">Subject</label>
+                            <input
+                                required
+                                name="subject"
+                                type="text"
+                                placeholder="E.g. Payment issue, bug report..."
+                                className="w-full bg-[#f8f9fc] border-2 border-transparent rounded-2xl py-4 px-6 font-bold text-[#151d48] placeholder:text-gray-300 focus:bg-white focus:border-primary/20 transition-all outline-none"
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-[10px] font-black text-[#737791] uppercase tracking-[0.2em] mb-2 px-1">Priority</label>
+                                <select
+                                    name="priority"
+                                    className="w-full bg-[#f8f9fc] border-2 border-transparent rounded-2xl py-4 px-6 font-bold text-[#151d48] focus:bg-white focus:border-primary/20 transition-all outline-none appearance-none cursor-pointer"
+                                >
+                                    <option value="low">Low - General Inquiries</option>
+                                    <option value="medium" selected>Medium - Technical Issues</option>
+                                    <option value="high">High - Security/Critical</option>
+                                </select>
                             </div>
                         </div>
-                    ))
-                )}
-            </div>
 
-            {/* Input Area */}
-            <div className="p-6 bg-white border-t border-gray-50">
-                {error && (
-                    <div className="mb-4 p-3 bg-red-50 text-red-500 rounded-xl text-xs font-bold flex items-center gap-2">
-                        <AlertCircle size={14} />
-                        {error}
+                        <div>
+                            <label className="block text-[10px] font-black text-[#737791] uppercase tracking-[0.2em] mb-2 px-1">Message Detail</label>
+                            <textarea
+                                required
+                                name="content"
+                                rows={6}
+                                placeholder="Describe your issue in detail..."
+                                className="w-full bg-[#f8f9fc] border-2 border-transparent rounded-2xl py-4 px-6 font-bold text-[#151d48] placeholder:text-gray-300 focus:bg-white focus:border-primary/20 transition-all outline-none resize-none"
+                            ></textarea>
+                        </div>
                     </div>
-                )}
-                <form onSubmit={handleSendMessage} className="relative">
-                    <textarea
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                handleSendMessage(e);
-                            }
-                        }}
-                        placeholder="Type your message here..."
-                        className="w-full bg-gray-50 border-2 border-transparent rounded-2xl py-4 pl-6 pr-16 font-bold text-[#151d48] placeholder:text-gray-300 focus:bg-white focus:border-primary/20 transition-all outline-none resize-none min-h-[60px]"
-                        rows={1}
-                    ></textarea>
+
                     <button
+                        disabled={loading}
                         type="submit"
-                        disabled={!content.trim() || loading}
-                        className="absolute right-3 top-3 w-10 h-10 bg-[#151d48] text-white rounded-xl shadow-lg shadow-blue-900/20 hover:secondary active:scale-90 transition-all flex items-center justify-center disabled:opacity-50 disabled:grayscale"
+                        className="w-full bg-[#151d48] text-white py-5 rounded-2xl font-black shadow-lg shadow-blue-900/20 hover:secondary active:scale-[0.98] transition-all flex items-center justify-center space-x-3 text-sm uppercase tracking-[0.2em] disabled:opacity-50"
                     >
-                        {loading ? <Loader2 className="animate-spin" size={20} /> : <Send size={20} />}
+                        {loading ? (
+                            <Loader2 className="animate-spin" size={20} />
+                        ) : (
+                            <>
+                                <Send size={20} />
+                                <span>Submit Ticket</span>
+                            </>
+                        )}
                     </button>
                 </form>
-                <p className="text-[10px] font-bold text-gray-400 mt-3 text-center uppercase tracking-widest">Shift + Enter for new line</p>
             </div>
         </div>
     );
 }
-
-// Missing import fix
-import { MessageCircle } from "lucide-react";

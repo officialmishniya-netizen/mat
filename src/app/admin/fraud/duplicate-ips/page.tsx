@@ -42,7 +42,7 @@ export default async function DuplicateIPsPage() {
           Duplicate IP Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          IPs with 2+ distinct accounts — {settings.site_name}
+          IPs with 2+ distinct accounts â€” {settings.site_name}
         </p>
       </div>
 
@@ -90,7 +90,7 @@ export default async function DuplicateIPsPage() {
                 const risk = Number(group.userCount) >= 5 ? "critical" : Number(group.userCount) >= 3 ? "high_risk" : "suspicious";
                 return (
                   <tr key={group.ip} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-mono text-sm">{group.ip ?? "—"}</td>
+                    <td className="px-6 py-4 font-mono text-sm">{group.ip ?? "â€”"}</td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center gap-1 font-bold text-orange-600">
                         <AlertTriangle size={14} />
@@ -98,7 +98,7 @@ export default async function DuplicateIPsPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-gray-400 text-xs">
-                      {group.latestView ? new Date(group.latestView).toLocaleDateString() : "—"}
+                      {group.latestView ? new Date(group.latestView).toLocaleDateString() : "â€”"}
                     </td>
                     <td className="px-6 py-4">
                       <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full

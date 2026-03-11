@@ -47,7 +47,7 @@ export default async function SelfReferralPage() {
           Self-Referral Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Cross-referenced referral pairs with shared IPs — {settings.site_name}
+          Cross-referenced referral pairs with shared IPs â€” {settings.site_name}
         </p>
       </div>
 

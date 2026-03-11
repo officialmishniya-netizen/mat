@@ -27,13 +27,13 @@ export default async function LandingPage() {
       icon: Users,
       gradient: "from-blue-500 to-indigo-600",
       title: "Auto-Fill Matrix",
-      desc: "Buy a spot in our BFS-powered matrix tree. The algorithm fills your downline automatically — you profit from your entire upline's activity.",
+      desc: "Buy a spot in our BFS-powered matrix tree. The algorithm fills your downline automatically â€” you profit from your entire upline's activity.",
     },
     {
       icon: TrendingUp,
       gradient: "from-emerald-500 to-teal-500",
       title: "Matching Bonuses",
-      desc: "When anyone on your team earns, you earn too. Our matching engine triggers automatically across all levels — 100% passive on top of active income.",
+      desc: "When anyone on your team earns, you earn too. Our matching engine triggers automatically across all levels â€” 100% passive on top of active income.",
     },
     {
       icon: Zap,
@@ -45,13 +45,13 @@ export default async function LandingPage() {
       icon: Globe,
       gradient: "from-violet-500 to-purple-600",
       title: "Global Reach",
-      desc: "Members in 90+ countries. Multilingual support, global payment gateways — earn and withdraw from anywhere on the planet, anytime.",
+      desc: "Members in 90+ countries. Multilingual support, global payment gateways â€” earn and withdraw from anywhere on the planet, anytime.",
     },
     {
       icon: Lock,
       gradient: "from-slate-500 to-gray-600",
       title: "Bank-Grade Security",
-      desc: "2FA enforced on every withdrawal. Every cent tracked via a cryptographic audit ledger — zero floating-point errors, tamper-proof by design.",
+      desc: "2FA enforced on every withdrawal. Every cent tracked via a cryptographic audit ledger â€” zero floating-point errors, tamper-proof by design.",
     },
   ];
 
@@ -63,31 +63,31 @@ export default async function LandingPage() {
   ];
 
   const testimonials = [
-    { name: "Daniel R.", country: "🇺🇸 United States", avatar: "DR", text: "I was skeptical at first. After 3 months I've withdrawn over $800. The matrix really does auto-fill — my uplines are incredibly active.", stars: 5 },
-    { name: "Fatima K.", country: "🇵🇰 Pakistan", avatar: "FK", text: "Finally a platform that actually pays. Every transaction is auditable. Transparent, trustworthy, and the team is very responsive.", stars: 5 },
-    { name: "Marcus T.", country: "🇳🇬 Nigeria", avatar: "MT", text: "My team has 200+ members and I earn passively every single day without lifting a finger. The matching bonuses are absolutely insane.", stars: 5 },
+    { name: "Daniel R.", country: "ðŸ‡ºðŸ‡¸ United States", avatar: "DR", text: "I was skeptical at first. After 3 months I've withdrawn over $800. The matrix really does auto-fill â€” my uplines are incredibly active.", stars: 5 },
+    { name: "Fatima K.", country: "ðŸ‡µðŸ‡° Pakistan", avatar: "FK", text: "Finally a platform that actually pays. Every transaction is auditable. Transparent, trustworthy, and the team is very responsive.", stars: 5 },
+    { name: "Marcus T.", country: "ðŸ‡³ðŸ‡¬ Nigeria", avatar: "MT", text: "My team has 200+ members and I earn passively every single day without lifting a finger. The matching bonuses are absolutely insane.", stars: 5 },
   ];
 
   const plans = [
     { name: "Starter",  price: "$10",  credits: "1,000", perCredit: "$0.01",   cyclePayout: "$20.00",  sponsor: "$2.78",   highlight: false, badge: "" },
     { name: "Basic",    price: "$25",  credits: "2,000", perCredit: "$0.0175", cyclePayout: "$50.00",  sponsor: "$6.94",   highlight: false, badge: "" },
     { name: "Standard", price: "$100", credits: "3,000", perCredit: "$0.033",  cyclePayout: "$200.00", sponsor: "$22.50",  highlight: false, badge: "" },
-    { name: "Advanced", price: "$200", credits: "4,000", perCredit: "$0.05",   cyclePayout: "$400.00", sponsor: "$51.00",  highlight: true,  badge: "★ Most Popular" },
+    { name: "Advanced", price: "$200", credits: "4,000", perCredit: "$0.05",   cyclePayout: "$400.00", sponsor: "$51.00",  highlight: true,  badge: "â˜… Most Popular" },
     { name: "Pro",      price: "$520", credits: "5,000", perCredit: "$0.104",  cyclePayout: "$1,100.00", sponsor: "$144.30", highlight: false, badge: "Best Value" },
   ];
 
   const tickerItems = [
-    "🟢 Ahmad W. just joined", "🟢 James K. just joined", "🟢 Priya S. just joined",
-    "🟢 Carlos M. just joined from Mexico", "🟢 Sarah L. just joined", "🟢 David O. just joined",
-    "🟢 Nour A. just joined", "🟢 Wei C. just joined",
-    "🟢 Michael R. just joined", "🟢 Emma T. just joined", "🟢 Liam H. just joined",
-    "🟢 Sofia G. just joined from Brazil", "🟢 Noah J. just joined", "🟢 Isabella P. just joined",
+    "ðŸŸ¢ Ahmad W. just joined", "ðŸŸ¢ James K. just joined", "ðŸŸ¢ Priya S. just joined",
+    "ðŸŸ¢ Carlos M. just joined from Mexico", "ðŸŸ¢ Sarah L. just joined", "ðŸŸ¢ David O. just joined",
+    "ðŸŸ¢ Nour A. just joined", "ðŸŸ¢ Wei C. just joined",
+    "ðŸŸ¢ Michael R. just joined", "ðŸŸ¢ Emma T. just joined", "ðŸŸ¢ Liam H. just joined",
+    "ðŸŸ¢ Sofia G. just joined from Brazil", "ðŸŸ¢ Noah J. just joined", "ðŸŸ¢ Isabella P. just joined",
   ];
 
   return (
     <div className="min-h-screen bg-[#07070f] text-white selection:bg-orange-500 selection:text-white overflow-x-hidden">
 
-      {/* ══ STICKY NAV ══ */}
+      {/* â•â• STICKY NAV â•â• */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#07070f]/80 backdrop-blur-2xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
@@ -104,14 +104,14 @@ export default async function LandingPage() {
             <div className="flex items-center gap-3 animate-fade-in delay-200">
               <Link href="/auth/login" className="text-sm font-semibold text-white/60 hover:text-white transition-colors">Log In</Link>
               <Link href="/auth/register" className="text-sm font-black px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 animate-gradient hover:scale-105 transition-transform shadow-lg shadow-orange-900/40">
-                Join Free →
+                Join Free â†’
               </Link>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* ══ HERO ══ */}
+      {/* â•â• HERO â•â• */}
       <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
 
         {/* Animated blobs */}
@@ -133,7 +133,7 @@ export default async function LandingPage() {
           {/* Live badge */}
           <div className="animate-fade-up inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-8 hover:bg-white/8 transition-colors cursor-default">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold text-white/60 uppercase tracking-[0.15em]">Live & Paying — est. 2026</span>
+            <span className="text-xs font-bold text-white/60 uppercase tracking-[0.15em]">Live & Paying â€” est. 2026</span>
           </div>
 
           {/* Headline */}
@@ -192,7 +192,7 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ══ LIVE TICKER ══ */}
+      {/* â•â• LIVE TICKER â•â• */}
       <div className="border-y border-white/5 bg-white/[0.02] py-3 overflow-hidden">
         <div className="flex animate-ticker whitespace-nowrap">
           {tickerItems.map((item, i) => (
@@ -204,7 +204,7 @@ export default async function LandingPage() {
         </div>
       </div>
 
-      {/* ══ FEATURES ══ */}
+      {/* â•â• FEATURES â•â• */}
       <section id="features" className="py-28 relative">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-violet-600/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -214,7 +214,7 @@ export default async function LandingPage() {
               Six Earning Engines.<br /><span className="text-white/30">One Unstoppable Platform.</span>
             </h2>
             <p className="mt-5 max-w-xl mx-auto text-white/45">
-              No fluff, no hype. Six real mechanisms that work together to multiply your income — automatically.
+              No fluff, no hype. Six real mechanisms that work together to multiply your income â€” automatically.
             </p>
           </ScrollReveal>
 
@@ -237,7 +237,7 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ══ HOW IT WORKS ══ */}
+      {/* â•â• HOW IT WORKS â•â• */}
       <section id="how-it-works" className="py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-950/8 to-transparent pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -270,7 +270,7 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ══ VERIFIED EARNINGS ══ */}
+      {/* â•â• VERIFIED EARNINGS â•â• */}
       <section className="py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-br from-[#111118] to-[#0c0c14]">
@@ -289,7 +289,7 @@ export default async function LandingPage() {
                   Every Cent Tracked.<br /><span className="text-orange-400">Every Transaction Verified.</span>
                 </h2>
                 <p className="text-white/45 text-base leading-relaxed mb-4">
-                  From a $0.01 ad click to a $500 matrix cycle — every event is recorded on our tamper-proof internal ledger.
+                  From a $0.01 ad click to a $500 matrix cycle â€” every event is recorded on our tamper-proof internal ledger.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link
@@ -341,7 +341,7 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ══ PLANS ══ */}
+      {/* â•â• PLANS â•â• */}
       <section id="plans" className="py-28 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-orange-600/5 rounded-full blur-[140px]" />
@@ -354,7 +354,7 @@ export default async function LandingPage() {
               Your Money.<br /><span className="text-white/30">Working For You.</span>
             </h2>
             <p className="mt-5 max-w-xl mx-auto text-white/45">
-              Buy a position once. Click premium ads. Watch your payout arrive — automatically.
+              Buy a position once. Click premium ads. Watch your payout arrive â€” automatically.
             </p>
           </ScrollReveal>
 
@@ -467,17 +467,17 @@ export default async function LandingPage() {
           <ScrollReveal className="mt-10 flex flex-wrap gap-6 justify-center">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
-              <span className="text-white/30 text-xs">Cycle Payout — total earned when all credits are clicked</span>
+              <span className="text-white/30 text-xs">Cycle Payout â€” total earned when all credits are clicked</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0" />
-              <span className="text-white/30 text-xs">Sponsor Bonus — 15% goes to your referrer</span>
+              <span className="text-white/30 text-xs">Sponsor Bonus â€” 15% goes to your referrer</span>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      {/* ══ FOOTER ══ */}
+      {/* â•â• FOOTER â•â• */}
       <footer className="border-t border-white/5 bg-[#050509]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 py-16">
@@ -498,7 +498,7 @@ export default async function LandingPage() {
             </div>
           </div>
           <div className="border-t border-white/5 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-white/25 text-sm">© 2026 {settings.site_name}. All rights reserved.</p>
+            <p className="text-white/25 text-sm">Â© 2026 {settings.site_name}. All rights reserved.</p>
           </div>
         </div>
       </footer>

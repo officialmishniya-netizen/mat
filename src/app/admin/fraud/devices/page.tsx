@@ -40,7 +40,7 @@ export default async function DeviceClustersPage() {
           Device Fingerprint Clusters
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Multiple accounts sharing the same device fingerprint — {settings.site_name}
+          Multiple accounts sharing the same device fingerprint â€” {settings.site_name}
         </p>
       </div>
 
@@ -49,7 +49,7 @@ export default async function DeviceClustersPage() {
           { label: "Device Clusters", value: rows.length, color: "text-red-600" },
           { label: "Accounts in Clusters", value: totalAccounts, color: "text-orange-600" },
           { label: "Largest Cluster", value: rows[0] ? Number(rows[0].account_count) : 0, color: "text-yellow-600" },
-          { label: "Fingerprints Collected", value: "–", color: "text-gray-500" },
+          { label: "Fingerprints Collected", value: "â€“", color: "text-gray-500" },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
             <div className={`text-2xl font-black mb-1 ${s.color}`}>{s.value}</div>
@@ -78,7 +78,7 @@ export default async function DeviceClustersPage() {
                 ${risk === "critical" ? "bg-red-50 border-red-100" : risk === "high_risk" ? "bg-orange-50 border-orange-100" : "bg-gray-50 border-gray-100"}`}>
                 <div className="flex items-center gap-2">
                   <Fingerprint size={14} className={risk === "critical" ? "text-red-600" : risk === "high_risk" ? "text-orange-600" : "text-gray-400"} />
-                  <span className="text-xs font-mono text-gray-400">{cluster.fingerprint_hash?.slice(0, 12)}…</span>
+                  <span className="text-xs font-mono text-gray-400">{cluster.fingerprint_hash?.slice(0, 12)}â€¦</span>
                 </div>
                 <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full
                   ${risk === "critical" ? "bg-red-100 text-red-700" : risk === "high_risk" ? "bg-orange-100 text-orange-700" : "bg-yellow-100 text-yellow-700"}`}>

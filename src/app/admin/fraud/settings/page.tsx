@@ -35,7 +35,7 @@ export default async function FraudSettingsPage() {
           Fraud Settings
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Configure all 11 detector thresholds — {settings.site_name}
+          Configure all 11 detector thresholds â€” {settings.site_name}
         </p>
       </div>
       <FraudSettingsForm config={cfg} />

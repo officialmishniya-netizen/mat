@@ -70,9 +70,9 @@ export function MessagesClient({ currentUser, initialContacts }: { currentUser: 
     };
 
     const templates = [
-        "Welcome to the team! 👋 Let me know if you need any help getting started.",
-        "Hey! Don't forget to click your daily ads to trigger your cycle bonuses. ⚡",
-        "Great job on your recent progress! Keep up the momentum. 🔥"
+        "Welcome to the team! ðŸ‘‹ Let me know if you need any help getting started.",
+        "Hey! Don't forget to click your daily ads to trigger your cycle bonuses. âš¡",
+        "Great job on your recent progress! Keep up the momentum. ðŸ”¥"
     ];
 
     const activeMessages = messages.filter(

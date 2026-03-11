@@ -51,7 +51,7 @@ export default async function EarningsMismatchPage() {
           Earnings Mismatch Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Actual ledger earnings exceeding explained watch history — {settings.site_name}
+          Actual ledger earnings exceeding explained watch history â€” {settings.site_name}
         </p>
       </div>
 
@@ -71,7 +71,7 @@ export default async function EarningsMismatchPage() {
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100">
-          <h2 className="font-bold text-[#151d48]">Flagged Accounts — Earnings Beyond Watch History</h2>
+          <h2 className="font-bold text-[#151d48]">Flagged Accounts â€” Earnings Beyond Watch History</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

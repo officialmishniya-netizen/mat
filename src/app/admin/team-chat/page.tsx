@@ -105,7 +105,7 @@ export default function AdminChatModerationPage() {
                             {['scam', 'spam', 'fake', 'payout', 'admin', 'password'].map((word) => (
                                 <div key={word} className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100 flex items-center gap-2">
                                     <span className="text-xs font-bold text-[#444a6d]">{word}</span>
-                                    <button className="text-gray-300 hover:text-red-500 transition-colors">×</button>
+                                    <button className="text-gray-300 hover:text-red-500 transition-colors">Ã—</button>
                                 </div>
                             ))}
                             <button className="px-3 py-1.5 rounded-xl border-2 border-dashed border-gray-100 text-gray-300 hover:border-primary hover:text-primary transition-all">

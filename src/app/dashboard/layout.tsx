@@ -81,7 +81,7 @@ export default async function DashboardLayout({
                 {/* Top Warning Banner for Impersonation */}
                 {isImpersonating && (
                     <div className="bg-red-600 text-white p-2 text-center text-[10px] font-black uppercase tracking-widest flex justify-center items-center space-x-4 z-50">
-                        <span>⚠️ Impersonating {user.username}</span>
+                        <span>âš ï¸ Impersonating {user.username}</span>
                         <form action={async () => { "use server"; const { stopImpersonation } = await import("@/app/actions/impersonate"); await stopImpersonation(); }}>
                             <button className="bg-white text-red-600 px-3 py-1 rounded-lg text-xs hover:bg-gray-100 font-bold transition-colors">Stop</button>
                         </form>

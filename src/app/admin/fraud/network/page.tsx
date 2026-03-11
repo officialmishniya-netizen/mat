@@ -60,7 +60,7 @@ export default async function NetworkGraphPage() {
           Account Network Graph
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Visual map of connections — {settings.site_name} · {nodes.length} nodes · {edges.length} edges
+          Visual map of connections â€” {settings.site_name} Â· {nodes.length} nodes Â· {edges.length} edges
         </p>
       </div>
 

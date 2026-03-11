@@ -70,7 +70,7 @@ export default function GroupChat({ currentUserId, channelId, channelName }: { c
                     <h2 className="font-bold text-blue-900">{channelName}</h2>
                     <p className="text-xs text-blue-600">End-to-End Encrypted Team Chat</p>
                 </div>
-                <span className="text-2xl">🛡️</span>
+                <span className="text-2xl">ðŸ›¡ï¸</span>
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-4" ref={scrollRef}>

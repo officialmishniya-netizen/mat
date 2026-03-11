@@ -1,80 +1,136 @@
-import { createServerSupabaseClient } from "@/lib/supabase-server";
-import { getTicketWithMessages } from "@/lib/tickets";
-import { redirect } from "next/navigation";
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
     ArrowLeft,
-    MessageCircle,
-    User,
-    ShieldCheck,
-    Clock,
-    CheckCircle2
+    Send,
+    AlertCircle,
+    Loader2,
+    ShieldCheck
 } from "lucide-react";
-import { TicketChat } from "./TicketChat";
+import Link from "next/link";
 
-export default async function TicketDetailPage({ params }: { params: { id: string } }) {
-    const supabase = await createServerSupabaseClient();
-    const { data: { session } } = await supabase.auth.getSession();
+export default function NewTicketPage() {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-    if (!session) redirect("/auth/login");
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
 
-    const ticket = await getTicketWithMessages(params.id);
+        const formData = new FormData(e.currentTarget);
 
-    if (ticket.user_id !== session.user.id) {
-        return <div className="p-8 text-center text-red-500 font-bold">Unauthorized access to ticket.</div>;
-    }
+        try {
+            const response = await fetch("/api/support/tickets", {
+                method: "POST",
+                body: JSON.stringify({
+                    subject: formData.get("subject"),
+                    content: formData.get("content"),
+                    priority: formData.get("priority")
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
 
-    const getStatusStyle = (status: string) => {
-        switch (status) {
-            case 'open': return 'bg-blue-50 text-blue-600 border-blue-100';
-            case 'answered': return 'bg-green-50 text-green-600 border-green-100';
-            case 'closed': return 'bg-gray-50 text-gray-400 border-gray-100';
-            default: return 'bg-gray-50 text-gray-500 border-gray-100';
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.error || "Failed to create ticket");
+            }
+
+            const ticket = await response.json();
+            router.push(`/dashboard/support/${ticket.id}`);
+            router.refresh();
+        } catch (err: any) {
+            setError(err.message);
+            setLoading(false);
         }
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
             <Link
                 href="/dashboard/support"
-                className="inline-flex items-center space-x-2 text-[#737791] hover:text-primary font-black text-xs uppercase tracking-widest transition-colors"
+                className="inline-flex items-center space-x-2 text-[#737791] hover:text-primary font-black text-xs uppercase tracking-widest mb-8 transition-colors"
             >
                 <ArrowLeft size={16} />
-                <span>Back to All Tickets</span>
+                <span>Back to Support</span>
             </Link>
 
-            <div className="bg-white rounded-[2.5rem] border border-gray-50 shadow-sm overflow-hidden flex flex-col md:flex-row">
-                <div className="p-8 flex-1 border-b md:border-b-0 md:border-r border-gray-50">
-                    <div className="flex items-center gap-3 mb-4">
-                        <h1 className="text-2xl font-black text-[#151d48] tracking-tight">{ticket.subject}</h1>
-                        <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md border ${getStatusStyle(ticket.status)}`}>
-                            {ticket.status}
-                        </span>
+            <div className="bg-white rounded-[3rem] border border-gray-50 shadow-xl shadow-blue-900/5 overflow-hidden">
+                <div className="bg-[#151d48] p-10 text-white relative">
+                    <div className="absolute top-0 right-0 p-8 opacity-10">
+                        <ShieldCheck size={80} />
                     </div>
-
-                    <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-[#737791]">
-                        <div className="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
-                            <Clock size={14} className="text-gray-400" />
-                            <span>Ticket ID: {ticket.id.split('-')[0].toUpperCase()}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
-                            <CheckCircle2 size={14} className="text-gray-400" />
-                            <span>Priority: {ticket.priority.toUpperCase()}</span>
-                        </div>
-                    </div>
+                    <h1 className="text-3xl font-black tracking-tight mb-2">Create New Ticket</h1>
+                    <p className="text-blue-200 font-medium">Please provide as much detail as possible so we can help you.</p>
                 </div>
 
-                <div className="p-8 bg-gray-50/50 flex flex-col justify-center min-w-[200px]">
-                    <p className="text-[10px] font-black text-gray-400 mb-1 uppercase tracking-widest">Created At</p>
-                    <p className="text-sm font-bold text-[#151d48]">{new Date(ticket.created_at).toLocaleString()}</p>
-                    <div className="mt-4 pt-4 border-t border-gray-100">
-                        <p className="text-[10px] font-black text-gray-400 mb-1 uppercase tracking-widest">Last Activity</p>
-                        <p className="text-sm font-bold text-primary">{new Date(ticket.updated_at).toLocaleTimeString()}</p>
+                <form onSubmit={handleSubmit} className="p-10 space-y-8">
+                    {error && (
+                        <div className="bg-red-50 text-red-500 p-4 rounded-2xl flex items-center gap-3 border border-red-100 text-sm font-bold animate-in shake duration-300">
+                            <AlertCircle size={20} />
+                            <span>{error}</span>
+                        </div>
+                    )}
+
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-[10px] font-black text-[#737791] uppercase tracking-[0.2em] mb-2 px-1">Subject</label>
+                            <input
+                                required
+                                name="subject"
+                                type="text"
+                                placeholder="E.g. Payment issue, bug report..."
+                                className="w-full bg-[#f8f9fc] border-2 border-transparent rounded-2xl py-4 px-6 font-bold text-[#151d48] placeholder:text-gray-300 focus:bg-white focus:border-primary/20 transition-all outline-none"
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-[10px] font-black text-[#737791] uppercase tracking-[0.2em] mb-2 px-1">Priority</label>
+                                <select
+                                    name="priority"
+                                    className="w-full bg-[#f8f9fc] border-2 border-transparent rounded-2xl py-4 px-6 font-bold text-[#151d48] focus:bg-white focus:border-primary/20 transition-all outline-none appearance-none cursor-pointer"
+                                >
+                                    <option value="low">Low - General Inquiries</option>
+                                    <option value="medium" selected>Medium - Technical Issues</option>
+                                    <option value="high">High - Security/Critical</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-[10px] font-black text-[#737791] uppercase tracking-[0.2em] mb-2 px-1">Message Detail</label>
+                            <textarea
+                                required
+                                name="content"
+                                rows={6}
+                                placeholder="Describe your issue in detail..."
+                                className="w-full bg-[#f8f9fc] border-2 border-transparent rounded-2xl py-4 px-6 font-bold text-[#151d48] placeholder:text-gray-300 focus:bg-white focus:border-primary/20 transition-all outline-none resize-none"
+                            ></textarea>
+                        </div>
                     </div>
-                </div>
+
+                    <button
+                        disabled={loading}
+                        type="submit"
+                        className="w-full bg-[#151d48] text-white py-5 rounded-2xl font-black shadow-lg shadow-blue-900/20 hover:secondary active:scale-[0.98] transition-all flex items-center justify-center space-x-3 text-sm uppercase tracking-[0.2em] disabled:opacity-50"
+                    >
+                        {loading ? (
+                            <Loader2 className="animate-spin" size={20} />
+                        ) : (
+                            <>
+                                <Send size={20} />
+                                <span>Submit Ticket</span>
+                            </>
+                        )}
+                    </button>
+                </form>
             </div>
-
-            <TicketChat ticketId={ticket.id} initialMessages={ticket.messages} currentUserId={session.user.id} />
         </div>
     );
 }

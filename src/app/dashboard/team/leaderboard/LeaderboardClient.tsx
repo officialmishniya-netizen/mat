@@ -62,7 +62,7 @@ export function LeaderboardClient({ initialLeaderboard }: { initialLeaderboard: 
                             <h3 className="font-bold text-[#151d48] truncate">{initialLeaderboard[1].username}</h3>
                             <p className="text-2xl font-black text-gray-500">{initialLeaderboard[1].referrals}</p>
                             <p className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Referrals</p>
-                            <span className="absolute -top-4 right-2 text-3xl">🥈</span>
+                            <span className="absolute -top-4 right-2 text-3xl">ðŸ¥ˆ</span>
                         </div>
                     </div>
                 )}
@@ -78,7 +78,7 @@ export function LeaderboardClient({ initialLeaderboard }: { initialLeaderboard: 
                             <h3 className="font-black text-[#151d48] text-lg truncate">{initialLeaderboard[0].username}</h3>
                             <p className="text-3xl font-black text-yellow-600">{initialLeaderboard[0].referrals}</p>
                             <p className="text-xs uppercase tracking-widest font-bold text-yellow-700/60">Referrals</p>
-                            <span className="absolute -top-4 right-2 text-3xl">🥇</span>
+                            <span className="absolute -top-4 right-2 text-3xl">ðŸ¥‡</span>
                         </div>
                     </div>
                 )}
@@ -93,7 +93,7 @@ export function LeaderboardClient({ initialLeaderboard }: { initialLeaderboard: 
                             <h3 className="font-bold text-[#151d48] truncate">{initialLeaderboard[2].username}</h3>
                             <p className="text-2xl font-black text-amber-700">{initialLeaderboard[2].referrals}</p>
                             <p className="text-[10px] uppercase tracking-widest font-bold text-amber-700/60">Referrals</p>
-                            <span className="absolute -top-4 right-2 text-3xl">🥉</span>
+                            <span className="absolute -top-4 right-2 text-3xl">ðŸ¥‰</span>
                         </div>
                     </div>
                 )}

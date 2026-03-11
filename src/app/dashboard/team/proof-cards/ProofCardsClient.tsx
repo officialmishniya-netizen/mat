@@ -15,9 +15,9 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
     const cardRef = useRef<HTMLDivElement>(null);
 
     const captions = [
-        `Just hit $${amount} in passive income with MatClick! 🚀 It's fully automated and free to join. Check out my link in bio to start earning today! #PassiveIncome #PTC #Crypto`,
-        `Another milestone reached! 💸 Earning daily with MatClick has been a game-changer. Want to learn how? Join my team for free: [Your Link] #EarnOnline #SideHustle`,
-        `Who said making money online was hard? Simply clicking ads and building a team on MatClick got me to $${amount}! Join my network and let's grow together 📈 #TeamBuilding`
+        `Just hit $${amount} in passive income with MatClick! ðŸš€ It's fully automated and free to join. Check out my link in bio to start earning today! #PassiveIncome #PTC #Crypto`,
+        `Another milestone reached! ðŸ’¸ Earning daily with MatClick has been a game-changer. Want to learn how? Join my team for free: [Your Link] #EarnOnline #SideHustle`,
+        `Who said making money online was hard? Simply clicking ads and building a team on MatClick got me to $${amount}! Join my network and let's grow together ðŸ“ˆ #TeamBuilding`
     ];
 
     const handleDownload = () => {
