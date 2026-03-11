@@ -1,0 +1,40 @@
+{
+    "dashboard": {
+        "overview": "Aperçu",
+        "my_matrix": "Ma Matrice",
+        "ad_cycles": "Cycles de Publicité",
+        "promo_center": "Centre de Promotion",
+        "community": "Communauté",
+        "admin_panel": "Panneau d'Administration",
+        "sign_out": "Déconnexion",
+        "welcome_back": "Bon retour ! Voici votre pouls de gain pour aujourd'hui.",
+        "available_balance": "Solde Disponible",
+        "matrix_positions": "Positions de Matrice",
+        "total_referrals": "Total des Références",
+        "active_cycles": "Cycles Actifs",
+        "ad_cycle_progress": "Progression du Cycle de Pub",
+        "watch_ads_now": "Regarder les Pubs Maintenant",
+        "explore_ad_plans": "Explorer les Plans de Pub",
+        "recruitment_hub": "Centre de Recrutement",
+        "copy_referral_link": "Copier le Lien de Parrainage"
+    },
+    "admin": {
+        "dashboard": "Tableau de Bord",
+        "marketing_hub": "Centre de Marketing",
+        "user_management": "Gestion des Utilisateurs",
+        "ad_cycle_center": "Centre de Cycle de Pub",
+        "marketplace": "Boutique",
+        "matrix_levels": "Matrice & Niveaux",
+        "finance_ledger": "Finance & Grand Livre",
+        "community": "Communauté",
+        "system_settings": "Paramètres du Système"
+    },
+    "ptc": {
+        "clicks_completed": "Clics Complétés",
+        "payout_on_cycle": "Paiement sur Cycle",
+        "earning_per_click": "Gain par Clic",
+        "clicks_per_cycle": "Clics par Cycle",
+        "daily_click_limit": "Limite de Clic Quotidienne",
+        "purchase_level": "Acheter le Niveau"
+    }
+}

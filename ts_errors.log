@@ -1,0 +1,58 @@
+.next/types/app/dashboard/matrix/page.ts(8,13): error TS2344: Type 'OmitWithTag<typeof import("D:/ptcmatrix/src/app/dashboard/matrix/page"), "default" | "config" | "generateStaticParams" | "revalidate" | "dynamic" | "dynamicParams" | "fetchCache" | "preferredRegion" | ... 5 more ... | "generateViewport", "">' does not satisfy the constraint '{ [x: string]: never; }'.
+  Property 'MatrixTree' is incompatible with index signature.
+    Type '({ root }: { root: MatrixNode | null; }) => Element' is not assignable to type 'never'.
+src/app/admin/fraud/bots/page.tsx(49,27): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/devices/page.tsx(32,26): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/dormant/page.tsx(50,25): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/earnings-mismatch/page.tsx(43,26): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/network/page.tsx(49,27): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/network/page.tsx(51,17): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/network/page.tsx(52,18): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/self-referral/page.tsx(40,23): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/settings/FraudSettingsForm.tsx(4,24): error TS2307: Cannot find module '@/components/ui/toggle' or its corresponding type declarations.
+src/app/admin/fraud/speed-violations/page.tsx(33,28): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/withdrawals/page.tsx(42,15): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/withdrawals/page.tsx(43,15): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/withdrawals/page.tsx(61,60): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/fraud/withdrawals/page.tsx(62,61): error TS2339: Property 'rows' does not exist on type 'RowList<Record<string, unknown>[]>'.
+src/app/admin/users/UsersClient.tsx(501,128): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'Date | undefined'.
+  Type 'number' is not assignable to type 'Date'.
+src/app/admin/users/UsersClient.tsx(510,132): error TS2554: Expected 2 arguments, but got 3.
+src/app/api/admin/fraud/clawback/route.ts(17,7): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(value: { user_id: string | SQL<unknown> | Placeholder<string, any>; amount: string | SQL<unknown> | Placeholder<string, any>; type: string | SQL<unknown> | Placeholder<...>; id?: string | ... 2 more ... | undefined; created_at?: SQL<...> | ... 2 more ... | undefined; reference_id?: string | ... 3 more ... | undefined; }): PgInsertBase<...>', gave the following error.
+    Object literal may only specify known properties, but 'userId' does not exist in type '{ user_id: string | SQL<unknown> | Placeholder<string, any>; amount: string | SQL<unknown> | Placeholder<string, any>; type: string | SQL<unknown> | Placeholder<string, any>; id?: string | ... 2 more ... | undefined; created_at?: SQL<...> | ... 2 more ... | undefined; reference_id?: string | ... 3 more ... | undefin...'. Did you mean to write 'user_id'?
+  Overload 2 of 2, '(values: { user_id: string | SQL<unknown> | Placeholder<string, any>; amount: string | SQL<unknown> | Placeholder<string, any>; type: string | SQL<unknown> | Placeholder<...>; id?: string | ... 2 more ... | undefined; created_at?: SQL<...> | ... 2 more ... | undefined; reference_id?: string | ... 3 more ... | undefined; }[]): PgInsertBase<...>', gave the following error.
+    Object literal may only specify known properties, and 'userId' does not exist in type '{ user_id: string | SQL<unknown> | Placeholder<string, any>; amount: string | SQL<unknown> | Placeholder<string, any>; type: string | SQL<unknown> | Placeholder<string, any>; id?: string | ... 2 more ... | undefined; created_at?: SQL<...> | ... 2 more ... | undefined; reference_id?: string | ... 3 more ... | undefin...'.
+src/app/api/admin/fraud/clawback/route.ts(37,36): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(value: { description: string | SQL<unknown> | Placeholder<string, any>; adminId: string | SQL<unknown> | Placeholder<string, any>; category: string | SQL<unknown> | Placeholder<...>; ... 12 more ...; reversedByAdminId?: string | ... 3 more ... | undefined; }): PgInsertBase<...>', gave the following error.
+    Object literal may only specify known properties, and 'reason' does not exist in type '{ description: string | SQL<unknown> | Placeholder<string, any>; adminId: string | SQL<unknown> | Placeholder<string, any>; category: string | SQL<unknown> | Placeholder<...>; ... 12 more ...; reversedByAdminId?: string | ... 3 more ... | undefined; }'.
+  Overload 2 of 2, '(values: { description: string | SQL<unknown> | Placeholder<string, any>; adminId: string | SQL<unknown> | Placeholder<string, any>; category: string | SQL<unknown> | Placeholder<...>; ... 12 more ...; reversedByAdminId?: string | ... 3 more ... | undefined; }[]): PgInsertBase<...>', gave the following error.
+    Object literal may only specify known properties, and 'adminId' does not exist in type '{ description: string | SQL<unknown> | Placeholder<string, any>; adminId: string | SQL<unknown> | Placeholder<string, any>; category: string | SQL<unknown> | Placeholder<...>; ... 12 more ...; reversedByAdminId?: string | ... 3 more ... | undefined; }[]'.
+src/app/api/team/follow-ups/route.ts(36,58): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(value: { name: string | SQL<unknown> | Placeholder<string, any>; userId: string | SQL<unknown> | Placeholder<string, any>; triggerType: string | SQL<unknown> | Placeholder<...>; ... 6 more ...; templateSubject?: string | ... 3 more ... | undefined; }): PgInsertBase<...>', gave the following error.
+    Object literal may only specify known properties, and 'condition' does not exist in type '{ name: string | SQL<unknown> | Placeholder<string, any>; userId: string | SQL<unknown> | Placeholder<string, any>; triggerType: string | SQL<unknown> | Placeholder<...>; ... 6 more ...; templateSubject?: string | ... 3 more ... | undefined; }'.
+  Overload 2 of 2, '(values: { name: string | SQL<unknown> | Placeholder<string, any>; userId: string | SQL<unknown> | Placeholder<string, any>; triggerType: string | SQL<unknown> | Placeholder<...>; ... 6 more ...; templateSubject?: string | ... 3 more ... | undefined; }[]): PgInsertBase<...>', gave the following error.
+    Object literal may only specify known properties, and 'userId' does not exist in type '{ name: string | SQL<unknown> | Placeholder<string, any>; userId: string | SQL<unknown> | Placeholder<string, any>; triggerType: string | SQL<unknown> | Placeholder<...>; ... 6 more ...; templateSubject?: string | ... 3 more ... | undefined; }[]'.
+src/app/dashboard/team/email/page.tsx(1,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/team/follow-ups/page.tsx(1,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/team/invites/page.tsx(1,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/team/invites/page.tsx(5,16): error TS2305: Module '"@/components/ui/card"' has no exported member 'CardContent'.
+src/app/dashboard/team/invites/page.tsx(5,29): error TS2305: Module '"@/components/ui/card"' has no exported member 'CardHeader'.
+src/app/dashboard/team/invites/page.tsx(5,41): error TS2305: Module '"@/components/ui/card"' has no exported member 'CardTitle'.
+src/app/dashboard/team/invites/page.tsx(5,52): error TS2305: Module '"@/components/ui/card"' has no exported member 'CardDescription'.
+src/app/dashboard/team/invites/page.tsx(35,29): error TS2551: Property 'createdAt' does not exist on type 'PgTableWithColumns<{ name: "users"; schema: undefined; columns: { id: PgColumn<{ name: "id"; tableName: "users"; dataType: "string"; columnType: "PgUUID"; data: string; driverParam: string; notNull: true; hasDefault: false; ... 6 more ...; generated: undefined; }, {}, {}>; ... 15 more ...; created_at: PgColumn<...>;...'. Did you mean 'created_at'?
+src/app/dashboard/team/leaderboard/page.tsx(1,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/team/messages/page.tsx(1,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/team/page.tsx(2,10): error TS2305: Module '"@/app/actions/auth"' has no exported member 'requireAuth'.
+src/app/dashboard/team/page.tsx(3,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/team/page.tsx(7,16): error TS2305: Module '"@/components/ui/card"' has no exported member 'CardContent'.
+src/app/dashboard/team/page.tsx(7,29): error TS2305: Module '"@/components/ui/card"' has no exported member 'CardHeader'.
+src/app/dashboard/team/page.tsx(7,41): error TS2305: Module '"@/components/ui/card"' has no exported member 'CardTitle'.
+src/app/dashboard/team/page.tsx(7,52): error TS2305: Module '"@/components/ui/card"' has no exported member 'CardDescription'.
+src/app/dashboard/team/page.tsx(53,9): error TS2322: Type '{ id: string; userId: string; adPlanId: string; status: string; clickGoalSnapshot: string; lockedBalance: string | null; pendingPayoutAmount: string | null; sessionEarnedToday: string | null; ... 15 more ...; updatedAt: Date | null; }[]' is not assignable to type 'never[]'.
+  Type '{ id: string; userId: string; adPlanId: string; status: string; clickGoalSnapshot: string; lockedBalance: string | null; pendingPayoutAmount: string | null; sessionEarnedToday: string | null; ... 15 more ...; updatedAt: Date | null; }' is not assignable to type 'never'.
+src/app/dashboard/team/proof-cards/page.tsx(1,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/team/referral-page/page.tsx(1,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/team/tracking-links/page.tsx(1,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/team/training/page.tsx(1,10): error TS2305: Module '"@/app/actions/impersonate"' has no exported member 'requireImpersonationOrAuth'.
+src/app/dashboard/wallet/schedule/page.tsx(22,17): error TS2353: Object literal may only specify known properties, and 'enabled' does not exist in type '{ frequency: string; amount_type: "fixed" | "all"; fixed_amount: string; min_threshold: string; isActive: boolean; }'.

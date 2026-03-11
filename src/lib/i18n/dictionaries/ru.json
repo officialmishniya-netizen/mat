@@ -1,0 +1,39 @@
+{
+    "dashboard": {
+        "overview": "Обзор",
+        "my_matrix": "Моя Матрица",
+        "ad_cycles": "Рекламные Циклы",
+        "promo_center": "Промо-центр",
+        "community": "Сообщество",
+        "admin_panel": "Панель администратора",
+        "sign_out": "Выйти",
+        "welcome_back": "С возвращением! Вот ваш график доходов на сегодня.",
+        "available_balance": "Доступный баланс",
+        "matrix_positions": "Позиции в матрице",
+        "total_referrals": "Всего рефералов",
+        "active_cycles": "Активные циклы",
+        "ad_cycle_progress": "Прогресс рекламного цикла",
+        "watch_ads_now": "Смотреть рекламу",
+        "explore_ad_plans": "Обзор рекламных планов",
+        "recruitment_hub": "Центр рекрутинга",
+        "copy_referral_link": "Копировать ссылку"
+    },
+    "admin": {
+        "dashboard": "Панель управления",
+        "marketing_hub": "Маркетинг",
+        "user_management": "Управление пользователями",
+        "ad_cycle_center": "Центр рекламных циклов",
+        "matrix_levels": "Матрица и уровни",
+        "finance_ledger": "Финансы и отчеты",
+        "community": "Сообщество",
+        "system_settings": "Настройки системы"
+    },
+    "ptc": {
+        "clicks_completed": "Кликов завершено",
+        "payout_on_cycle": "Выплата за цикл",
+        "earning_per_click": "Доход за клик",
+        "clicks_per_cycle": "Кликов в цикле",
+        "daily_click_limit": "Дневной лимит кликов",
+        "purchase_level": "Купить уровень"
+    }
+}

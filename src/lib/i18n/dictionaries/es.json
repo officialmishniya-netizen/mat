@@ -1,0 +1,40 @@
+{
+    "dashboard": {
+        "overview": "Resumen",
+        "my_matrix": "Mi Matriz",
+        "ad_cycles": "Ciclos de Anuncios",
+        "promo_center": "Centro de Promoción",
+        "community": "Comunidad",
+        "admin_panel": "Panel de Admin",
+        "sign_out": "Cerrar Sesión",
+        "welcome_back": "¡Bienvenido de nuevo! Aquí está tu pulso de ganancias para hoy.",
+        "available_balance": "Saldo Disponible",
+        "matrix_positions": "Posiciones de Matriz",
+        "total_referrals": "Referidos Totales",
+        "active_cycles": "Ciclos Activos",
+        "ad_cycle_progress": "Progreso del Ciclo de Anuncios",
+        "watch_ads_now": "Ver Anuncios Ahora",
+        "explore_ad_plans": "Explorar Planes de Anuncios",
+        "recruitment_hub": "Centro de Reclutamiento",
+        "copy_referral_link": "Copiar Enlace de Referido"
+    },
+    "admin": {
+        "dashboard": "Tablero",
+        "marketing_hub": "Centro de Marketing",
+        "user_management": "Gestión de Usuarios",
+        "ad_cycle_center": "Centro de Ciclos de Anuncios",
+        "marketplace": "Mercado",
+        "matrix_levels": "Matriz y Niveles",
+        "finance_ledger": "Finanzas y Libro Mayor",
+        "community": "Comunidad",
+        "system_settings": "Ajustes del Sistema"
+    },
+    "ptc": {
+        "clicks_completed": "Clics Completados",
+        "payout_on_cycle": "Pago al Ciclo",
+        "earning_per_click": "Ganancia por Clic",
+        "clicks_per_cycle": "Clics por Ciclo",
+        "daily_click_limit": "Límite Diario de Clics",
+        "purchase_level": "Comprar Nivel"
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "dashboard": {
+        "overview": "Übersicht",
+        "my_matrix": "Meine Matrix",
+        "ad_cycles": "Werbe-Zyklen",
+        "promo_center": "Promo-Center",
+        "community": "Gemeinschaft",
+        "admin_panel": "Admin-Bereich",
+        "sign_out": "Abmelden",
+        "welcome_back": "Willkommen zurück! Hier ist Ihre Verdienstübersicht für heute.",
+        "available_balance": "Verfügbares Guthaben",
+        "matrix_positions": "Matrix-Positionen",
+        "total_referrals": "Gesamte Referrals",
+        "active_cycles": "Aktive Zyklen",
+        "ad_cycle_progress": "Werbezyklus-Fortschritt",
+        "watch_ads_now": "Jetzt Werbung ansehen",
+        "explore_ad_plans": "Werbepläne erkunden",
+        "recruitment_hub": "Rekrutierungs-Hub",
+        "copy_referral_link": "Empfehlungslink kopieren"
+    },
+    "admin": {
+        "dashboard": "Dashboard",
+        "marketing_hub": "Marketing-Hub",
+        "user_management": "Benutzerverwaltung",
+        "ad_cycle_center": "Werbezyklus-Center",
+        "marketplace": "Marktplatz",
+        "matrix_levels": "Matrix & Level",
+        "finance_ledger": "Finanzen & Ledger",
+        "community": "Gemeinschaft",
+        "system_settings": "Systemeinstellungen"
+    },
+    "ptc": {
+        "clicks_completed": "Klicks abgeschlossen",
+        "payout_on_cycle": "Auszahlung pro Zyklus",
+        "earning_per_click": "Verdienst pro Klick",
+        "clicks_per_cycle": "Klicks pro Zyklus",
+        "daily_click_limit": "Tägliches Klicklimit",
+        "purchase_level": "Level kaufen"
+    }
+}

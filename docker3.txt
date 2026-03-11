@@ -1,0 +1,50 @@
+﻿#14 DONE 19.2s
+
+#15 [runner 3/8] RUN adduser --system --uid 1001 nextjs
+#15 CACHED
+
+#16 [runner 4/8] COPY --from=builder /app/public ./public
+#16 CACHED
+
+#17 [runner 5/8] RUN mkdir .next
+#17 CACHED
+
+#18 [runner 2/8] RUN addgroup --system --gid 1001 nodejs
+#18 CACHED
+
+#19 [runner 6/8] RUN chown nextjs:nodejs .next
+#19 CACHED
+
+#20 [runner 7/8] COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+#20 DONE 0.1s
+
+#21 [runner 8/8] COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+#21 DONE 0.0s
+
+#22 exporting to image
+#22 exporting layers
+#22 exporting layers 0.5s done
+#22 exporting manifest sha256:4edb9b06c0e1697f22184fa7126ac73664a9a09cce286d164a79afd885d20fa2 done
+#22 exporting config sha256:f48455c49a23bc3103171b6e191f902df524ec39d551936ffbb4127cc6a438f4 done
+#22 exporting attestation manifest sha256:635eb1e3db7c2bfa1c74eb6c4d2f9161a3bd147628152267f98ca4c8c404f995 done
+#22 exporting manifest list sha256:468d727300c08d890ed90626756ec6439cb4c4eb43dbd735295ca18773dd0fc8 done
+#22 naming to docker.io/library/ptcmatrix-web:latest done
+#22 unpacking to docker.io/library/ptcmatrix-web:latest
+#22 unpacking to docker.io/library/ptcmatrix-web:latest 0.2s done
+#22 DONE 0.7s
+
+#23 resolving provenance for metadata file
+#23 DONE 0.0s
+ ptcmatrix-web  Built
+ Container 
+ptcmatrix-web-1  
+Recreate
+ Container 
+ptcmatrix-web-1  
+Recreated
+ Container 
+ptcmatrix-web-1  
+Starting
+ Container 
+ptcmatrix-web-1  
+Started

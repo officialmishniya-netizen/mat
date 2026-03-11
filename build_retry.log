@@ -1,0 +1,158 @@
+
+> ptcmatrix@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.15
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/96) ...
+Marketplace Cron Error: AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+    at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ECONNREFUSED',
+  [errors]: [
+    Error: connect ECONNREFUSED ::1:54322
+        at createConnectionError (node:net:1678:14)
+        at afterConnectMultiple (node:net:1708:16)
+        at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '::1',
+      port: 54322
+    },
+    Error: connect ECONNREFUSED 127.0.0.1:54322
+        at createConnectionError (node:net:1678:14)
+        at afterConnectMultiple (node:net:1708:16)
+        at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '127.0.0.1',
+      port: 54322
+    }
+  ]
+}
+   Generating static pages (24/96) 
+   Generating static pages (48/96) 
+   Generating static pages (72/96) 
+ ✓ Generating static pages (96/96)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ƒ /                                    967 B          95.2 kB
+├ ƒ /_not-found                          880 B          88.2 kB
+├ ƒ /admin                               15.1 kB         213 kB
+├ ƒ /admin/achievements                  2.91 kB        90.3 kB
+├ ƒ /admin/ads                           207 B          87.6 kB
+├ ƒ /admin/analytics/cohorts             2.66 kB          90 kB
+├ ƒ /admin/analytics/roi                 3 kB           90.4 kB
+├ ƒ /admin/analytics/stress-test         3.53 kB        90.9 kB
+├ ƒ /admin/audit                         2.78 kB          97 kB
+├ ƒ /admin/contests                      2.8 kB         90.2 kB
+├ ƒ /admin/fraud                         207 B          87.6 kB
+├ ƒ /admin/fraud/bots                    206 B          87.6 kB
+├ ƒ /admin/fraud/burst-registrations     207 B          87.6 kB
+├ ƒ /admin/fraud/devices                 207 B          87.6 kB
+├ ƒ /admin/fraud/dormant                 206 B          87.6 kB
+├ ƒ /admin/fraud/duplicate-ips           207 B          87.6 kB
+├ ƒ /admin/fraud/earnings-mismatch       207 B          87.6 kB
+├ ƒ /admin/fraud/network                 3.31 kB        90.7 kB
+├ ƒ /admin/fraud/self-referral           207 B          87.6 kB
+├ ƒ /admin/fraud/settings                2.89 kB        90.3 kB
+├ ƒ /admin/fraud/speed-violations        207 B          87.6 kB
+├ ƒ /admin/fraud/vpn-detector            207 B          87.6 kB
+├ ƒ /admin/fraud/withdrawals             207 B          87.6 kB
+├ ƒ /admin/impersonate                   207 B          87.6 kB
+├ ƒ /admin/investments                   6.29 kB        93.7 kB
+├ ƒ /admin/ledger                        207 B          87.6 kB
+├ ƒ /admin/levels                        207 B          87.6 kB
+├ ƒ /admin/levels/bonuses                4.29 kB         143 kB
+├ ƒ /admin/levels/trees                  4.27 kB         143 kB
+├ ƒ /admin/marketing                     207 B          87.6 kB
+├ ƒ /admin/marketplace                   8.8 kB         96.2 kB
+├ ƒ /admin/receipts                      3.75 kB        91.1 kB
+├ ƒ /admin/settings                      207 B          87.6 kB
+├ ƒ /admin/simulate                      1.37 kB        88.7 kB
+├ ƒ /admin/team-chat                     3.19 kB        90.5 kB
+├ ƒ /admin/users                         10.6 kB         109 kB
+├ ƒ /admin/users/[userId]                5.48 kB         104 kB
+├ ƒ /admin/users/[userId]/audit          190 B          94.4 kB
+├ ƒ /admin/users/impersonate             207 B          87.6 kB
+├ ƒ /admin/withdrawals/scheduled         6.27 kB        93.6 kB
+├ ƒ /api/admin/fraud/clawback            0 B                0 B
+├ ƒ /api/admin/fraud/settings            0 B                0 B
+├ ƒ /api/ads/start                       0 B                0 B
+├ ƒ /api/ads/verify                      0 B                0 B
+├ ƒ /api/cron/marketplace-maintenance    0 B                0 B
+├ ƒ /api/cron/telegram-ads-ready         0 B                0 B
+├ ƒ /api/inngest                         0 B                0 B
+├ ƒ /api/simulate                        0 B                0 B
+├ ƒ /api/support/tickets                 0 B                0 B
+├ ƒ /api/support/tickets/[id]            0 B                0 B
+├ ƒ /api/team/email                      0 B                0 B
+├ ƒ /api/team/follow-ups                 0 B                0 B
+├ ƒ /api/team/messages                   0 B                0 B
+├ ƒ /api/team/tracking-links             0 B                0 B
+├ ƒ /api/telegram/setup                  0 B                0 B
+├ ƒ /api/telegram/webhook                0 B                0 B
+├ ƒ /api/wallet/deposit/create           0 B                0 B
+├ ƒ /api/wallet/transfer                 0 B                0 B
+├ ƒ /api/wallet/withdraw                 0 B                0 B
+├ ƒ /api/webhooks/nowpayments            0 B                0 B
+├ ƒ /auth/login                          2.61 kB         101 kB
+├ ƒ /auth/register                       4.4 kB          154 kB
+├ ƒ /dashboard                           11.6 kB         119 kB
+├ ƒ /dashboard/achievements              3.17 kB        90.5 kB
+├ ƒ /dashboard/ads                       2.21 kB        89.6 kB
+├ ƒ /dashboard/community                 207 B          87.6 kB
+├ ƒ /dashboard/contests                  3.17 kB        90.5 kB
+├ ƒ /dashboard/cycles                    2.5 kB         89.9 kB
+├ ƒ /dashboard/invest                    6.81 kB        94.2 kB
+├ ƒ /dashboard/marketplace               207 B          87.6 kB
+├ ƒ /dashboard/marketplace/spin          3.35 kB        90.7 kB
+├ ƒ /dashboard/matrix                    3.55 kB         142 kB
+├ ƒ /dashboard/messages                  1.98 kB         140 kB
+├ ƒ /dashboard/profile                   4.05 kB        91.4 kB
+├ ƒ /dashboard/promotion                 1.4 kB         88.8 kB
+├ ƒ /dashboard/roi                       3.31 kB        90.7 kB
+├ ƒ /dashboard/shoutbox                  3.88 kB         142 kB
+├ ƒ /dashboard/support                   190 B          94.4 kB
+├ ƒ /dashboard/support/[id]              2.94 kB        97.1 kB
+├ ƒ /dashboard/support/new               2.89 kB        97.1 kB
+├ ƒ /dashboard/team                      3.06 kB        97.2 kB
+├ ƒ /dashboard/team-chat                 3.06 kB        90.4 kB
+├ ƒ /dashboard/team/email                3.99 kB        95.2 kB
+├ ƒ /dashboard/team/follow-ups           3.84 kB        95.1 kB
+├ ƒ /dashboard/team/invites              1.68 kB        99.8 kB
+├ ƒ /dashboard/team/leaderboard          3.04 kB        90.4 kB
+├ ƒ /dashboard/team/messages             4.2 kB         91.6 kB
+├ ƒ /dashboard/team/proof-cards          3.25 kB        94.5 kB
+├ ƒ /dashboard/team/referral-page        2.55 kB        93.8 kB
+├ ƒ /dashboard/team/tracking-links       3.3 kB          205 kB
+├ ƒ /dashboard/team/training             2.71 kB          94 kB
+├ ƒ /dashboard/wallet                    206 B          87.6 kB
+├ ƒ /dashboard/wallet/deposit            3.58 kB         104 kB
+├ ƒ /dashboard/wallet/ledger             207 B          87.6 kB
+├ ƒ /dashboard/wallet/receipts           3.84 kB         142 kB
+├ ƒ /dashboard/wallet/schedule           6.75 kB        94.1 kB
+├ ƒ /dashboard/wallet/transfer           3 kB           90.4 kB
+├ ƒ /dashboard/wallet/withdraw           3.28 kB        90.6 kB
+├ ƒ /r/[username]                        0 B                0 B
+├ ƒ /ref/[username]                      190 B          94.4 kB
+└ ƒ /training/[id]                       190 B          94.4 kB
++ First Load JS shared by all            87.4 kB
+  ├ chunks/2117-6a3d7e32089f8d62.js      31.8 kB
+  ├ chunks/fd9d1056-d738174ad1c5ea52.js  53.6 kB
+  └ other shared chunks (total)          1.97 kB
+
+
+ƒ  (Dynamic)  server-rendered on demand
+

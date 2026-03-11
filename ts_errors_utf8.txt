@@ -1,0 +1,27 @@
+﻿src/app/actions/adminUserManagement.ts(478,44): error TS2551: Property 'userId' does not exist on type '{ id: string; created_at: Date; updated_at: Date; user_id: string; amount: string; status: string; payment_method: string; details: string | null; }'. Did you mean 'user_id'?
+src/app/actions/adminUserManagement.ts(492,28): error TS2551: Property 'userId' does not exist on type '{ id: string; created_at: Date; updated_at: Date; user_id: string; amount: string; status: string; payment_method: string; details: string | null; }'. Did you mean 'user_id'?
+src/app/actions/adminUserManagement.ts(518,44): error TS2551: Property 'userId' does not exist on type '{ id: string; created_at: Date; updated_at: Date; user_id: string; amount: string; status: string; payment_method: string; details: string | null; }'. Did you mean 'user_id'?
+src/app/actions/adminUserManagement.ts(531,37): error TS2551: Property 'userId' does not exist on type '{ id: string; created_at: Date; updated_at: Date; user_id: string; amount: string; status: string; payment_method: string; details: string | null; }'. Did you mean 'user_id'?
+src/app/actions/adminUserManagement.ts(539,28): error TS2551: Property 'userId' does not exist on type '{ id: string; created_at: Date; updated_at: Date; user_id: string; amount: string; status: string; payment_method: string; details: string | null; }'. Did you mean 'user_id'?
+src/app/actions/adminUserManagement.ts(852,58): error TS2339: Property 'name' does not exist on type 'never'.
+src/app/actions/adminUserManagement.ts(1044,30): error TS2345: Argument of type '{ userId: string; success: boolean; }' is not assignable to parameter of type 'never'.
+src/app/actions/adminUserManagement.ts(1046,30): error TS2345: Argument of type '{ userId: string; success: boolean; error: string; }' is not assignable to parameter of type 'never'.
+src/app/actions/finance.ts(10,22): error TS2304: Cannot find name 'createClient'.
+src/app/actions/finance.ts(68,22): error TS2304: Cannot find name 'createClient'.
+src/app/admin/users/[userId]/page.tsx(46,51): error TS2551: Property 'userId' does not exist on type 'PgTableWithColumns<{ name: "withdrawals"; schema: undefined; columns: { id: PgColumn<{ name: "id"; tableName: "withdrawals"; dataType: "string"; columnType: "PgUUID"; data: string; driverParam: string; notNull: true; hasDefault: true; ... 6 more ...; generated: undefined; }, {}, {}>; ... 6 more ...; updated_at: PgCo...'. Did you mean 'user_id'?
+src/app/admin/users/[userId]/page.tsx(77,31): error TS2551: Property 'userId' does not exist on type 'PgTableWithColumns<{ name: "withdrawals"; schema: undefined; columns: { id: PgColumn<{ name: "id"; tableName: "withdrawals"; dataType: "string"; columnType: "PgUUID"; data: string; driverParam: string; notNull: true; hasDefault: true; ... 6 more ...; generated: undefined; }, {}, {}>; ... 6 more ...; updated_at: PgCo...'. Did you mean 'user_id'?
+src/app/admin/users/[userId]/page.tsx(78,36): error TS2551: Property 'createdAt' does not exist on type 'PgTableWithColumns<{ name: "withdrawals"; schema: undefined; columns: { id: PgColumn<{ name: "id"; tableName: "withdrawals"; dataType: "string"; columnType: "PgUUID"; data: string; driverParam: string; notNull: true; hasDefault: true; ... 6 more ...; generated: undefined; }, {}, {}>; ... 6 more ...; updated_at: PgCo...'. Did you mean 'created_at'?
+src/app/admin/users/[userId]/page.tsx(119,23): error TS18048: 'status' is possibly 'undefined'.
+src/app/admin/users/[userId]/page.tsx(120,26): error TS18048: 'status' is possibly 'undefined'.
+src/app/admin/users/[userId]/page.tsx(121,23): error TS18048: 'status' is possibly 'undefined'.
+src/app/admin/users/[userId]/page.tsx(122,27): error TS18048: 'status' is possibly 'undefined'.
+src/app/admin/users/[userId]/page.tsx(123,24): error TS18048: 'status' is possibly 'undefined'.
+src/app/admin/users/[userId]/page.tsx(124,34): error TS18048: 'status' is possibly 'undefined'.
+src/app/admin/users/[userId]/page.tsx(139,26): error TS2551: Property 'createdAt' does not exist on type '{ id: string; created_at: Date; updated_at: Date; user_id: string; amount: string; status: string; payment_method: string; details: string | null; }'. Did you mean 'created_at'?
+src/app/admin/users/[userId]/UserDetailClient.tsx(13,23): error TS2307: Cannot find module 'react-hot-toast' or its corresponding type declarations.
+src/app/admin/users/page.tsx(62,25): error TS2322: Type '{ id: string; username: string; email: string | null; role: string; createdAt: string; status: string; riskScore: number; balance: string; plan: any; }[]' is not assignable to type 'UserData[]'.
+  Type '{ id: string; username: string; email: string | null; role: string; createdAt: string; status: string; riskScore: number; balance: string; plan: any; }' is not assignable to type 'UserData'.
+    Types of property 'email' are incompatible.
+      Type 'string | null' is not assignable to type 'string'.
+        Type 'null' is not assignable to type 'string'.
+src/app/admin/users/UsersClient.tsx(6,23): error TS2307: Cannot find module 'react-hot-toast' or its corresponding type declarations.

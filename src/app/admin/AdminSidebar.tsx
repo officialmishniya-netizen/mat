@@ -1,0 +1,244 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTranslation } from "@/lib/i18n/context";
+import {
+    LayoutDashboard,
+    MonitorPlay,
+    Layers,
+    Users,
+    Wallet,
+    MessageSquare,
+    Settings,
+    LogOut,
+    Network,
+    ShieldAlert,
+    BarChart3,
+    ActivitySquare,
+    ChevronDown,
+    ChevronRight,
+    Search,
+    ShoppingBag,
+    Zap,
+    Receipt,
+    CalendarClock,
+    Trophy,
+    Award,
+    MessagesSquare,
+    TrendingUp,
+    PieChart,
+    ScanSearch,
+} from "lucide-react";
+import { useState } from "react";
+
+const navGroups = [
+    {
+        name: "Dashboard",
+        icon: LayoutDashboard,
+        href: "/admin"
+    },
+    {
+        name: "Marketing Hub",
+        icon: ShieldAlert,
+        href: "/admin/marketing"
+    },
+    {
+        name: "Marketplace",
+        icon: ShoppingBag,
+        href: "/admin/marketplace"
+    },
+    {
+        name: "User Management",
+        icon: Users,
+        items: [
+            { name: "All Users", href: "/admin/users" },
+            { name: "Deep Audit Tool", href: "/admin/users/audit" },
+            { name: "Impersonate", href: "/admin/users/impersonate" },
+            { name: "Sponsor Manager", href: "/admin/users/sponsor" }
+        ]
+    },
+    {
+        name: "Ad Cycle Center",
+        icon: MonitorPlay,
+        items: [
+            { name: "Ad Level Creation", href: "/admin/ads" },
+            { name: "Global Ad Settings", href: "/admin/ads/settings" },
+            { name: "Anti-Cheat Logs", href: "/admin/ads/anticheat" }
+        ]
+    },
+    {
+        name: "Matrix & Levels",
+        icon: Layers,
+        items: [
+            { name: "Level Configurator", href: "/admin/levels" },
+            { name: "Bonus Settings", href: "/admin/levels/bonuses" },
+            { name: "Live Trees", href: "/admin/levels/trees" }
+        ]
+    },
+    {
+        name: "Finance & Ledger",
+        icon: Wallet,
+        items: [
+            { name: "Master Ledger", href: "/admin/ledger" },
+            { name: "Withdrawals", href: "/admin/withdrawals" },
+            { name: "Scheduled Payouts", href: "/admin/withdrawals/scheduled" },
+            { name: "Investment Pools", href: "/admin/investments" },
+            { name: "Deposit Logs", href: "/admin/deposits" },
+            { name: "Receipt Audit", href: "/admin/receipts" }
+        ]
+    },
+    {
+        name: "Analytics",
+        icon: PieChart,
+        items: [
+            { name: "Stress Test", href: "/admin/analytics/stress-test" },
+            { name: "Cohort Retention", href: "/admin/analytics/cohorts" },
+            { name: "Advertiser ROI", href: "/admin/analytics/roi" }
+        ]
+    },
+    {
+        name: "Engagement",
+        icon: Trophy,
+        items: [
+            { name: "Contest Manager", href: "/admin/contests" },
+            { name: "Badge Manager", href: "/admin/achievements" },
+            { name: "Team Chat MOD", href: "/admin/team-chat" }
+        ]
+    },
+    {
+        name: "System Settings",
+        icon: Settings,
+        items: [
+            { name: "White-Label UI", href: "/admin/settings/ui" },
+            { name: "Payments Config", href: "/admin/settings/payments" },
+            { name: "Simulation Engine", href: "/admin/settings/simulation" }
+        ]
+    },
+    {
+        name: "Fraud Intelligence",
+        icon: ScanSearch,
+        items: [
+            { name: "Alert Center", href: "/admin/fraud" },
+            { name: "Duplicate IPs", href: "/admin/fraud/duplicate-ips" },
+            { name: "Speed Violations", href: "/admin/fraud/speed-violations" },
+            { name: "VPN Detector", href: "/admin/fraud/vpn-detector" },
+            { name: "Withdrawal Anomalies", href: "/admin/fraud/withdrawals" },
+            { name: "Self-Referral", href: "/admin/fraud/self-referral" },
+            { name: "Device Clusters", href: "/admin/fraud/devices" },
+            { name: "Bot Patterns", href: "/admin/fraud/bots" },
+            { name: "Earnings Mismatch", href: "/admin/fraud/earnings-mismatch" },
+            { name: "Dormant Revivals", href: "/admin/fraud/dormant" },
+            { name: "Network Graph", href: "/admin/fraud/network" },
+            { name: "Burst Registrations", href: "/admin/fraud/burst-registrations" },
+            { name: "Fraud Settings", href: "/admin/fraud/settings" },
+        ]
+    }
+];
+
+export default function AdminSidebar() {
+    const pathname = usePathname();
+    const { t } = useTranslation();
+    const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
+        "Dashboard": true,
+        "PTC Ads Center": true,
+        "Matrix & Levels": true
+    });
+
+    const toggleGroup = (groupName: string) => {
+        setOpenGroups(prev => ({
+            ...prev,
+            [groupName]: !prev[groupName]
+        }));
+    };
+
+    return (
+        <aside className="w-[280px] bg-white h-screen fixed left-0 top-0 flex flex-col border-r border-gray-100 z-20 overflow-hidden">
+            {/* Logo */}
+            <div className="h-24 flex items-center px-8 shrink-0">
+                <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-[#f97316] rounded-xl flex items-center justify-center">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </div>
+                    <span className="text-xl font-bold text-[#151d48]">PTC Nexus</span>
+                </div>
+            </div>
+
+            {/* Navigation Layout */}
+            <div className="flex-1 px-4 py-4 overflow-y-auto pb-24 scrollbar-thin scrollbar-thumb-gray-200">
+                {navGroups.map((group) => {
+                    const isStandalone = !!group.href;
+                    const isOpen = !isStandalone && !!openGroups[group.name];
+                    const hasActiveChild = isStandalone
+                        ? pathname === group.href || pathname.startsWith(group.href + '/')
+                        : group.items?.some(item => pathname === item.href || pathname.startsWith(item.href + '/'));
+
+                    return (
+                        <div key={group.name} className="mb-2">
+                            {isStandalone ? (
+                                <Link
+                                    href={group.href!}
+                                    className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all cursor-pointer ${hasActiveChild ? "bg-[#f97316] text-white shadow-md shadow-orange-500/20" : "text-[#737791] hover:bg-orange-50 hover:text-[#f97316]"
+                                        }`}
+                                >
+                                    <div className="flex items-center space-x-4">
+                                        <group.icon size={20} className={hasActiveChild ? "text-white" : ""} />
+                                        <span className="font-bold whitespace-nowrap">{t(`admin.${group.name.toLowerCase().replace(/ & /g, "_").replace(/ /g, "_")}`)}</span>
+                                    </div>
+                                </Link>
+                            ) : (
+                                <div>
+                                    <div
+                                        onClick={() => toggleGroup(group.name)}
+                                        className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all cursor-pointer ${hasActiveChild && !isOpen ? "text-[#f97316] bg-orange-50" : "text-[#444a6d] hover:bg-gray-50"
+                                            }`}
+                                    >
+                                        <div className="flex items-center space-x-4">
+                                            <group.icon size={20} className={hasActiveChild ? "text-[#f97316]" : "text-[#737791]"} />
+                                            <span className="font-bold whitespace-nowrap">{t(`admin.${group.name.toLowerCase().replace(/ & /g, "_").replace(/ /g, "_")}`)}</span>
+                                        </div>
+                                        {isOpen ? <ChevronDown size={16} className="text-[#a0a8b9]" /> : <ChevronRight size={16} className="text-[#a0a8b9]" />}
+                                    </div>
+
+                                    {isOpen && group.items && (
+                                        <div className="mt-1 ml-4 pl-6 border-l-2 border-orange-100 space-y-1 py-1">
+                                            {group.items.map((item) => {
+                                                const isItemActive = pathname === item.href;
+                                                return (
+                                                    <Link
+                                                        key={item.name}
+                                                        href={item.href}
+                                                        className={`block px-4 py-2 rounded-lg transition-all text-sm font-semibold ${isItemActive
+                                                            ? "bg-[#f97316] text-white shadow-sm shadow-orange-500/20"
+                                                            : "text-[#737791] hover:text-[#f97316] hover:bg-orange-50"
+                                                            }`}
+                                                    >
+                                                        {item.name}
+                                                    </Link>
+                                                )
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+
+                <div className="mt-8 border-t border-gray-100 pt-4">
+                    <Link
+                        href="/"
+                        className="flex items-center space-x-4 px-4 py-3 rounded-xl transition-all text-red-500 hover:bg-red-50"
+                    >
+                        <LogOut size={20} />
+                        <span className="font-bold whitespace-nowrap">Sign Out</span>
+                    </Link>
+                </div>
+            </div>
+        </aside>
+    );
+}

@@ -1,0 +1,199 @@
+import { getSiteSettings, updateSiteSettings } from "@/lib/settings";
+import { revalidatePath } from "next/cache";
+
+export default async function AdminSettingsPage() {
+    const settings = await getSiteSettings();
+
+    async function saveSettings(formData: FormData) {
+        "use server";
+
+        await updateSiteSettings({
+            site_name: formData.get("site_name") as string,
+            logo_url: formData.get("logo_url") as string,
+            primary_color: formData.get("primary_color") as string,
+            secondary_color: formData.get("secondary_color") as string,
+            nowpayments_api_key: formData.get("nowpayments_api_key") as string,
+            withdrawal_fee_percent: parseFloat(formData.get("withdrawal_fee_percent") as string) || 0,
+            service_fee_percent: parseFloat(formData.get("service_fee_percent") as string) || 0,
+            seo_title: formData.get("seo_title") as string || "PTC Matrix",
+            seo_description: formData.get("seo_description") as string || "Join our amazing platform.",
+            enable_team_emails: formData.get("enable_team_emails") === "on",
+            enable_direct_messages: formData.get("enable_direct_messages") === "on",
+            enable_training_hub: formData.get("enable_training_hub") === "on",
+        });
+
+        // Refresh all pages to instantly apply the new styles/branding globally
+        revalidatePath("/", "layout");
+    }
+
+    return (
+        <div className="p-8 max-w-4xl mx-auto space-y-6">
+            <h1 className="text-3xl font-bold text-gray-900">White-Label Branding Settings</h1>
+
+            <form action={saveSettings} className="bg-white shadow p-6 rounded-lg space-y-4">
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Platform Name</label>
+                    <input
+                        type="text"
+                        name="site_name"
+                        defaultValue={settings.site_name}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Logo URL</label>
+                    <input
+                        type="text"
+                        name="logo_url"
+                        defaultValue={settings.logo_url || ""}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Primary Color (Hex)</label>
+                        <div className="flex items-center space-x-2">
+                            <input
+                                type="color"
+                                name="primary_color"
+                                defaultValue={settings.primary_color}
+                                className="h-10 w-10 border-0 p-0"
+                            />
+                            <input
+                                type="text"
+                                defaultValue={settings.primary_color}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Secondary Color (Hex)</label>
+                        <div className="flex items-center space-x-2">
+                            <input
+                                type="color"
+                                name="secondary_color"
+                                defaultValue={settings.secondary_color}
+                                className="h-10 w-10 border-0 p-0"
+                            />
+                            <input
+                                type="text"
+                                defaultValue={settings.secondary_color}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Withdrawal Fee (%)</label>
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="withdrawal_fee_percent"
+                            defaultValue={settings.withdrawal_fee_percent}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">General Service Fee (%)</label>
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="service_fee_percent"
+                            defaultValue={settings.service_fee_percent}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                        />
+                    </div>
+                </div>
+
+                <div className="border-t pt-4">
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Search Engine Optimization (SEO)</h3>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">SEO Title Tag</label>
+                            <input
+                                type="text"
+                                name="seo_title"
+                                defaultValue={settings.seo_title}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">SEO Meta Description</label>
+                            <textarea
+                                name="seo_description"
+                                defaultValue={settings.seo_description}
+                                rows={3}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="border-t pt-4">
+                    <label className="block text-sm font-medium text-gray-700">NowPayments API Key</label>
+                    <input
+                        type="password"
+                        name="nowpayments_api_key"
+                        defaultValue={settings.nowpayments_api_key || ""}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                </div>
+
+                <div className="border-t pt-4 space-y-4">
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Communication & Features</h3>
+                    <div className="flex items-center space-x-3">
+                        <input
+                            type="checkbox"
+                            name="enable_team_emails"
+                            id="enable_team_emails"
+                            defaultChecked={settings.enable_team_emails}
+                            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                        />
+                        <label htmlFor="enable_team_emails" className="text-sm font-medium text-gray-700">
+                            Enable Team Emails (Allow sponsors to email downlines)
+                        </label>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                        <input
+                            type="checkbox"
+                            name="enable_direct_messages"
+                            id="enable_direct_messages"
+                            defaultChecked={settings.enable_direct_messages}
+                            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                        />
+                        <label htmlFor="enable_direct_messages" className="text-sm font-medium text-gray-700">
+                            Enable Direct Messages (Allow peer-to-peer messaging)
+                        </label>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                        <input
+                            type="checkbox"
+                            name="enable_training_hub"
+                            id="enable_training_hub"
+                            defaultChecked={settings.enable_training_hub}
+                            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                        />
+                        <label htmlFor="enable_training_hub" className="text-sm font-medium text-gray-700">
+                            Enable Referral Training Hub (Allow sponsors to share training)
+                        </label>
+                    </div>
+                </div>
+
+                <div className="pt-4">
+                    <button
+                        type="submit"
+                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                    >
+                        Save Configuration
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+}

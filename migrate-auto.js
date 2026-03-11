@@ -1,0 +1,14 @@
+const { spawn } = require('child_process');
+const child = spawn('npx', ['drizzle-kit', 'generate'], { stdio: ['pipe', 'pipe', 'pipe'], shell: true });
+
+child.stdout.on('data', (data) => {
+    const output = data.toString();
+    process.stdout.write(output);
+    if (output.includes('❯') || output.includes('?')) {
+        child.stdin.write('\r\n');
+    }
+});
+child.stderr.on('data', (data) => {
+    process.stderr.write(data);
+});
+child.on('exit', (code) => process.exit(code));

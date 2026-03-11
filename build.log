@@ -1,0 +1,62 @@
+
+> ptcmatrix@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.15
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/97) ...
+
+Error occurred prerendering page "/api/cron/telegram-ads-ready". Read more: https://nextjs.org/docs/messages/prerender-error
+
+TypeError: Cannot read properties of undefined (reading 'referencedTable')
+    at D:\ptcmatrix\.next\server\chunks\9253.js:8:10173
+    at K.buildRelationalQueryWithoutPK (D:\ptcmatrix\.next\server\chunks\9253.js:8:11059)
+    at QueryPromise._getQuery (D:\ptcmatrix\.next\server\chunks\9253.js:8:31856)
+    at QueryPromise._toSQL (D:\ptcmatrix\.next\server\chunks\9253.js:8:32130)
+    at D:\ptcmatrix\.next\server\chunks\9253.js:8:31194
+    at Object.startActiveSpan (D:\ptcmatrix\.next\server\chunks\9253.js:8:52819)
+    at QueryPromise._prepare (D:\ptcmatrix\.next\server\chunks\9253.js:8:31119)
+    at D:\ptcmatrix\.next\server\chunks\9253.js:8:32361
+    at Object.startActiveSpan (D:\ptcmatrix\.next\server\chunks\9253.js:8:52819)
+    at QueryPromise.execute (D:\ptcmatrix\.next\server\chunks\9253.js:8:32316)
+Marketplace Cron Error: AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+    at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ECONNREFUSED',
+  [errors]: [
+    Error: connect ECONNREFUSED ::1:54322
+        at createConnectionError (node:net:1678:14)
+        at afterConnectMultiple (node:net:1708:16)
+        at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '::1',
+      port: 54322
+    },
+    Error: connect ECONNREFUSED 127.0.0.1:54322
+        at createConnectionError (node:net:1678:14)
+        at afterConnectMultiple (node:net:1708:16)
+        at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '127.0.0.1',
+      port: 54322
+    }
+  ]
+}
+   Generating static pages (24/97) 
+   Generating static pages (48/97) 
+   Generating static pages (72/97) 
+ ✓ Generating static pages (97/97)
+
+> Export encountered errors on following paths:
+	/api/cron/telegram-ads-ready/route: /api/cron/telegram-ads-ready

@@ -1,0 +1,749 @@
+﻿
+> ptcmatrix@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.15
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+node.exe : Failed to 
+compile.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Failed to com   
+ pile.:String) [],     
+RemoteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+
+./src/app/dashboard/Das
+hboardOverview.tsx
+Error: 
+  [31mx[0m the name 
+`DollarSign` is 
+defined multiple times
+     ,-[[36;1;4mD:\ptc
+matrix\src\app\dashboar
+d\DashboardOverview.tsx
+[0m:1:1]
+ [2m  1[0m | "use 
+client";
+ [2m  2[0m | 
+ [2m  3[0m | import 
+{ TrendingUp, Users, 
+RefreshCcw, 
+MousePointerClick, 
+Zap, DollarSign, 
+ArrowRight } from 
+"lucide-react";
+     : [31;1m         
+                       
+                       
+         ^^^^^|^^^^[0m
+     :                 
+                       
+                       
+       [31;1m`-- 
+[31;1mprevious 
+definition of 
+`DollarSign` 
+here[0m[0m
+ [2m  4[0m | import 
+{ formatMoney } from 
+"@/lib/money";
+ [2m  5[0m | import 
+{ CopyButton } from "./
+promotion/CopyButton";
+ [2m  6[0m | import 
+Link from "next/link";
+ [2m  7[0m | import 
+{ useTranslation } 
+from 
+"@/lib/i18n/context";
+ [2m  8[0m | 
+ [2m  9[0m | 
+interface 
+DashboardOverviewProps 
+{
+ [2m 10[0m |     
+balance: number;
+ [2m 11[0m |     
+matrixCount: number;
+ [2m 12[0m |     
+referralCount: number;
+ [2m 13[0m |     
+activeCycles: any;
+ [2m 14[0m |     
+referralLink: string;
+ [2m 15[0m | }
+ [2m 16[0m | 
+ [2m 17[0m | export 
+function 
+DashboardOverview({
+ [2m 18[0m |     
+balance,
+ [2m 19[0m |     
+matrixCount,
+ [2m 20[0m |     
+referralCount,
+ [2m 21[0m |     
+activeCycles,
+ [2m 22[0m |     
+referralLink
+ [2m 23[0m | }: Dashb
+oardOverviewProps) {
+ [2m 24[0m |     
+const { t } = 
+useTranslation();
+ [2m 25[0m | 
+ [2m 26[0m |     
+return (
+ [2m 27[0m |         
+<div 
+className="space-y-8 
+max-w-6xl animate-in 
+fade-in 
+slide-in-from-bottom-4 
+duration-700">
+ [2m 28[0m |         
+    <div 
+className="flex 
+flex-col md:flex-row 
+md:items-center 
+justify-between gap-4">
+ [2m 29[0m |         
+        <div>
+ [2m 30[0m |         
+            <h1 
+className="text-4xl 
+font-extrabold 
+text-[#151d48] tracking
+-tight">{t("dashboard.o
+verview")}</h1>
+ [2m 31[0m |         
+            <p classNam
+e="text-[#737791] font-
+medium">{t("dashboard.w
+elcome_back")}</p>
+ [2m 32[0m |         
+        </div>
+ [2m 33[0m |         
+        <div 
+className="flex 
+items-center space-x-2 
+bg-white px-4 py-2 
+rounded-2xl border 
+border-gray-100 
+shadow-sm">
+ [2m 34[0m |         
+            <Zap 
+size={18} className="te
+xt-orange-500 
+fill-orange-500" />
+ [2m 35[0m |         
+            <span 
+className="text-sm 
+font-bold text-[#151d48
+]">Status: <span classN
+ame="text-green-500">Ac
+tive</span></span>
+ [2m 36[0m |         
+        </div>
+ [2m 37[0m |         
+    </div>
+ [2m 38[0m | 
+ [2m 39[0m |         
+    <div 
+className="grid 
+grid-cols-1 
+md:grid-cols-2 
+lg:grid-cols-4 gap-6">
+ [2m 40[0m |         
+        {/* KPI Cards 
+*/}
+ [2m 41[0m |         
+        <div 
+className="bg-white 
+p-6 rounded-[32px] 
+shadow-sm border 
+border-gray-50 
+relative 
+overflow-hidden group 
+hover:shadow-md 
+transition-all">
+ [2m 42[0m |         
+            <div 
+className="p-3 
+bg-orange-50 
+text-orange-500 
+rounded-xl w-fit mb-4 
+group-hover:scale-110 
+transition-transform">
+ [2m 43[0m |         
+                
+<DollarSign size={24} 
+/>
+ [2m 44[0m |         
+            </div>
+ [2m 45[0m |         
+            <p 
+className="text-sm 
+font-bold 
+text-[#737791] 
+uppercase tracking-wide
+r">{t("dashboard.availa
+ble_balance")}</p>
+ [2m 46[0m |         
+            <div 
+className="mt-1">
+ [2m 47[0m |         
+                <span 
+className="text-3xl 
+font-black 
+text-[#151d48] tracking
+-tight">{formatMoney(ba
+lance)}</span>
+ [2m 48[0m |         
+            </div>
+ [2m 49[0m |         
+        </div>
+ [2m 50[0m | 
+ [2m 51[0m |         
+        <div 
+className="bg-white 
+p-6 rounded-[32px] 
+shadow-sm border 
+border-gray-50 
+relative 
+overflow-hidden group 
+hover:shadow-md 
+transition-all">
+ [2m 52[0m |         
+            <div 
+className="p-3 
+bg-blue-50 
+text-blue-500 
+rounded-xl w-fit mb-4 
+group-hover:scale-110 
+transition-transform">
+ [2m 53[0m |         
+                
+<TrendingUp size={24} 
+/>
+ [2m 54[0m |         
+            </div>
+ [2m 55[0m |         
+            <p 
+className="text-sm 
+font-bold 
+text-[#737791] 
+uppercase tracking-wide
+r">{t("dashboard.matrix
+_positions")}</p>
+ [2m 56[0m |         
+            <div 
+className="mt-1">
+ [2m 57[0m |         
+                <span 
+className="text-3xl 
+font-black 
+text-[#151d48] tracking
+-tight">{matrixCount}</
+span>
+ [2m 58[0m |         
+            </div>
+ [2m 59[0m |         
+        </div>
+ [2m 60[0m | 
+ [2m 61[0m |         
+        <div 
+className="bg-white 
+p-6 rounded-[32px] 
+shadow-sm border 
+border-gray-50 
+relative 
+overflow-hidden group 
+hover:shadow-md 
+transition-all">
+ [2m 62[0m |         
+            <div 
+className="p-3 
+bg-green-50 
+text-green-500 
+rounded-xl w-fit mb-4 
+group-hover:scale-110 
+transition-transform">
+ [2m 63[0m |         
+                <Users 
+size={24} />
+ [2m 64[0m |         
+            </div>
+ [2m 65[0m |         
+            <p 
+className="text-sm 
+font-bold 
+text-[#737791] 
+uppercase tracking-wide
+r">{t("dashboard.total_
+referrals")}</p>
+ [2m 66[0m |         
+            <div 
+className="mt-1">
+ [2m 67[0m |         
+                <span 
+className="text-3xl 
+font-black 
+text-[#151d48] tracking
+-tight">{referralCount}
+</span>
+ [2m 68[0m |         
+            </div>
+ [2m 69[0m |         
+        </div>
+ [2m 70[0m | 
+ [2m 71[0m |         
+        <div 
+className="bg-white 
+p-6 rounded-[32px] 
+shadow-sm border 
+border-gray-50 
+relative 
+overflow-hidden group 
+hover:shadow-md 
+transition-all">
+ [2m 72[0m |         
+            <div 
+className="p-3 
+bg-purple-50 
+text-purple-500 
+rounded-xl w-fit mb-4 
+group-hover:scale-110 
+transition-transform">
+ [2m 73[0m |         
+                
+<RefreshCcw size={24} 
+/>
+ [2m 74[0m |         
+            </div>
+ [2m 75[0m |         
+            <p 
+className="text-sm 
+font-bold 
+text-[#737791] 
+uppercase tracking-wide
+r">{t("dashboard.active
+_cycles")}</p>
+ [2m 76[0m |         
+            <div 
+className="mt-1">
+ [2m 77[0m |         
+                <span 
+className="text-3xl 
+font-black 
+text-[#151d48] tracking
+-tight">{activeCycles 
+? 1 : 0}</span>
+ [2m 78[0m |         
+            </div>
+ [2m 79[0m |         
+        </div>
+ [2m 80[0m |         
+    </div>
+ [2m 81[0m | 
+ [2m 82[0m |         
+    <div 
+className="grid 
+grid-cols-1 
+lg:grid-cols-3 gap-8">
+ [2m 83[0m |         
+        {/* Ad Cycle 
+Progress Widget */}
+ [2m 84[0m |         
+        <div className=
+"lg:col-span-2 
+space-y-6">
+ [2m 85[0m |         
+            
+{(activeCycles) ? (
+ [2m 86[0m |         
+                <div cl
+assName="bg-gradient-to
+-br from-[#151d48] 
+to-[#2a3c85] p-8 
+rounded-[40px] 
+text-white shadow-xl 
+relative 
+overflow-hidden">
+ [2m 87[0m |         
+                    
+<div 
+className="absolute 
+top-0 right-0 p-8 
+opacity-10">
+ [2m 88[0m |         
+                       
+ <RefreshCcw 
+size={120} className="a
+nimate-spin-slow" />
+ [2m 89[0m |         
+                    
+</div>
+ [2m 90[0m |         
+                    
+<div 
+className="relative 
+z-10">
+ [2m 91[0m |         
+                       
+ <div className="flex 
+justify-between 
+items-start mb-8">
+ [2m 92[0m |         
+                       
+     <div>
+ [2m 93[0m |         
+                       
+         <h3 
+className="text-2xl 
+font-black mb-1">{t("da
+shboard.ad_cycle_progre
+ss")}: {activeCycles.ad
+_levels.name}</h3>
+ [2m 94[0m |         
+                       
+         <p className="
+text-blue-200 font-medi
+um">{t("dashboard.watch
+_ads_now")}...</p>
+ [2m 95[0m |         
+                       
+     </div>
+ [2m 96[0m |         
+                       
+     <div 
+className="text-right">
+ [2m 97[0m |         
+                       
+         <div 
+className="text-[10px] 
+font-black 
+text-blue-300 
+uppercase tracking-wide
+st">{t("ptc.payout_on_c
+ycle")}</div>
+ [2m 98[0m |         
+                       
+         <div 
+className="text-2xl 
+font-black text-orange-
+400">${parseFloat(activ
+eCycles.ad_levels.withd
+rawal_on_completion).to
+Fixed(2)}</div>
+ [2m 99[0m |         
+                       
+     </div>
+ [2m100[0m |         
+                       
+ </div>
+ [2m101[0m | 
+ [2m102[0m |         
+                       
+ <div 
+className="space-y-3">
+ [2m103[0m |         
+                       
+     <div 
+className="flex 
+justify-between 
+text-xs font-black 
+uppercase 
+tracking-wider 
+text-blue-200">
+ [2m104[0m |         
+                       
+         <span>{t("ptc.
+clicks_completed")}: {a
+ctiveCycles.clicks_comp
+leted} / {activeCycles.
+ad_levels.clicks_per_cy
+cle}</span>
+ [2m105[0m |         
+                       
+         <span>{Math.fl
+oor((activeCycles.click
+s_completed / activeCyc
+les.ad_levels.clicks_pe
+r_cycle) * 
+100)}%</span>
+ [2m106[0m |         
+                       
+     </div>
+ [2m107[0m |         
+                       
+     <div 
+className="h-4 w-full 
+bg-white/10 
+rounded-full 
+overflow-hidden p-1 
+border 
+border-white/10">
+ [2m108[0m |         
+                       
+         <div
+ [2m109[0m |         
+                       
+             
+className="h-full 
+bg-gradient-to-r 
+from-orange-400 
+to-orange-600 
+rounded-full 
+transition-all 
+duration-1000"
+ [2m110[0m |         
+                       
+             style={{ 
+width: `${(activeCycles
+.clicks_completed / act
+iveCycles.ad_levels.cli
+cks_per_cycle) * 
+100}%` }}
+ [2m111[0m |         
+                       
+         ></div>
+ [2m112[0m |         
+                       
+     </div>
+ [2m113[0m |         
+                       
+ </div>
+ [2m114[0m | 
+ [2m115[0m |         
+                       
+ <div className="mt-8 
+flex items-center 
+justify-between">
+ [2m116[0m |         
+                       
+     <p 
+className="text-sm 
+text-blue-100 
+italic">Target: <span 
+className="text-white f
+ont-bold">{activeCycles
+.ad_levels.clicks_per_c
+ycle} {t("ptc.clicks_pe
+r_cycle")}</span></p>
+ [2m117[0m |         
+                       
+     <Link 
+href="/dashboard/ads" 
+className="bg-white 
+text-[#151d48] px-6 
+py-2 rounded-xl 
+font-bold 
+hover:bg-orange-400 
+hover:text-white 
+transition-all 
+transform 
+hover:scale-105">
+ [2m118[0m |         
+                       
+         {t("dashboard.
+watch_ads_now")}
+ [2m119[0m |         
+                       
+     </Link>
+ [2m120[0m |         
+                       
+ </div>
+ [2m121[0m |         
+                    
+</div>
+ [2m122[0m |         
+                </div>
+ [2m123[0m |         
+            ) : (
+ [2m124[0m |         
+                <div 
+className="bg-white 
+p-12 rounded-[40px] 
+border-2 border-dashed 
+border-gray-100 flex 
+flex-col items-center 
+text-center">
+ [2m125[0m |         
+                    
+<div className="p-4 
+bg-gray-50 
+rounded-full mb-4">
+ [2m126[0m |         
+                       
+ <MousePointerClick 
+size={40} className="te
+xt-gray-300" />
+ [2m127[0m |         
+                    
+</div>
+ [2m128[0m |         
+                    
+<h3 className="text-xl 
+font-black 
+text-[#151d48] mb-2">{t
+("dashboard.explore_ad_
+plans")}</h3>
+ [2m129[0m |         
+                    <p 
+className="text-gray-50
+0 max-w-sm 
+mb-6">Upgrade to start 
+earning!</p>
+ [2m130[0m |         
+                    
+<Link href="/dashboard/
+cycles" className="bg-[
+#151d48] text-white 
+px-8 py-3 rounded-2xl 
+font-bold 
+hover:shadow-lg 
+transition-all">
+ [2m131[0m |         
+                       
+ {t("dashboard.explore_
+ad_plans")}
+ [2m132[0m |         
+                    
+</Link>
+ [2m133[0m |         
+                </div>
+ [2m134[0m |         
+            )}
+ [2m135[0m |         
+        </div>
+ [2m136[0m | 
+ [2m137[0m |         
+        {/* Referral 
+Card */}
+ [2m138[0m |         
+        <div 
+className="space-y-6">
+ [2m139[0m |         
+            <div 
+className="bg-white 
+p-8 rounded-[40px] 
+border border-gray-100 
+shadow-sm">
+ [2m140[0m |         
+                <h3 
+className="text-xl 
+font-black 
+text-[#151d48] mb-4">{t
+("dashboard.recruitment
+_hub")}</h3>
+ [2m141[0m |         
+                <p clas
+sName="text-gray-500 
+text-sm font-medium 
+mb-6 
+leading-relaxed">Share 
+and earn!</p>
+ [2m142[0m | 
+ [2m143[0m |         
+                <div 
+className="space-y-4">
+ [2m144[0m |         
+                    
+<div className="flex 
+flex-col space-y-3">
+ [2m145[0m |         
+                       
+ <div className="p-4 
+bg-gray-50 border 
+border-gray-100 
+rounded-3xl 
+text-[13px] font-mono 
+text-gray-500 
+break-all">
+ [2m146[0m |         
+                       
+     {referralLink}
+ [2m147[0m |         
+                       
+ </div>
+ [2m148[0m |         
+                       
+ <CopyButton textToCopy
+={referralLink} />
+ [2m149[0m |         
+                    
+</div>
+ [2m150[0m |         
+                </div>
+ [2m151[0m |         
+            </div>
+ [2m152[0m |         
+        </div>
+ [2m153[0m |         
+    </div>
+ [2m154[0m |         
+</div>
+ [2m155[0m |     );
+ [2m156[0m | }
+ [2m157[0m | 
+ [2m158[0m | 
+function DollarSign({ 
+size, className }: { 
+size: number, 
+className?: string }) {
+     : [33;1m         
+^^^^^|^^^^[0m
+     :               
+[33;1m`-- 
+[33;1m`DollarSign` 
+redefined here[0m[0m
+ [2m159[0m |     
+return (
+ [2m160[0m |         
+<svg xmlns="http://www.
+w3.org/2000/svg" 
+width={size} 
+height={size} 
+viewBox="0 0 24 24" 
+fill="none" 
+stroke="currentColor" 
+strokeWidth="2" 
+strokeLinecap="round" 
+strokeLinejoin="round" 
+className={className}><
+line x1="12" y1="1" 
+x2="12" y2="23" 
+/><path d="M17 
+5H9.5a3.5 3.5 0 0 0 0 
+7h5a3.5 3.5 0 0 1 0 
+7H6" /></svg>
+ [2m160[0m |     );
+     `----
+
+Import trace for 
+requested module:
+./src/app/dashboard/Das
+hboardOverview.tsx
+./src/app/dashboard/pag
+e.tsx
+
+
+> Build failed because 
+of webpack errors

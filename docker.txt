@@ -1,0 +1,182 @@
+﻿docker : time="2026-03-05T01:4
+7:01+05:00" level=warning 
+msg="The 
+\"NEXT_PUBLIC_SUPABASE_URL\" 
+variable is not set. 
+Defaulting to a blank string."
+At line:1 char:1
++ docker compose up -d 
+--build > docker_output.txt 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+    NotSpecified: (time="202  
+  6-03-0... blank string.":   
+ String) [], RemoteExcepti    
+on
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 
+time="2026-03-05T01:47:01+05:0
+0" level=warning msg="The \"NE
+XT_PUBLIC_SUPABASE_ANON_KEY\" 
+variable is not set. 
+Defaulting to a blank string."
+time="2026-03-05T01:47:01+05:0
+0" level=warning msg="The 
+\"SUPABASE_SERVICE_ROLE_KEY\" 
+variable is not set. 
+Defaulting to a blank string."
+time="2026-03-05T01:47:01+05:0
+0" level=warning msg="The 
+\"DATABASE_URL\" variable is 
+not set. Defaulting to a 
+blank string."
+time="2026-03-05T01:47:01+05:0
+0" level=warning msg="D:\\ptcm
+atrix\\docker-compose.yml: 
+the attribute `version` is 
+obsolete, it will be ignored, 
+please remove it to avoid 
+potential confusion"
+#1 [internal] load local bake definitions
+#1 reading from stdin 472B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.87kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 1.2s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [base 1/1] FROM docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+#5 resolve docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8 0.0s done
+#5 DONE 0.0s
+
+#6 [builder 1/4] WORKDIR /app
+#6 CACHED
+
+#7 [runner 2/8] RUN addgroup --system --gid 1001 nodejs
+#7 CACHED
+
+#8 [runner 3/8] RUN adduser --system --uid 1001 nextjs
+#8 CACHED
+
+#9 [internal] load build context
+#9 transferring context: 3.05MB 0.8s done
+#9 DONE 0.8s
+
+#10 [deps 1/4] RUN apk add --no-cache libc6-compat
+#10 CACHED
+
+#11 [deps 2/4] WORKDIR /app
+#11 CACHED
+
+#12 [deps 3/4] COPY package.json package-lock.json* ./
+#12 CACHED
+
+#13 [deps 4/4] RUN npm ci
+#13 CACHED
+
+#14 [builder 2/4] COPY --from=deps /app/node_modules ./node_modules
+#14 CACHED
+
+#15 [builder 3/4] COPY . .
+#15 DONE 7.0s
+
+#16 [builder 4/4] RUN npm run build
+#16 0.717 
+#16 0.717 > ptcmatrix@0.1.0 build
+#16 0.717 > next build
+#16 0.717 
+#16 1.166   Γû▓ Next.js 14.2.15
+#16 1.166   - Environments: .env.local
+#16 1.166 
+#16 1.180    Creating an optimized production build ...
+#16 10.48  Γ£ô Compiled successfully
+#16 10.48    Skipping validation of types
+#16 10.48    Skipping linting
+#16 10.65    Collecting page data ...
+#16 11.68    Generating static pages (0/23) ...
+#16 11.91    Generating static pages (5/23) 
+#16 11.91    Generating static pages (11/23) 
+#16 11.91    Generating static pages (17/23) 
+#16 11.91  Γ£ô Generating static pages (23/23)
+#16 12.06    Finalizing page optimization ...
+#16 12.06    Collecting build traces ...
+#16 19.14 
+#16 19.14 Route (app)                              Size     First Load JS
+#16 19.14 Γöî ╞Æ /                                    183 B          94.2 kB
+#16 19.14 Γö£ ╞Æ /_not-found                          873 B          88.1 kB
+#16 19.14 Γö£ ╞Æ /admin/ads                           157 B          87.3 kB
+#16 19.14 Γö£ ╞Æ /admin/impersonate                   157 B          87.3 kB
+#16 19.14 Γö£ ╞Æ /admin/levels                        157 B          87.3 kB
+#16 19.14 Γö£ ╞Æ /admin/settings                      157 B          87.3 kB
+#16 19.14 Γö£ ╞Æ /admin/simulate                      1.37 kB        88.5 kB
+#16 19.14 Γö£ ╞Æ /admin/users                         183 B          94.2 kB
+#16 19.14 Γö£ ╞Æ /admin/users/[id]/audit              183 B          94.2 kB
+#16 19.14 Γö£ ╞Æ /api/ads/verify                      0 B                0 B
+#16 19.14 Γö£ ╞Æ /api/inngest                         0 B                0 B
+#16 19.14 Γö£ ╞Æ /api/simulate                        0 B                0 B
+#16 19.14 Γö£ ╞Æ /api/webhooks/nowpayments            0 B                0 B
+#16 19.14 Γö£ ╞Æ /auth/login                          1.25 kB         146 kB
+#16 19.14 Γö£ ╞Æ /auth/register                       1.55 kB         146 kB
+#16 19.14 Γö£ ╞Æ /dashboard                           157 B          87.3 kB
+#16 19.14 Γö£ ╞Æ /dashboard/ads                       1.53 kB        88.7 kB
+#16 19.14 Γö£ ╞Æ /dashboard/community                 1.52 kB         140 kB
+#16 19.14 Γö£ ╞Æ /dashboard/matrix                    157 B          87.3 kB
+#16 19.14 Γö£ ╞Æ /dashboard/messages                  1.53 kB         140 kB
+#16 19.14 Γöö ╞Æ /dashboard/wallet                    157 B          87.3 kB
+#16 19.14 + First Load JS shared by all            87.2 kB
+#16 19.14   Γö£ chunks/117-ac559d6b90f3aaee.js       31.6 kB
+#16 19.14   Γö£ chunks/fd9d1056-be14c7e380e6a758.js  53.6 kB
+#16 19.14   Γöö other shared chunks (total)          1.95 kB
+#16 19.14 
+#16 19.14 
+#16 19.14 ╞Æ  (Dynamic)  server-rendered on demand
+#16 19.14 
+#16 19.16 npm notice
+#16 19.16 npm notice New major version of npm available! 10.8.2 -> 11.11.0
+#16 19.16 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.11.0
+#16 19.16 npm notice To update run: npm install -g npm@11.11.0
+#16 19.16 npm notice
+#16 DONE 19.3s
+
+#17 [runner 4/8] COPY --from=builder /app/public ./public
+#17 ERROR: failed to calculate checksum of ref x4fl4ed7lrlaujfn36kjl5l68::xlmlegd7uyulzl31jcwcpigw4: "/app/public": not found
+------
+ > [runner 4/8] COPY --from=builder /app/public ./public:
+------
+Dockerfile:38
+
+--------------------
+
+  36 |     RUN adduser 
+--system --uid 1001 nextjs
+
+  37 |     
+
+  38 | >>> COPY 
+--from=builder /app/public 
+./public
+
+  39 |     
+
+  40 |     # Set the correct 
+permission for prerender cache
+
+--------------------
+
+failed to solve: failed to 
+compute cache key: failed to 
+calculate checksum of ref x4fl
+4ed7lrlaujfn36kjl5l68::xlmlegd
+7uyulzl31jcwcpigw4: 
+"/app/public": not found
+
