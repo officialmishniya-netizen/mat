@@ -12,17 +12,15 @@ export default async function LandingPage() {
   const settings = await getSiteSettings();
 
   const stats = [
-    { value: "127,400", suffix: "+", label: "Active Members" },
-    { value: "4.2", prefix: "$", suffix: "M+", label: "Total Paid Out" },
-    { value: "99.9", suffix: "%", label: "Uptime Guaranteed" },
-    { value: "48", suffix: "hrs", label: "Avg. Withdrawal Time" },
+    { value: "6,300", prefix: "", suffix: "", label: "Active Members" },
+    { value: "99.9", prefix: "", suffix: "%", label: "Uptime Guaranteed" },
   ];
 
   const features = [
     {
       icon: MousePointerClick,
       gradient: "from-orange-500 to-red-500",
-      title: "Paid To Click (PTC)",
+      title: "Ad Click",
       desc: "Earn real USD every time you view a premium advertisement. Every click is verified, anti-cheat enforced, and credited to your account instantly.",
     },
     {
@@ -58,9 +56,9 @@ export default async function LandingPage() {
   ];
 
   const howItWorks = [
-    { step: "01", title: "Create Free Account", desc: "Sign up in under 60 seconds. No credit card. Instant access to your dashboard and PTC earnings." },
-    { step: "02", title: "Click Ads & Earn", desc: "Visit the PTC section and click vetted premium ads. Every click credits real USD with no daily limit." },
-    { step: "03", title: "Buy a Matrix Level", desc: "Use your PTC earnings to buy a matrix position. Our BFS algorithm auto-fills your downline from network overflow." },
+    { step: "01", title: "Create Free Account", desc: "Sign up in under 60 seconds. No credit card. Instant access to your dashboard and Ad Click earnings." },
+    { step: "02", title: "Click Ads & Earn", desc: "Visit the Ad Click section and click vetted premium ads. Every click credits real USD with no daily limit." },
+    { step: "03", title: "Buy a Matrix Level", desc: "Use your Ad Click earnings to buy a matrix position. Our BFS algorithm auto-fills your downline from network overflow." },
     { step: "04", title: "Withdraw Anytime", desc: "Hit the minimum threshold and cash out via crypto or bank. Processed within 48 hours, guaranteed." },
   ];
 
@@ -71,18 +69,18 @@ export default async function LandingPage() {
   ];
 
   const plans = [
-    { name: "Starter",  price: "$10",  credits: "1,000", perCredit: "$0.01",   cyclePayout: "$18.50",  sponsor: "$2.78",   highlight: false, badge: "" },
-    { name: "Basic",    price: "$25",  credits: "2,000", perCredit: "$0.0175", cyclePayout: "$46.25",  sponsor: "$6.94",   highlight: false, badge: "" },
-    { name: "Standard", price: "$100", credits: "3,000", perCredit: "$0.033",  cyclePayout: "$150.00", sponsor: "$22.50",  highlight: false, badge: "" },
-    { name: "Advanced", price: "$200", credits: "4,000", perCredit: "$0.05",   cyclePayout: "$340.00", sponsor: "$51.00",  highlight: true,  badge: "★ Most Popular" },
-    { name: "Pro",      price: "$520", credits: "5,000", perCredit: "$0.104",  cyclePayout: "$962.00", sponsor: "$144.30", highlight: false, badge: "Best Value" },
+    { name: "Starter",  price: "$10",  credits: "1,000", perCredit: "$0.01",   cyclePayout: "$20.00",  sponsor: "$2.78",   highlight: false, badge: "" },
+    { name: "Basic",    price: "$25",  credits: "2,000", perCredit: "$0.0175", cyclePayout: "$50.00",  sponsor: "$6.94",   highlight: false, badge: "" },
+    { name: "Standard", price: "$100", credits: "3,000", perCredit: "$0.033",  cyclePayout: "$200.00", sponsor: "$22.50",  highlight: false, badge: "" },
+    { name: "Advanced", price: "$200", credits: "4,000", perCredit: "$0.05",   cyclePayout: "$400.00", sponsor: "$51.00",  highlight: true,  badge: "★ Most Popular" },
+    { name: "Pro",      price: "$520", credits: "5,000", perCredit: "$0.104",  cyclePayout: "$1,100.00", sponsor: "$144.30", highlight: false, badge: "Best Value" },
   ];
 
   const tickerItems = [
-    "🟢 Ahmad W. just withdrew $240", "🟢 James K. cycled Level 3 — +$125", "🟢 Priya S. earned $18 in PTC today",
+    "🟢 Ahmad W. just withdrew $240", "🟢 James K. cycled Level 3 — +$125", "🟢 Priya S. earned $18 in Ad Click today",
     "🟢 Carlos M. just joined from Mexico", "🟢 Sarah L. withdrew $520 via USDT", "🟢 David O. reached Level 5 — +$480",
     "🟢 Nour A. earned $60 matching bonus", "🟢 Wei C. clicked 80 ads today — +$24",
-    "🟢 Ahmad W. just withdrew $240", "🟢 James K. cycled Level 3 — +$125", "🟢 Priya S. earned $18 in PTC today",
+    "🟢 Ahmad W. just withdrew $240", "🟢 James K. cycled Level 3 — +$125", "🟢 Priya S. earned $18 in Ad Click today",
     "🟢 Carlos M. just joined from Mexico", "🟢 Sarah L. withdrew $520 via USDT", "🟢 David O. reached Level 5 — +$480",
   ];
 
@@ -107,6 +105,7 @@ export default async function LandingPage() {
               ))}
             </div>
             <div className="flex items-center gap-3 animate-fade-in delay-200">
+              <Link href="/admin" className="text-sm font-semibold text-white/60 hover:text-white transition-colors">Admin Panel</Link>
               <Link href="/auth/login" className="text-sm font-semibold text-white/60 hover:text-white transition-colors">Log In</Link>
               <Link href="/auth/register" className="text-sm font-black px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 animate-gradient hover:scale-105 transition-transform shadow-lg shadow-orange-900/40">
                 Join Free →
@@ -138,7 +137,7 @@ export default async function LandingPage() {
           {/* Live badge */}
           <div className="animate-fade-up inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-8 hover:bg-white/8 transition-colors cursor-default">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold text-white/60 uppercase tracking-[0.15em]">Live & Paying — est. 2023</span>
+            <span className="text-xs font-bold text-white/60 uppercase tracking-[0.15em]">Live & Paying — est. 2026</span>
           </div>
 
           {/* Headline */}
@@ -151,8 +150,8 @@ export default async function LandingPage() {
           </h1>
 
           <p className="animate-fade-up delay-200 max-w-2xl mx-auto text-lg sm:text-xl text-white/45 leading-relaxed mb-10">
-            The world&apos;s most transparent <span className="text-orange-400 font-semibold">PTC + Matrix</span> earning platform.
-            Built for long-term stability. Trusted by <span className="text-white/70">127,000+</span> members globally.
+            The world&apos;s most transparent <span className="text-orange-400 font-semibold">MatClick Investment</span> platform.
+            Built for long-term stability. Trusted by <span className="text-white/70">6,300</span> members globally.
           </p>
 
           <div className="animate-fade-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
@@ -551,10 +550,10 @@ export default async function LandingPage() {
                 </div>
                 <h3 className="text-xl font-black text-white mb-3">Earning Boosters</h3>
                 <p className="text-white/45 text-sm leading-relaxed mb-5">
-                  Activate time-limited boosters that multiply your PTC earnings, speed up matrix cycles, and amplify matching bonuses — all with a single click from your dashboard.
+                  Activate time-limited boosters that multiply your Ad Click earnings, speed up matrix cycles, and amplify matching bonuses — all with a single click from your dashboard.
                 </p>
                 <ul className="space-y-2.5">
-                  {["2× PTC click value for 24hrs", "Fast-cycle matrix booster", "Matching bonus amplifier", "Team-wide unlock events"].map((f) => (
+                  {["2× Ad Click value for 24hrs", "Fast-cycle matrix booster", "Matching bonus amplifier", "Team-wide unlock events"].map((f) => (
                     <li key={f} className="flex items-center gap-2.5 text-sm text-white/55">
                       <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0" />
                       {f}
@@ -599,7 +598,7 @@ export default async function LandingPage() {
           <ScrollReveal className="text-center mb-16">
             <span className="text-xs font-black text-orange-400 uppercase tracking-[0.2em]">Real People. Real Money.</span>
             <h2 className="mt-3 text-4xl sm:text-5xl font-black text-white">
-              Trusted by <span className="text-white/30">127,000+ Members</span>
+              Trusted by <span className="text-white/30">6,300 Members</span>
             </h2>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -646,7 +645,7 @@ export default async function LandingPage() {
               <div className="relative">
                 <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-4 py-1.5 mb-8">
                   <Award size={13} className="text-white" />
-                  <span className="text-xs font-bold text-white uppercase tracking-widest">Join 127,000+ Members Today</span>
+                  <span className="text-xs font-bold text-white uppercase tracking-widest">Join 6,300 Members Today</span>
                 </div>
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-5 leading-tight">
                   Your Next Withdrawal<br />Starts Right Now.
@@ -667,7 +666,7 @@ export default async function LandingPage() {
                   </Link>
                 </div>
                 <p className="mt-6 text-white/45 text-sm">
-                  Free forever PTC access · No credit card required · Cancel anytime
+                  Free forever Ad Click access · No credit card required · Cancel anytime
                 </p>
               </div>
             </div>
@@ -688,7 +687,7 @@ export default async function LandingPage() {
                 <span className="font-extrabold text-lg">{settings.site_name}</span>
               </div>
               <p className="text-white/35 text-sm leading-relaxed mb-5">
-                The world&apos;s most transparent hybrid PTC & Matrix platform. Built for long-term digital income.
+                The world&apos;s most transparent hybrid MatClick investment platform. Built for long-term digital income.
               </p>
               <div className="flex items-center gap-2">
                 <ShieldCheck size={15} className="text-emerald-400" />
@@ -699,7 +698,7 @@ export default async function LandingPage() {
             <div>
               <h4 className="text-white font-black text-xs mb-5 uppercase tracking-widest">Platform</h4>
               <ul className="space-y-3">
-                {["How It Works", "Matrix System", "PTC Earnings", "Matching Bonuses", "Withdrawal Policy"].map((l) => (
+                {["How It Works", "Matrix System", "Ad Click Earnings", "Matching Bonuses", "Withdrawal Policy"].map((l) => (
                   <li key={l}><a href="#" className="text-white/35 text-sm hover:text-orange-400 transition-colors">{l}</a></li>
                 ))}
               </ul>
@@ -722,29 +721,6 @@ export default async function LandingPage() {
                 ))}
               </ul>
             </div>
-          </div>
-
-          {/* Trust badges */}
-          <div className="border-t border-white/5 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { icon: DollarSign, label: "Verified Payouts", sub: "$4.2M+ Paid" },
-              { icon: Clock, label: "48hr Withdrawals", sub: "Guaranteed" },
-              { icon: BarChart3, label: "99.9% Uptime", sub: "SLA Backed" },
-              { icon: Wallet, label: "Multi-Currency", sub: "Crypto & Bank" },
-            ].map((b) => {
-              const Icon = b.icon;
-              return (
-                <div key={b.label} className="flex items-center gap-3 group">
-                  <div className="w-9 h-9 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center shrink-0 group-hover:border-orange-500/20 transition-colors">
-                    <Icon size={15} className="text-orange-400" />
-                  </div>
-                  <div>
-                    <div className="text-white text-xs font-semibold">{b.label}</div>
-                    <div className="text-white/25 text-xs">{b.sub}</div>
-                  </div>
-                </div>
-              );
-            })}
           </div>
 
           {/* Bottom bar */}
