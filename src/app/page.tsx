@@ -378,66 +378,69 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4 items-end mt-12">
             {plans.map((plan, i) => {
               const accents = [
-                { bar: "from-slate-400 to-slate-500",   glow: "rgba(148,163,184,0.15)", ring: "border-slate-500/20" },
-                { bar: "from-blue-400 to-blue-600",      glow: "rgba(59,130,246,0.15)", ring: "border-blue-500/20" },
-                { bar: "from-violet-400 to-violet-600",  glow: "rgba(139,92,246,0.15)", ring: "border-violet-500/20" },
-                { bar: "from-orange-400 to-red-500",     glow: "rgba(249,115,22,0.25)", ring: "border-orange-500/40" },
-                { bar: "from-amber-300 to-amber-500",    glow: "rgba(245,158,11,0.2)",  ring: "border-amber-500/30" },
+                { bar: "from-slate-400 to-slate-500",   glow: "rgba(148,163,184,0.15)", ring: "border-slate-500/20", glowBg: "bg-slate-500/5", glowBorder: "border-slate-500/10" },
+                { bar: "from-blue-400 to-blue-600",      glow: "rgba(59,130,246,0.15)", ring: "border-blue-500/20", glowBg: "bg-blue-500/5", glowBorder: "border-blue-500/10" },
+                { bar: "from-violet-400 to-violet-600",  glow: "rgba(139,92,246,0.15)", ring: "border-violet-500/20", glowBg: "bg-violet-500/5", glowBorder: "border-violet-500/10" },
+                { bar: "from-orange-400 to-red-500",     glow: "rgba(249,115,22,0.25)", ring: "border-orange-500/40", glowBg: "bg-orange-500/5", glowBorder: "border-orange-500/20" },
+                { bar: "from-amber-300 to-amber-500",    glow: "rgba(245,158,11,0.2)",  ring: "border-amber-500/30", glowBg: "bg-amber-500/5", glowBorder: "border-amber-500/10" },
               ];
               const a = accents[i];
               return (
-                <ScrollReveal key={plan.name} scale delay={i * 80} className={`${plan.highlight ? 'lg:-translate-y-4' : ''}`}>
+                <ScrollReveal key={plan.name} scale delay={i * 80} className={`${plan.highlight ? 'lg:-translate-y-4 relative z-10' : ''}`}>
                   <div
-                    className={`relative rounded-3xl border flex flex-col overflow-hidden transition-all duration-500 group
+                    className={`relative rounded-[2rem] border flex flex-col overflow-hidden transition-all duration-500 group
                       ${plan.highlight
-                        ? `${a.ring} bg-gradient-to-b from-[#1c140d] to-[#0a0705] shadow-[0_0_40px_rgba(249,115,22,0.15)] ring-1 ring-orange-500/50`
-                        : `${a.ring} bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-2xl`
+                        ? `bg-[#0a0604] shadow-[0_0_60px_rgba(249,115,22,0.2)] border-orange-500/50`
+                        : `bg-[#0c0c14] hover:bg-[#11111a] hover:-translate-y-2 hover:shadow-2xl border-white/5`
                       }`}
                   >
                     {/* Animated top accent bar */}
                     <div className={`h-1.5 w-full bg-gradient-to-r ${a.bar} ${plan.highlight ? "animate-gradient" : "opacity-80"}`}
                       style={{ backgroundSize: "200% 100%" }} />
 
+                    {/* Gradient overlay */}
+                    <div className={`absolute top-0 inset-x-0 h-40 bg-gradient-to-b ${a.glowBg} to-transparent opacity-50 pointer-events-none`} />
+
                     {/* Badge */}
                     {plan.badge && (
-                      <div className={`absolute top-5 right-5 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full
+                      <div className={`absolute top-6 right-6 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full
                         ${plan.highlight
                           ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg shadow-orange-900/50"
-                          : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                          : "bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-400 border border-amber-500/30"
                         }`}>
                         {plan.badge}
                       </div>
                     )}
 
-                    <div className="p-8 flex flex-col flex-1">
+                    <div className="p-8 flex flex-col flex-1 relative z-10">
                       {/* Plan name + entry */}
-                      <div className="mb-8">
-                        <p className="text-[11px] font-black text-white/40 uppercase tracking-[0.2em] mb-2">Entry Price</p>
+                      <div className="mb-10">
+                        <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.25em] mb-3">Entry Price</p>
                         <div className="flex items-end gap-2">
-                          <span className={`text-4xl font-black tabular-nums tracking-tight ${plan.highlight ? "text-white" : "text-white/90"}`}>
+                          <span className={`text-4xl lg:text-5xl font-black tabular-nums tracking-tight ${plan.highlight ? "text-white drop-shadow-md" : "text-white/90"}`}>
                             {plan.price}
                           </span>
                         </div>
-                        <p className={`text-sm font-black mt-2 uppercase tracking-wider ${plan.highlight ? "text-orange-400" : "text-white/50"}`}>
+                        <p className={`text-sm font-black mt-3 uppercase tracking-[0.2em] ${plan.highlight ? "text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]" : "text-white/40"}`}>
                           {plan.name}
                         </p>
                       </div>
 
                       {/* HERO — Cycle Payout */}
-                      <div className={`rounded-2xl p-5 mb-8 text-center relative overflow-hidden group-hover:scale-[1.02] transition-transform
+                      <div className={`rounded-2xl p-6 mb-10 text-center relative overflow-hidden group-hover:scale-[1.03] transition-all duration-500
                         ${plan.highlight
-                          ? "bg-gradient-to-b from-emerald-500/10 to-transparent border border-emerald-500/30 shadow-[inset_0_0_20px_rgba(16,185,129,0.05)]"
-                          : "bg-white/[0.03] border border-white/10"
+                          ? "bg-gradient-to-b from-emerald-500/[0.08] to-emerald-500/[0.02] border border-emerald-500/40 shadow-[inset_0_0_30px_rgba(16,185,129,0.1)] ring-1 ring-emerald-500/20"
+                          : `bg-white/[0.02] border ${a.glowBorder}`
                         }`}>
-                        {plan.highlight && <div className="absolute inset-0 bg-emerald-500/5 animate-pulse" />}
+                        {plan.highlight && <div className="absolute inset-0 bg-emerald-500/10 mix-blend-overlay animate-pulse" />}
                         <p className="relative z-10 text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-2">Total Cycle Payout</p>
-                        <p className={`relative z-10 font-black tabular-nums tracking-tight ${plan.highlight ? "text-4xl text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]" : "text-3xl text-emerald-500/90"}`}>
+                        <p className={`relative z-10 font-black tabular-nums tracking-tight ${plan.highlight ? "text-4xl lg:text-[2.75rem] text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.4)]" : "text-3xl text-emerald-500/80 drop-shadow-sm"}`}>
                           {plan.cyclePayout}
                         </p>
                       </div>
 
                       {/* Stats grid */}
-                      <div className="space-y-4 mb-8 flex-1">
+                      <div className="space-y-4 mb-10 flex-1">
                         {[
                           { label: "Ad Credits", value: plan.credits },
                           { label: "Per Credit", value: plan.perCredit },
@@ -447,8 +450,8 @@ export default async function LandingPage() {
                             <span className="text-sm font-medium text-white/40">{row.label}</span>
                             <span className={`text-sm font-bold tabular-nums
                               ${row.highlight
-                                ? (plan.highlight ? "text-blue-400" : "text-blue-400/80")
-                                : "text-white/70"
+                                ? (plan.highlight ? "text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" : "text-blue-400/80")
+                                : "text-white/80"
                               }`}>
                               {row.value}
                             </span>
@@ -459,13 +462,13 @@ export default async function LandingPage() {
                       {/* CTA */}
                       <Link
                         href="/auth/register"
-                        className={`w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-xl text-sm font-black transition-all duration-300
+                        className={`w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-2xl text-[15px] font-black tracking-wide transition-all duration-300
                           ${plan.highlight
-                            ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] hover:scale-[1.02] animate-gradient"
-                            : "bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white"
+                            ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] hover:scale-[1.03] animate-gradient"
+                            : "bg-white/[0.03] border border-white/10 text-white/70 hover:bg-white/[0.08] hover:text-white"
                           }`}
                       >
-                        Select Plan <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                        Select Plan <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform" />
                       </Link>
                     </div>
                   </div>
