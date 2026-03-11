@@ -92,7 +92,7 @@ export default async function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <Link href="/" className="flex items-center gap-3 animate-fade-in group">
-              <img src="/logo.PNG" alt={settings.site_name} className="h-[75px] w-auto object-contain group-hover:scale-105 transition-transform" />
+              <img src="/logo.png" alt={settings.site_name} className="h-[75px] w-auto object-contain group-hover:scale-105 transition-transform" />
             </Link>
             <div className="hidden md:flex items-center gap-8 animate-fade-in delay-100">
               {["#features", "#how-it-works", "#plans", "#testimonials"].map((href, i) => (
@@ -347,7 +347,7 @@ export default async function LandingPage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-orange-600/5 rounded-full blur-[140px]" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative">
           <ScrollReveal className="text-center mb-16">
             <span className="text-xs font-black text-orange-400 uppercase tracking-[0.2em]">Investment Plans</span>
             <h2 className="mt-3 text-4xl sm:text-5xl font-black text-white">
@@ -483,7 +483,7 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 py-16">
             <div className="md:col-span-2">
               <Link href="/" className="inline-flex items-center gap-3 mb-6">
-                <img src="/logo.PNG" alt={settings.site_name} className="h-20 w-auto object-contain" />
+                <img src="/logo.png" alt={settings.site_name} className="h-20 w-auto object-contain" />
               </Link>
               <p className="text-white/35 text-sm leading-relaxed mb-5 max-w-sm">The world&apos;s most transparent MatClick investment platform. Built for long-term digital income.</p>
               <div className="flex items-center gap-2"><ShieldCheck size={15} className="text-emerald-400" /><span className="text-emerald-400 text-xs font-semibold">SSL Secured & Encrypted</span></div>

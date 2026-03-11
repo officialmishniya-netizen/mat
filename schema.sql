@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS public.users (
   id UUID REFERENCES auth.users(id) PRIMARY KEY,
   email TEXT UNIQUE NOT NULL,
   username TEXT UNIQUE NOT NULL,
+  telegram_username TEXT,
   role user_role DEFAULT 'user',
   sponsor_id UUID REFERENCES public.users(id) ON DELETE SET NULL,
   ad_credits INTEGER DEFAULT 0,
