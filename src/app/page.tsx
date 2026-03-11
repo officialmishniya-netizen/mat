@@ -370,43 +370,92 @@ export default async function LandingPage() {
               const a = accents[i];
               return (
                 <ScrollReveal key={plan.name} scale delay={i * 80} className={`${plan.highlight ? 'lg:-translate-y-6 relative z-10' : ''}`}>
-                  <div className={`relative rounded-3xl border backdrop-blur-2xl flex flex-col overflow-hidden transition-all duration-500 group ${plan.highlight ? `bg-gradient-to-b ${a.bg} ${a.border} shadow-[0_0_50px_rgba(249,115,22,0.25)] ring-1 ring-orange-500/50` : `bg-white/[0.03] hover:bg-gradient-to-b hover:${a.bg} ${a.border} hover:-translate-y-2`}`}>
-                    {plan.highlight && <div className="absolute -top-24 -right-24 w-64 h-64 bg-orange-500/30 rounded-full blur-[80px] pointer-events-none" />}
+                  <div
+                    className={`relative rounded-[2rem] border backdrop-blur-3xl flex flex-col overflow-hidden transition-all duration-700 group
+                      ${plan.highlight
+                        ? `bg-gradient-to-b ${a.bg} ${a.border} shadow-[0_0_80px_rgba(249,115,22,0.3)] ring-1 ring-orange-500/50 scale-[1.02]`
+                        : `bg-white/[0.02] hover:bg-white/[0.04] ${a.border} hover:-translate-y-2 hover:shadow-2xl`
+                      }`}
+                  >
+                    {/* Glowing Orb Behind Card */}
+                    {plan.highlight && (
+                      <div className="absolute -top-32 -right-32 w-80 h-80 bg-orange-600/30 rounded-full blur-[100px] pointer-events-none animate-pulse" />
+                    )}
+                    
+                    {/* Premium Glass Shine */}
+                    <div className="absolute top-0 inset-x-0 h-[40%] bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none" />
                     <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-50" />
+
+                    {/* Floating Badge */}
                     {plan.badge && (
-                      <div className={`absolute top-5 right-5 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-xl ${plan.highlight ? "bg-white text-orange-600 border border-white" : `bg-[#13131a] ${a.text} border ${a.border}`}`}>
+                      <div className={`absolute top-6 right-6 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-2xl z-20
+                        ${plan.highlight
+                          ? "bg-white text-orange-600 animate-bounce"
+                          : `bg-white/[0.05] ${a.text} border border-white/10`
+                        }`}>
                         {plan.badge}
                       </div>
                     )}
-                    <div className="p-8 flex flex-col flex-1 relative z-10">
-                      <div className="mb-8">
-                        <div className={`inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-6 shadow-Inner ${plan.highlight ? 'bg-gradient-to-br from-orange-400 to-red-600' : 'bg-white/5 border border-white/10'}`}>
-                          <DollarSign size={24} className={plan.highlight ? 'text-white' : a.text} />
+
+                    <div className="p-8 pb-10 flex flex-col flex-1 relative z-10">
+                      {/* Plan Header */}
+                      <div className="mb-10 pt-4">
+                        <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6 shadow-2xl 
+                          ${plan.highlight ? 'bg-gradient-to-br from-orange-400 to-red-600' : 'bg-white/5 border border-white/10'}`}>
+                          <DollarSign size={28} className={plan.highlight ? 'text-white' : a.text} />
                         </div>
-                        <p className={`text-xl font-black uppercase tracking-widest ${plan.highlight ? 'text-white drop-shadow-md' : a.text}`}>{plan.name}</p>
-                        <div className="flex items-baseline gap-1 mt-2">
-                          <span className={`text-5xl font-black tabular-nums tracking-tighter ${plan.highlight ? 'text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70' : 'text-white'}`}>{plan.price}</span>
-                          <span className="text-white/30 font-medium text-sm">/ once</span>
+                        <p className={`text-xs font-black uppercase tracking-[0.3em] mb-3 ${plan.highlight ? 'text-orange-300' : 'text-white/40'}`}>
+                          {plan.name} Package
+                        </p>
+                        <div className="flex items-baseline gap-1">
+                          <span className={`text-6xl font-black tabular-nums tracking-tighter ${plan.highlight ? 'text-white' : 'text-white/90'}`}>
+                            {plan.price}
+                          </span>
                         </div>
                       </div>
-                      <div className={`rounded-2xl p-6 mb-8 relative overflow-hidden group-hover:scale-[1.03] transition-all duration-500 ${plan.highlight ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/40 shadow-[inset_0_0_30px_rgba(16,185,129,0.2)]" : "bg-black/20 border border-white/5"}`}>
-                        <p className="relative z-10 text-[11px] font-black text-white/50 uppercase tracking-[0.2em] mb-1">Total Return</p>
-                        <p className={`relative z-10 font-black tabular-nums tracking-tight ${plan.highlight ? "text-4xl text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]" : "text-3xl text-emerald-500/80"}`}>{plan.cyclePayout}</p>
+
+                      {/* Main Value Prop */}
+                      <div className={`rounded-3xl p-6 mb-10 relative overflow-hidden transition-all duration-500
+                        ${plan.highlight
+                          ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 shadow-[inset_0_0_40px_rgba(16,185,129,0.1)] hover:scale-[1.05]"
+                          : "bg-black/40 border border-white/5"
+                        }`}>
+                        <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.25em] mb-2 text-center">Engine ROI Payout</p>
+                        <p className={`text-center font-black tabular-nums tracking-tight ${plan.highlight ? "text-4xl text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.4)]" : "text-3xl text-emerald-500/70"}`}>
+                          {plan.cyclePayout}
+                        </p>
                       </div>
-                      <div className="space-y-4 mb-10 flex-1">
+
+                      {/* Details List */}
+                      <div className="space-y-5 mb-12 flex-1">
                         {[
                           { label: "Ad Credits", value: plan.credits },
-                          { label: "Per Credit", value: plan.perCredit },
+                          { label: "Per Click", value: plan.perCredit },
                           { label: "Sponsor Bonus", value: plan.sponsor, highlight: true },
                         ].map((row) => (
-                          <div key={row.label} className="flex justify-between items-center border-b border-white/5 pb-4 last:border-0 last:pb-0">
-                            <span className="text-sm font-medium text-white/50">{row.label}</span>
-                            <span className={`text-sm font-bold tabular-nums ${row.highlight ? a.text : "text-white"}`}>{row.value}</span>
+                          <div key={row.label} className="flex justify-between items-center group/row">
+                            <span className="text-xs font-bold text-white/30 uppercase tracking-wider group-hover/row:text-white/50 transition-colors">{row.label}</span>
+                            <div className="flex flex-col items-end">
+                              <span className={`text-sm font-black tabular-nums ${row.highlight ? a.text : "text-white"}`}>
+                                {row.value}
+                              </span>
+                              <div className={`h-0.5 w-0 group-hover/row:w-full transition-all duration-300 rounded-full mt-1 ${plan.highlight ? 'bg-orange-500' : 'bg-white/20'}`} />
+                            </div>
                           </div>
                         ))}
                       </div>
-                      <Link href="/auth/register" className={`w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-2xl text-[15px] font-black tracking-wide transition-all duration-300 shadow-xl ${plan.highlight ? "bg-white text-orange-600 hover:scale-[1.03]" : `${a.button} text-white hover:scale-[1.03]`}`}>
-                        Get Started <ArrowRight size={16} />
+
+                      {/* Call to Action */}
+                      <Link
+                        href="/auth/register"
+                        className={`group w-full inline-flex items-center justify-center gap-3 py-5 px-6 rounded-2xl text-[14px] font-black tracking-[0.1em] uppercase transition-all duration-500 shadow-2xl
+                          ${plan.highlight
+                            ? "bg-white text-orange-600 hover:scale-[1.05] hover:shadow-[0_0_50px_rgba(255,255,255,0.2)] active:scale-95"
+                            : `${a.button} text-white hover:scale-[1.05] hover:shadow-xl active:scale-95`
+                          }`}
+                      >
+                        Enter Plan
+                        <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                       </Link>
                     </div>
                   </div>
