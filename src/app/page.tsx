@@ -358,104 +358,70 @@ export default async function LandingPage() {
             </p>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4 items-end mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mt-12">
             {plans.map((plan, i) => {
-              const accents = [
-                { hex: "#94a3b8", bg: "from-slate-500/20 to-slate-900/40", border: "border-slate-500/30", text: "text-slate-400", button: "bg-slate-500 hover:bg-slate-400" },
-                { hex: "#3b82f6", bg: "from-blue-500/20 to-blue-900/40", border: "border-blue-500/30", text: "text-blue-400", button: "bg-blue-600 hover:bg-blue-500" },
-                { hex: "#8b5cf6", bg: "from-violet-500/20 to-violet-900/40", border: "border-violet-500/30", text: "text-violet-400", button: "bg-violet-600 hover:bg-violet-500" },
-                { hex: "#f97316", bg: "from-orange-500/20 to-red-900/40", border: "border-orange-500/50", text: "text-orange-400", button: "bg-gradient-to-r from-orange-500 to-red-600" },
-                { hex: "#f59e0b", bg: "from-amber-500/20 to-amber-900/40", border: "border-amber-500/30", text: "text-amber-400", button: "bg-amber-600 hover:bg-amber-500" },
-              ];
-              const a = accents[i];
+              const isPopular = plan.highlight;
               return (
-                <ScrollReveal key={plan.name} scale delay={i * 80} className={`${plan.highlight ? 'lg:-translate-y-6 relative z-10' : ''}`}>
+                <ScrollReveal key={plan.name} scale delay={i * 80}>
                   <div
-                    className={`relative rounded-[2rem] border backdrop-blur-3xl flex flex-col overflow-hidden transition-all duration-700 group
-                      ${plan.highlight
-                        ? `bg-gradient-to-b ${a.bg} ${a.border} shadow-[0_0_80px_rgba(249,115,22,0.3)] ring-1 ring-orange-500/50 scale-[1.02]`
-                        : `bg-white/[0.02] hover:bg-white/[0.04] ${a.border} hover:-translate-y-2 hover:shadow-2xl`
+                    className={`h-full flex flex-col border-2 transition-all duration-300 group overflow-hidden
+                      ${isPopular 
+                        ? "bg-white border-[#f97316] shadow-[8px_8px_0px_0px_rgba(249,115,22,1)]" 
+                        : "bg-white border-black/5 hover:border-black/20"
                       }`}
                   >
-                    {/* Glowing Orb Behind Card */}
-                    {plan.highlight && (
-                      <div className="absolute -top-32 -right-32 w-80 h-80 bg-orange-600/30 rounded-full blur-[100px] pointer-events-none animate-pulse" />
-                    )}
-                    
-                    {/* Premium Glass Shine */}
-                    <div className="absolute top-0 inset-x-0 h-[40%] bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none" />
-                    <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-50" />
-
-                    {/* Floating Badge */}
+                    {/* Badge */}
                     {plan.badge && (
-                      <div className={`absolute top-6 right-6 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-2xl z-20
-                        ${plan.highlight
-                          ? "bg-white text-orange-600 animate-bounce"
-                          : `bg-white/[0.05] ${a.text} border border-white/10`
-                        }`}>
+                      <div className={`text-[10px] font-black uppercase tracking-widest px-4 py-2 text-center
+                        ${isPopular ? "bg-[#f97316] text-white" : "bg-black/5 text-black/40"}`}>
                         {plan.badge}
                       </div>
                     )}
 
-                    <div className="p-8 pb-10 flex flex-col flex-1 relative z-10">
-                      {/* Plan Header */}
-                      <div className="mb-10 pt-4">
-                        <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6 shadow-2xl 
-                          ${plan.highlight ? 'bg-gradient-to-br from-orange-400 to-red-600' : 'bg-white/5 border border-white/10'}`}>
-                          <DollarSign size={28} className={plan.highlight ? 'text-white' : a.text} />
-                        </div>
-                        <p className={`text-xs font-black uppercase tracking-[0.3em] mb-3 ${plan.highlight ? 'text-orange-300' : 'text-white/40'}`}>
+                    <div className="p-8 flex flex-col flex-1">
+                      <div className="mb-8">
+                        <p className={`text-[10px] font-black uppercase tracking-[0.2em] mb-2 ${isPopular ? "text-[#f97316]" : "text-black/30"}`}>
                           {plan.name} Package
                         </p>
                         <div className="flex items-baseline gap-1">
-                          <span className={`text-6xl font-black tabular-nums tracking-tighter ${plan.highlight ? 'text-white' : 'text-white/90'}`}>
+                          <span className="text-5xl font-black text-black tracking-tighter">
                             {plan.price}
                           </span>
                         </div>
                       </div>
 
-                      {/* Main Value Prop */}
-                      <div className={`rounded-3xl p-6 mb-10 relative overflow-hidden transition-all duration-500
-                        ${plan.highlight
-                          ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 shadow-[inset_0_0_40px_rgba(16,185,129,0.1)] hover:scale-[1.05]"
-                          : "bg-black/40 border border-white/5"
-                        }`}>
-                        <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.25em] mb-2 text-center">Engine ROI Payout</p>
-                        <p className={`text-center font-black tabular-nums tracking-tight ${plan.highlight ? "text-4xl text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.4)]" : "text-3xl text-emerald-500/70"}`}>
+                      {/* ROI Display */}
+                      <div className={`p-4 mb-8 border-l-4 ${isPopular ? "border-[#f97316] bg-orange-50" : "border-black/10 bg-gray-50"}`}>
+                        <p className="text-[9px] font-black text-black/40 uppercase tracking-widest mb-1">Engine ROI Payout</p>
+                        <p className={`text-2xl font-black ${isPopular ? "text-[#f97316]" : "text-black/80"}`}>
                           {plan.cyclePayout}
                         </p>
                       </div>
 
-                      {/* Details List */}
-                      <div className="space-y-5 mb-12 flex-1">
+                      {/* Features */}
+                      <div className="space-y-4 mb-10 flex-1">
                         {[
                           { label: "Ad Credits", value: plan.credits },
                           { label: "Per Click", value: plan.perCredit },
-                          { label: "Sponsor Bonus", value: plan.sponsor, highlight: true },
+                          { label: "Sponsor Bonus", value: plan.sponsor },
                         ].map((row) => (
-                          <div key={row.label} className="flex justify-between items-center group/row">
-                            <span className="text-xs font-bold text-white/30 uppercase tracking-wider group-hover/row:text-white/50 transition-colors">{row.label}</span>
-                            <div className="flex flex-col items-end">
-                              <span className={`text-sm font-black tabular-nums ${row.highlight ? a.text : "text-white"}`}>
-                                {row.value}
-                              </span>
-                              <div className={`h-0.5 w-0 group-hover/row:w-full transition-all duration-300 rounded-full mt-1 ${plan.highlight ? 'bg-orange-500' : 'bg-white/20'}`} />
-                            </div>
+                          <div key={row.label} className="flex justify-between items-center text-xs">
+                            <span className="font-bold text-black/30 uppercase tracking-wider">{row.label}</span>
+                            <span className="font-black text-black">{row.value}</span>
                           </div>
                         ))}
                       </div>
 
-                      {/* Call to Action */}
+                      {/* CTA */}
                       <Link
                         href="/auth/register"
-                        className={`group w-full inline-flex items-center justify-center gap-3 py-5 px-6 rounded-2xl text-[14px] font-black tracking-[0.1em] uppercase transition-all duration-500 shadow-2xl
-                          ${plan.highlight
-                            ? "bg-white text-orange-600 hover:scale-[1.05] hover:shadow-[0_0_50px_rgba(255,255,255,0.2)] active:scale-95"
-                            : `${a.button} text-white hover:scale-[1.05] hover:shadow-xl active:scale-95`
+                        className={`w-full py-4 text-center text-xs font-black uppercase tracking-widest transition-all
+                          ${isPopular 
+                            ? "bg-[#f97316] text-white hover:bg-black" 
+                            : "bg-black text-white hover:bg-[#f97316]"
                           }`}
                       >
                         Enter Plan
-                        <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                       </Link>
                     </div>
                   </div>
@@ -464,16 +430,16 @@ export default async function LandingPage() {
             })}
           </div>
 
-          <ScrollReveal className="mt-10 flex flex-wrap gap-6 justify-center">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
-              <span className="text-white/30 text-xs">Cycle Payout â€” total earned when all credits are clicked</span>
+          <div className="mt-12 flex flex-wrap gap-8 justify-center border-t border-black/5 pt-8">
+            <div className="flex items-center gap-3">
+              <span className="w-3 h-3 bg-[#f97316]" />
+              <span className="text-black/40 text-[10px] font-bold uppercase tracking-wider">Cycle Payout — Total ROI</span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0" />
-              <span className="text-white/30 text-xs">Sponsor Bonus â€” 15% goes to your referrer</span>
+            <div className="flex items-center gap-3">
+              <span className="w-3 h-3 bg-black" />
+              <span className="text-black/40 text-[10px] font-bold uppercase tracking-wider">Sponsor Bonus — Referral Share</span>
             </div>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
 
