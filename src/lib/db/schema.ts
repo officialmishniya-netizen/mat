@@ -1284,3 +1284,13 @@ export const proofCardLogs = pgTable('proof_card_logs', {
     platformShared: text('platform_shared'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
 });
+
+export const simulationRuns = pgTable('simulation_runs', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    config: jsonb('config').notNull(),
+    status: text('status').notNull().default('pending'), // pending | running | completed | failed
+    logs: jsonb('logs').notNull().default('[]'),
+    report: jsonb('report'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
