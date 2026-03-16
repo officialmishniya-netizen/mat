@@ -18,7 +18,7 @@ export default function LiveTreesPage() {
         setLoading(true);
         const { data: lvlData } = await supabase
             .from('levels')
-            .select('id, name, price')
+            .select('id, name, price, matrix_width, matrix_depth')
             .order('id', { ascending: true });
 
         if (lvlData) {
@@ -44,10 +44,22 @@ export default function LiveTreesPage() {
             .order('created_at', { ascending: true })
             .limit(1);
 
+        // Calculate real saturation
+        let fill_pct = 0;
+        if (selectedLevel) {
+            const width = selectedLevel.matrix_width || 2;
+            const depth = selectedLevel.matrix_depth || 2;
+            let capacity = 0;
+            for (let i = 1; i <= depth; i++) {
+                capacity += Math.pow(width, i);
+            }
+            fill_pct = capacity > 0 ? Math.min(100, Math.floor(((queueSize || 0) / capacity) * 100)) : 0;
+        }
+
         setStats({
             queue_size: queueSize || 0,
             next_in_line: (nextData?.[0] as any)?.users?.username || 'None',
-            fill_pct: Math.floor(Math.random() * 100)
+            fill_pct
         });
         setLoading(false);
     };

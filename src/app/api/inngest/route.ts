@@ -1,8 +1,14 @@
 import { serve } from "inngest/next";
 import { inngest } from "@/lib/inngest/client";
-import { checkMatrixCycle } from "@/lib/inngest/functions";
+import { checkMatrixCycle, weeklyPoolDistribution } from "@/lib/inngest/functions";
+import { runFullSimulation, wipeSimulationJob } from "@/lib/inngest/simulation";
 
 export const { GET, POST, PUT } = serve({
     client: inngest,
-    functions: [checkMatrixCycle],
+    functions: [
+        checkMatrixCycle, 
+        weeklyPoolDistribution,
+        runFullSimulation,
+        wipeSimulationJob
+    ],
 });

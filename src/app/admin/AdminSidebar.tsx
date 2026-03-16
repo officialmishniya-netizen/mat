@@ -113,7 +113,7 @@ const navGroups = [
             { name: "White-Label UI", href: "/admin/settings" },
             { name: "Payments Config", href: "/admin/settings/payments" },
             { name: "Email Templates", href: "/admin/emails" },
-            { name: "Simulation Engine", href: "/admin/settings/simulation" }
+            { name: "Simulation Engine", href: "/admin/simulation" }
         ]
     },
     {

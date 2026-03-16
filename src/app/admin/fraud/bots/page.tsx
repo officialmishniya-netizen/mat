@@ -3,6 +3,7 @@ import { adWatchLog, users } from "@/lib/db/schema";
 import { sql } from "drizzle-orm";
 import { getSiteSettings } from "@/lib/settings";
 import { Bot, AlertTriangle } from "lucide-react";
+import FraudActions from "./FraudActions";
 
 export default async function BotPatternsPage() {
   const settings = await getSiteSettings();
@@ -46,7 +47,7 @@ export default async function BotPatternsPage() {
     LIMIT 100
   `);
 
-  const rows = (botScores.rows ?? []) as any[];
+  const rows = (botScores ?? []) as any[];
 
   return (
     <div>
@@ -127,11 +128,7 @@ export default async function BotPatternsPage() {
                       <td className="px-6 py-4 text-right text-xs text-gray-500">{row.night_pct}%</td>
                       <td className="px-6 py-4 text-right text-gray-400">{row.total_watches}</td>
                       <td className="px-6 py-4">
-                        <div className="flex gap-2">
-                          <button className="text-xs font-semibold px-3 py-1.5 bg-yellow-50 text-yellow-700 rounded-lg hover:bg-yellow-100">CAPTCHA</button>
-                          <button className="text-xs font-semibold px-3 py-1.5 bg-orange-50 text-orange-700 rounded-lg hover:bg-orange-100">Suspend</button>
-                          <button className="text-xs font-semibold px-3 py-1.5 bg-red-50 text-red-700 rounded-lg hover:bg-red-100">Ban</button>
-                        </div>
+                        <FraudActions userId={row.user_id} username={row.username} />
                       </td>
                     </tr>
                   );

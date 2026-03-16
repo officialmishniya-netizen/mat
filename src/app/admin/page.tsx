@@ -72,9 +72,17 @@ export default async function AdminDashboardPage() {
     // ----------------------------------------------------------------------
     // 3. ACTION NEEDED
     // ----------------------------------------------------------------------
-    // Standard mock alerts per Master Prompt until full tables are wired
-    const pendingWithdrawals = 0; // Replace with pending withdrawal tables query
-    const flaggedUsers = 0;       // Replace with Anti-cheat table query
+    // Fetch real pending withdrawals
+    const { count: pendingWithdrawals } = await supabase
+        .from('withdrawals')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'pending');
+
+    // Fetch real flagged users (new fraud alerts)
+    const { count: flaggedUsers } = await supabase
+        .from('fraud_alerts')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'new');
 
     // Matrix Distribution for the pie chart
     const { data: levels } = await supabase.from('levels').select('id, name');

@@ -14,6 +14,18 @@ type Events = {
             levelId: number;
         };
     };
+    "simulation/run.full": {
+        data: {
+            breadth?: number;
+            depth?: number;
+            levelId?: number;
+            watchesPerUser?: number;
+            fundAmount?: number;
+        };
+    };
+    "simulation/wipe": {
+        data: {};
+    };
 };
 
 export const inngest = new Inngest({

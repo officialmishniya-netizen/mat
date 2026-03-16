@@ -1,18 +1,57 @@
 "use client";
 
-import React, { useState } from 'react';
-import { CalendarClock, Play, ShieldAlert, CheckCircle2, XCircle, Search, Filter, ArrowUpRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CalendarClock, Play, ShieldAlert, CheckCircle2, XCircle, Search, Filter, ArrowUpRight, RefreshCw } from 'lucide-react';
 import { useTranslation } from "@/lib/i18n/context";
+import { supabase } from "@/lib/supabase";
 
 export default function AdminScheduledPayoutsPage() {
     const { t } = useTranslation();
     const [isSimulating, setIsSimulating] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [schedules, setSchedules] = useState<any[]>([]);
+    const [stats, setStats] = useState({
+        activeCount: 0,
+        nextBatchSize: '0.00',
+        successRate: '99.4%', // Keeping as placeholder until success log logic is mature
+        solvency: '1.24x'      // Keeping as placeholder until global reserves logic is wired
+    });
 
-    const schedules = [
-        { id: '1', user: 'ahmad_khan', frequency: 'Weekly', amount: 'Fixed ($50.00)', lastRun: '2024-03-07', nextRun: '2024-03-14', status: 'Active' },
-        { id: '2', user: 'john_doe', frequency: 'Monthly', amount: 'All Available', lastRun: '2024-03-01', nextRun: '2024-04-01', status: 'Active' },
-        { id: '3', user: 'crypto_trader', frequency: 'Bi-Weekly', amount: 'Fixed ($100.00)', lastRun: '2024-02-28', nextRun: '2024-03-13', status: 'Paused' },
-    ];
+    const fetchData = async () => {
+        setLoading(true);
+        // 1. Fetch real schedules
+        const { data: scheduleData } = await supabase
+            .from('withdrawal_schedules')
+            .select('*, users(username)')
+            .order('next_run_at', { ascending: true });
+
+        if (scheduleData) {
+            setSchedules(scheduleData.map(s => ({
+                id: s.id,
+                user: (s.users as any)?.username || 'user',
+                frequency: s.frequency,
+                amount: s.amount_type === 'fixed' ? `Fixed ($${parseFloat(s.fixed_amount).toFixed(2)})` : 'All Available',
+                lastRun: s.last_run_at ? new Date(s.last_run_at).toLocaleDateString() : 'Never',
+                nextRun: s.next_run_at ? new Date(s.next_run_at).toLocaleDateString() : 'TBD',
+                status: s.is_active ? 'Active' : 'Paused'
+            })));
+
+            // 2. Calculate Stats
+            const activeSchedules = scheduleData.filter(s => s.is_active);
+            const batchSize = activeSchedules.reduce((acc, curr) => acc + parseFloat(curr.fixed_amount || '0'), 0);
+
+            setStats(prev => ({
+                ...prev,
+                activeCount: activeSchedules.length,
+                nextBatchSize: batchSize.toFixed(2)
+            }));
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const runSimulation = async () => {
         setIsSimulating(true);
@@ -28,6 +67,9 @@ export default function AdminScheduledPayoutsPage() {
                     <p className="text-gray-500 text-sm mt-1">Global overview of automated withdrawal schedules and performance.</p>
                 </div>
                 <div className="flex items-center gap-3">
+                    <button onClick={fetchData} className="bg-white border border-gray-100 p-2.5 rounded-xl text-gray-400 hover:text-primary transition-colors">
+                        <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
+                    </button>
                     <button
                         onClick={runSimulation}
                         disabled={isSimulating}
@@ -36,18 +78,15 @@ export default function AdminScheduledPayoutsPage() {
                         {isSimulating ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Play size={18} fill="currentColor" />}
                         <span>Simulate Cron Job</span>
                     </button>
-                    <button className="bg-white border border-gray-100 p-2.5 rounded-xl text-[#737791] hover:bg-gray-50">
-                        <Filter size={20} />
-                    </button>
                 </div>
             </header>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {[
-                    { label: 'Active Schedules', value: '432', color: 'text-blue-600', bg: 'bg-blue-50' },
-                    { label: 'Next Batch Size', value: '$12,450.00', color: 'text-primary', bg: 'bg-primary/10' },
-                    { label: 'Success Rate (30d)', value: '99.4%', color: 'text-green-600', bg: 'bg-green-50' },
-                    { label: 'System Solvency', value: '1.24x', color: 'text-purple-600', bg: 'bg-purple-50' }
+                    { label: 'Active Schedules', value: stats.activeCount.toString(), color: 'text-blue-600', bg: 'bg-blue-50' },
+                    { label: 'Next Batch Size', value: `$${stats.nextBatchSize}`, color: 'text-primary', bg: 'bg-primary/10' },
+                    { label: 'Success Rate (30d)', value: stats.successRate, color: 'text-green-600', bg: 'bg-green-50' },
+                    { label: 'System Solvency', value: stats.solvency, color: 'text-purple-600', bg: 'bg-purple-50' }
                 ].map((stat, i) => (
                     <div key={i} className={`${stat.bg} rounded-2xl p-5 border border-white/50 backdrop-blur-sm`}>
                         <p className="text-[10px] uppercase font-black tracking-widest text-[#737791] mb-1">{stat.label}</p>
