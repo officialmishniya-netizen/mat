@@ -6,11 +6,13 @@ export async function GET() {
         const latestRun = await getLatestSimulationRun();
         return NextResponse.json(latestRun || { status: 'idle' });
     } catch (error: any) {
-        console.error("Simulation Status Error:", error);
+        console.error("FULL DB ERROR:", JSON.stringify(error, Object.getOwnPropertyNames(error)));
         return NextResponse.json({ 
-            error: error.message,
-            detail: error.detail || error.hint || "No further details",
-            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+            error: error.message || "Unknown error",
+            code: error.code || "No code",
+            detail: error.detail || "No details",
+            hint: error.hint || "No hint",
+            query: error.query || "No query captured"
         }, { status: 500 });
     }
 }
