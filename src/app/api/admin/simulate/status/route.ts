@@ -6,6 +6,11 @@ export async function GET() {
         const latestRun = await getLatestSimulationRun();
         return NextResponse.json(latestRun || { status: 'idle' });
     } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        console.error("Simulation Status Error:", error);
+        return NextResponse.json({ 
+            error: error.message,
+            detail: error.detail || error.hint || "No further details",
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        }, { status: 500 });
     }
 }
