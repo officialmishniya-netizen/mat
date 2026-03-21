@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/context";
+import { getSiteSettings, SiteSettings } from "@/lib/settings";
 import {
     LayoutDashboard,
     MonitorPlay,
@@ -30,9 +31,23 @@ import {
     PieChart,
     ScanSearch,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const navGroups = [
+type NavItem = {
+    name: string;
+    href: string;
+    reqModule?: keyof SiteSettings;
+};
+
+type NavGroup = {
+    name: string;
+    icon: any;
+    href?: string;
+    items?: NavItem[];
+    reqModule?: keyof SiteSettings;
+};
+
+const navGroups: NavGroup[] = [
     {
         name: "Dashboard",
         icon: LayoutDashboard,
@@ -46,7 +61,8 @@ const navGroups = [
     {
         name: "Marketplace",
         icon: ShoppingBag,
-        href: "/admin/marketplace"
+        href: "/admin/marketplace",
+        reqModule: "enable_marketplace_module"
     },
     {
         name: "User Management",
@@ -61,6 +77,7 @@ const navGroups = [
     {
         name: "Ad Cycle Center",
         icon: MonitorPlay,
+        reqModule: "enable_ptc_module",
         items: [
             { name: "Ad Level Creation", href: "/admin/ads" },
             { name: "Global Ad Settings", href: "/admin/ads/settings" },
@@ -70,6 +87,7 @@ const navGroups = [
     {
         name: "Matrix & Levels",
         icon: Layers,
+        reqModule: "enable_matrix_module",
         items: [
             { name: "Level Configurator", href: "/admin/levels" },
             { name: "Bonus Settings", href: "/admin/levels/bonuses" },
@@ -79,11 +97,12 @@ const navGroups = [
     {
         name: "Finance & Ledger",
         icon: Wallet,
+        reqModule: "enable_finance_module",
         items: [
             { name: "Master Ledger", href: "/admin/ledger" },
             { name: "Withdrawals", href: "/admin/withdrawals" },
             { name: "Scheduled Payouts", href: "/admin/withdrawals/scheduled" },
-            { name: "Investment Pools", href: "/admin/investments" },
+            { name: "Investment Pools", href: "/admin/investments", reqModule: "enable_roi_module" },
             { name: "Deposit Logs", href: "/admin/deposits" },
             { name: "Receipt Audit", href: "/admin/receipts" }
         ]
@@ -101,9 +120,9 @@ const navGroups = [
         name: "Engagement",
         icon: Trophy,
         items: [
-            { name: "Contest Manager", href: "/admin/contests" },
-            { name: "Badge Manager", href: "/admin/achievements" },
-            { name: "Team Chat MOD", href: "/admin/team-chat" }
+            { name: "Contest Manager", href: "/admin/contests", reqModule: "enable_contests_module" },
+            { name: "Badge Manager", href: "/admin/achievements", reqModule: "enable_achievements_module" },
+            { name: "Team Chat MOD", href: "/admin/team-chat", reqModule: "enable_team_chat_module" }
         ]
     },
     {
@@ -111,9 +130,10 @@ const navGroups = [
         icon: Settings,
         items: [
             { name: "White-Label UI", href: "/admin/settings" },
+            { name: "Modules", href: "/admin/settings/modules" },
             { name: "Payments Config", href: "/admin/settings/payments" },
             { name: "Email Templates", href: "/admin/emails" },
-            { name: "Simulation Engine", href: "/admin/simulation" }
+            { name: "Simulation Engine", href: "/admin/simulation", reqModule: "enable_simulation_module" }
         ]
     },
     {
@@ -140,11 +160,16 @@ const navGroups = [
 export default function AdminSidebar() {
     const pathname = usePathname();
     const { t } = useTranslation();
+    const [settings, setSettings] = useState<SiteSettings | null>(null);
     const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
         "Dashboard": true,
         "Ad Click Center": true,
         "Matrix & Levels": true
     });
+
+    useEffect(() => {
+        getSiteSettings().then(setSettings);
+    }, []);
 
     const toggleGroup = (groupName: string) => {
         setOpenGroups(prev => ({
@@ -165,11 +190,22 @@ export default function AdminSidebar() {
             {/* Navigation Layout */}
             <div className="flex-1 px-4 py-4 overflow-y-auto pb-24 scrollbar-thin scrollbar-thumb-gray-200">
                 {navGroups.map((group) => {
+                    if (group.reqModule && settings && !settings[group.reqModule]) return null;
+                    
+                    const visibleItems = group.items?.filter(item => {
+                        if (item.reqModule && settings && !settings[item.reqModule]) return false;
+                        return true;
+                    });
+                    
+                    if (group.items && (!visibleItems || visibleItems.length === 0)) return null;
+                    
+                    const activeItems = visibleItems || [];
+
                     const isStandalone = !!group.href;
                     const isOpen = !isStandalone && !!openGroups[group.name];
                     const hasActiveChild = isStandalone
                         ? pathname === group.href || pathname.startsWith(group.href + '/')
-                        : group.items?.some(item => pathname === item.href || pathname.startsWith(item.href + '/'));
+                        : activeItems.some(item => pathname === item.href || pathname.startsWith(item.href + '/'));
 
                     return (
                         <div key={group.name} className="mb-2">
@@ -200,7 +236,7 @@ export default function AdminSidebar() {
 
                                     {isOpen && group.items && (
                                         <div className="mt-1 ml-4 pl-6 border-l-2 border-orange-100 space-y-1 py-1">
-                                            {group.items.map((item) => {
+                                            {activeItems.map((item) => {
                                                 const isItemActive = pathname === item.href;
                                                 return (
                                                     <Link

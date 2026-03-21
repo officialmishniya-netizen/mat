@@ -32,6 +32,8 @@ import { formatDate, formatTime } from "@/lib/utils";
 import { CopyButton } from "./promotion/CopyButton";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/context";
+import { useState, useEffect } from "react";
+import { getSiteSettings, SiteSettings } from "@/lib/settings";
 
 interface DashboardOverviewProps {
     balance: string;
@@ -123,6 +125,11 @@ export function DashboardOverview({
     recentShouts
 }: DashboardOverviewProps) {
     const { t, language } = useTranslation();
+    const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+    useEffect(() => {
+        getSiteSettings().then(setSettings);
+    }, []);
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
@@ -509,36 +516,38 @@ export function DashboardOverview({
                 </div>
 
                 {/* Recent Rewards / History / Community Shout */}
-                <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-50 flex flex-col">
-                    <div className="flex justify-between items-center mb-6 px-2">
-                        <h3 className="text-xl font-bold text-[#151d48]">Community Shout</h3>
-                        <MessageSquare size={20} className="text-primary" />
-                    </div>
-                    <div className="flex-1 space-y-5">
-                        {recentShouts.length === 0 ? (
-                            <div className="py-10 text-center text-gray-400 font-bold italic">No shouts yet.</div>
-                        ) : (
-                            recentShouts.map((shout, i) => (
-                                <div key={i} className="flex space-x-4 p-4 rounded-3xl bg-gray-50/50 border border-transparent hover:border-gray-100 transition-all">
-                                    <div className={`w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center font-black text-primary`}>
-                                        {shout.users?.username.charAt(0).toUpperCase()}
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="flex justify-between items-center mb-1">
-                                            <span className="text-xs font-black text-[#151d48]">@{shout.users?.username}</span>
-                                            <span className="text-[10px] font-bold text-gray-400">{formatDate(shout.created_at)}</span>
+                {settings?.enable_shoutbox_module !== false && (
+                    <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-50 flex flex-col">
+                        <div className="flex justify-between items-center mb-6 px-2">
+                            <h3 className="text-xl font-bold text-[#151d48]">Community Shout</h3>
+                            <MessageSquare size={20} className="text-primary" />
+                        </div>
+                        <div className="flex-1 space-y-5">
+                            {recentShouts.length === 0 ? (
+                                <div className="py-10 text-center text-gray-400 font-bold italic">No shouts yet.</div>
+                            ) : (
+                                recentShouts.map((shout, i) => (
+                                    <div key={i} className="flex space-x-4 p-4 rounded-3xl bg-gray-50/50 border border-transparent hover:border-gray-100 transition-all">
+                                        <div className={`w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center font-black text-primary`}>
+                                            {shout.users?.username.charAt(0).toUpperCase()}
                                         </div>
-                                        <p className="text-sm text-[#444a6d] font-medium leading-relaxed">{shout.content}</p>
+                                        <div className="flex-1">
+                                            <div className="flex justify-between items-center mb-1">
+                                                <span className="text-xs font-black text-[#151d48]">@{shout.users?.username}</span>
+                                                <span className="text-[10px] font-bold text-gray-400">{formatDate(shout.created_at)}</span>
+                                            </div>
+                                            <p className="text-sm text-[#444a6d] font-medium leading-relaxed">{shout.content}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))
-                        )}
+                                ))
+                            )}
+                        </div>
+                        <Link href="/dashboard/community" className="w-full mt-6 py-4 bg-[#151d48] text-white text-xs font-black uppercase tracking-widest rounded-3xl hover:secondary transition-all flex items-center justify-center space-x-3 shadow-lg shadow-blue-900/20 group">
+                            <span>Join the conversation</span>
+                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
                     </div>
-                    <Link href="/dashboard/community" className="w-full mt-6 py-4 bg-[#151d48] text-white text-xs font-black uppercase tracking-widest rounded-3xl hover:secondary transition-all flex items-center justify-center space-x-3 shadow-lg shadow-blue-900/20 group">
-                        <span>Join the conversation</span>
-                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                </div>
+                )}
             </div>
 
             {/* Recent Activity / Ledger Table */}

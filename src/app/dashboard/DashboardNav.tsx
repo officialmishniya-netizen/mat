@@ -30,10 +30,17 @@ import {
 } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/context";
 import { logoutAction } from "@/app/actions/auth";
+import { useState, useEffect } from "react";
+import { getSiteSettings, SiteSettings } from "@/lib/settings";
 
 export function DashboardNav({ userRole, unreadMessagesCount = 0 }: { userRole: string, unreadMessagesCount?: number }) {
     const pathname = usePathname();
     const { t, language, setLanguage } = useTranslation();
+    const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+    useEffect(() => {
+        getSiteSettings().then(setSettings);
+    }, []);
 
     const handleLogout = async () => {
         await logoutAction();
@@ -45,26 +52,26 @@ export function DashboardNav({ userRole, unreadMessagesCount = 0 }: { userRole: 
                 {[
                     { href: '/dashboard', icon: LayoutDashboard, label: 'Account Summary' },
                     { href: '/dashboard/profile', icon: User, label: 'My Profile' },
-                    { href: '/dashboard/ads', icon: MousePointerClick, label: t("dashboard.watch_ads_now") },
-                    { href: '/dashboard/matrix', icon: Users, label: t("dashboard.my_matrix") },
-                    { href: '/dashboard/cycles', icon: RefreshCcw, label: t("dashboard.ad_cycles") },
-                    { href: '/dashboard/marketplace', icon: Store, label: 'Marketplace' },
-                    { href: '/dashboard/marketplace/spin', icon: Gamepad2, label: 'Spin Wheel' },
+                    { href: '/dashboard/ads', icon: MousePointerClick, label: t("dashboard.watch_ads_now"), reqModule: 'enable_ptc_module' },
+                    { href: '/dashboard/matrix', icon: Users, label: t("dashboard.my_matrix"), reqModule: 'enable_matrix_module' },
+                    { href: '/dashboard/cycles', icon: RefreshCcw, label: t("dashboard.ad_cycles"), reqModule: 'enable_ptc_module' },
+                    { href: '/dashboard/marketplace', icon: Store, label: 'Marketplace', reqModule: 'enable_marketplace_module' },
+                    { href: '/dashboard/marketplace/spin', icon: Gamepad2, label: 'Spin Wheel', reqModule: 'enable_marketplace_module' },
                     { href: '/dashboard/promotion', icon: Globe, label: t("dashboard.promo_center"), isCustomIcon: true },
                     { href: '/dashboard/community', icon: Users, label: t("dashboard.community") || 'Leaderboard' },
-                    { href: '/dashboard/shoutbox', icon: MessageSquare, label: 'Shoutbox' },
-                    { href: '/dashboard/wallet/withdraw', icon: Landmark, label: 'Withdraw Funds' },
-                    { href: '/dashboard/wallet/deposit', icon: Wallet, label: 'Deposit Balance' },
-                    { href: '/dashboard/wallet/transfer', icon: ArrowUpRight, label: 'P2P Transfer' },
-                    { href: '/dashboard/wallet/ledger', icon: ListOrdered, label: 'My Ledger' },
+                    { href: '/dashboard/shoutbox', icon: MessageSquare, label: 'Shoutbox', reqModule: 'enable_shoutbox_module' },
+                    { href: '/dashboard/wallet/withdraw', icon: Landmark, label: 'Withdraw Funds', reqModule: 'enable_finance_module' },
+                    { href: '/dashboard/wallet/deposit', icon: Wallet, label: 'Deposit Balance', reqModule: 'enable_finance_module' },
+                    { href: '/dashboard/wallet/transfer', icon: ArrowUpRight, label: 'P2P Transfer', reqModule: 'enable_finance_module' },
+                    { href: '/dashboard/wallet/ledger', icon: ListOrdered, label: 'My Ledger', reqModule: 'enable_finance_module' },
                     { href: '/dashboard/support', icon: ShieldCheck, label: 'Support Center' },
-                    { href: '/dashboard/invest', icon: Zap, label: t("dashboard.invest") },
-                    { href: '/dashboard/wallet/schedule', icon: CalendarClock, label: t("dashboard.schedule") },
-                    { href: '/dashboard/wallet/receipts', icon: Receipt, label: t("dashboard.receipts") },
-                    { href: '/dashboard/contests', icon: Trophy, label: t("dashboard.contests") },
-                    { href: '/dashboard/achievements', icon: Award, label: t("dashboard.achievements") },
-                    { href: '/dashboard/team-chat', icon: MessagesSquare, label: t("dashboard.team_chat") }
-                ].map((item) => (
+                    { href: '/dashboard/invest', icon: Zap, label: t("dashboard.invest"), reqModule: 'enable_roi_module' },
+                    { href: '/dashboard/wallet/schedule', icon: CalendarClock, label: t("dashboard.schedule"), reqModule: 'enable_finance_module' },
+                    { href: '/dashboard/wallet/receipts', icon: Receipt, label: t("dashboard.receipts"), reqModule: 'enable_finance_module' },
+                    { href: '/dashboard/contests', icon: Trophy, label: t("dashboard.contests"), reqModule: 'enable_contests_module' },
+                    { href: '/dashboard/achievements', icon: Award, label: t("dashboard.achievements"), reqModule: 'enable_achievements_module' },
+                    { href: '/dashboard/team-chat', icon: MessagesSquare, label: t("dashboard.team_chat"), reqModule: 'enable_team_chat_module' }
+                ].filter(item => !item.reqModule || (settings && settings[item.reqModule as keyof SiteSettings])).map((item) => (
                     <Link
                         key={item.href}
                         href={item.href}

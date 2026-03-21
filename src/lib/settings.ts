@@ -16,6 +16,16 @@ export type SiteSettings = {
     mailgun_api_key: string | null;
     mailgun_domain: string | null;
     mailgun_from_email: string | null;
+    enable_matrix_module: boolean;
+    enable_ptc_module: boolean;
+    enable_finance_module: boolean;
+    enable_shoutbox_module: boolean;
+    enable_simulation_module: boolean;
+    enable_roi_module: boolean;
+    enable_marketplace_module: boolean;
+    enable_contests_module: boolean;
+    enable_achievements_module: boolean;
+    enable_team_chat_module: boolean;
 };
 
 const DEFAULT_SETTINGS: SiteSettings = {
@@ -34,6 +44,16 @@ const DEFAULT_SETTINGS: SiteSettings = {
     mailgun_api_key: null,
     mailgun_domain: null,
     mailgun_from_email: "notifications@matclick.com",
+    enable_matrix_module: true,
+    enable_ptc_module: true,
+    enable_finance_module: true,
+    enable_shoutbox_module: true,
+    enable_simulation_module: true,
+    enable_roi_module: true,
+    enable_marketplace_module: true,
+    enable_contests_module: true,
+    enable_achievements_module: true,
+    enable_team_chat_module: true,
 };
 
 export const getSiteSettings = async (): Promise<SiteSettings> => {
