@@ -44,7 +44,7 @@ export default async function DownlineOverviewPage({
     // For brevity, we will pass the basic data to the client and mock the complex statuses for the UI, 
     // or fetch their positions briefly.
     const referralIds = allReferrals.map(r => r.id);
-    
+
     // Attempting to fetch their ad positions to determine "Active" / "Dead Star"
     let referralPositions: any[] = [];
     if (referralIds.length > 0) {
@@ -52,24 +52,23 @@ export default async function DownlineOverviewPage({
         referralPositions = await db
             .select()
             .from(userAdPositions)
-            // .where(inArray(userAdPositions.userId, referralIds)) // if we import inArray
-            // But we can just use a raw loop or keep it simple for now. 
-            // Since we didn't import inArray, we'll skip the detailed status fetch in the server for the mock.
+        // .where(inArray(userAdPositions.userId, referralIds)) // if we import inArray
+        // But we can just use a raw loop or keep it simple for now. 
+        // Since we didn't import inArray, we'll skip the detailed status fetch in the server for the mock.
     }
 
-    // Process stats
+    // Process real stats
     const totalReferrals = allReferrals.length;
-    // We'll mock the active/inactive numbers for now, or define a basic heuristic:
-    const activeReferrals = Math.floor(totalReferrals * 0.4); // Mocked
+    const activeReferrals = allReferrals.filter(r => r.rank !== 'Member').length;
     const freeReferrals = totalReferrals - activeReferrals;
-    const deadStarReferrals = 0; // Mocked
+    const deadStarReferrals = 0; // We keep this at 0 for now as we don't have last_login_at yet
 
     // Fetch total earned from referrals (e.g., matching_bonus, sponsor_bonus)
     const earnings = await db
         .select({ amount: ledger.amount, type: ledger.type })
         .from(ledger)
         .where(eq(ledger.user_id, effectiveUserId));
-    
+
     // Sum only referral-related earnings
     const referralEarned = earnings
         .filter(e => e.type === 'sponsor_bonus' || e.type === 'matching_bonus')
@@ -122,7 +121,7 @@ export default async function DownlineOverviewPage({
 
             {/* Referral Grid / List */}
             <TeamGrid initialReferrals={allReferrals} />
-            
+
         </div>
     );
 }

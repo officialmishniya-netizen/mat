@@ -17,6 +17,8 @@ export const users = pgTable("users", {
     email_notifications_enabled: boolean("email_notifications_enabled").default(true).notNull(),
     rank: text("rank").default("Member").notNull(), // Member | Active Member | Leader | Senior Leader | Executive | Top Earner
     telegramUsername: text("telegram_username"),
+    referral_page_title: text("referral_page_title"),
+    referral_page_message: text("referral_page_message"),
     created_at: timestamp("created_at").defaultNow().notNull()
 });
 
@@ -26,14 +28,18 @@ export const settings = pgTable("settings", {
     primary_color: text("primary_color").notNull(),
     secondary_color: text("secondary_color").notNull(),
     nowpayments_api_key: text("nowpayments_api_key"),
+    nowpayments_ipn_secret: text("nowpayments_ipn_secret"),
     withdrawal_fee_percent: decimal("withdrawal_fee_percent", { precision: 5, scale: 2 }).default("0.00"),
     service_fee_percent: decimal("service_fee_percent", { precision: 5, scale: 2 }).default("0.00"),
-    seo_title: text("seo_title").default("MatClick â€” High-Yield Matrix Engine"),
+    seo_title: text("seo_title").default("MatClick — High-Yield Matrix Engine"),
     seo_description: text("seo_description").default("Join the premier community-driven matrix platform."),
     telegram_bot_username: text("telegram_bot_username").default("MatClickBot"),
     mailgun_api_key: text("mailgun_api_key"),
     mailgun_domain: text("mailgun_domain"),
     mailgun_from_email: text("mailgun_from_email"),
+    enable_team_emails: boolean("enable_team_emails").default(true).notNull(),
+    enable_direct_messages: boolean("enable_direct_messages").default(true).notNull(),
+    enable_training_hub: boolean("enable_training_hub").default(true).notNull(),
     updated_at: timestamp("updated_at").defaultNow().notNull()
 });
 

@@ -15,32 +15,15 @@ export async function loginAction(formData: FormData) {
         return { error: "Email and password are required." };
     }
 
-    const isDummy = supabaseUrl.includes("dummy") || !supabaseUrl || supabaseUrl.includes("localhost:54321");
     const client = createClient(supabaseUrl, supabaseAnonKey);
 
-    let session;
-    let authError;
+    const { data, error } = await client.auth.signInWithPassword({
+        email,
+        password,
+    });
 
-    if (isDummy) {
-        // Mock session for dummy mode
-        session = {
-            access_token: "mock-token",
-            refresh_token: "mock-refresh-token",
-            expires_at: Math.floor(Date.now() / 1000) + 3600,
-            user: {
-                id: "00000000-0000-0000-0000-000000000000",
-                email: email,
-            }
-        };
-        console.log("[Auth Action] Dummy Login Success:", email);
-    } else {
-        const { data, error } = await client.auth.signInWithPassword({
-            email,
-            password,
-        });
-        session = data?.session;
-        authError = error?.message;
-    }
+    const session = data?.session;
+    const authError = error?.message;
 
     if (authError) {
         return { error: authError };

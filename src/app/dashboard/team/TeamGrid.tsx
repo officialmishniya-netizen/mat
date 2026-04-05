@@ -12,19 +12,18 @@ export function TeamGrid({ initialReferrals }: { initialReferrals: any[] }) {
     // Simple client-side filtering
     const filteredReferrals = initialReferrals.filter((ref) => {
         // Search
-        const matchesSearch = 
+        const matchesSearch =
             (ref.username && ref.username.toLowerCase().includes(searchQuery.toLowerCase())) ||
             (ref.fullName && ref.fullName.toLowerCase().includes(searchQuery.toLowerCase())) ||
             (ref.email && ref.email.toLowerCase().includes(searchQuery.toLowerCase()));
 
-        // Status Filter (Mocking since we didn't fetch full statuses from server)
-        // In a real scenario, `ref.status` would come from the server
-        let paramsStatus = "free"; // Defaulting all to free for mockup purposes unless we build logic
-        if (ref.rank === "Active Member" || ref.rank === "Leader") paramsStatus = "active";
-        
+        // Status Filter
+        let userStatus = "free";
+        if (ref.rank !== "Member") userStatus = "active";
+
         let matchesFilter = true;
         if (filter !== "all") {
-            matchesFilter = paramsStatus === filter;
+            matchesFilter = userStatus === filter;
         }
 
         return matchesSearch && matchesFilter;
@@ -43,38 +42,38 @@ export function TeamGrid({ initialReferrals }: { initialReferrals: any[] }) {
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </div>
-                
+
                 <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 custom-scrollbar hide-scrollbar">
-                    <Button 
-                        variant={filter === 'all' ? 'default' : 'outline'} 
+                    <Button
+                        variant={filter === 'all' ? 'default' : 'outline'}
                         className={`rounded-xl shrink-0 ${filter === 'all' ? 'bg-[#151d48] hover:bg-blue-900 text-white' : 'bg-white border-transparent'}`}
                         onClick={() => setFilter('all')}
                     >
                         All Members
                     </Button>
-                    <Button 
-                        variant={filter === 'active' ? 'default' : 'outline'} 
+                    <Button
+                        variant={filter === 'active' ? 'default' : 'outline'}
                         className={`rounded-xl shrink-0 ${filter === 'active' ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-white border-transparent'}`}
                         onClick={() => setFilter('active')}
                     >
                         Active
                     </Button>
-                    <Button 
-                        variant={filter === 'free' ? 'default' : 'outline'} 
+                    <Button
+                        variant={filter === 'free' ? 'default' : 'outline'}
                         className={`rounded-xl shrink-0 ${filter === 'free' ? 'bg-orange-500 hover:bg-orange-600 text-white' : 'bg-white border-transparent'}`}
                         onClick={() => setFilter('free')}
                     >
                         Free Users
                     </Button>
-                    <Button 
-                        variant={filter === 'inactive' ? 'default' : 'outline'} 
+                    <Button
+                        variant={filter === 'inactive' ? 'default' : 'outline'}
                         className={`rounded-xl shrink-0 ${filter === 'inactive' ? 'bg-gray-600 hover:bg-gray-700 text-white' : 'bg-white border-transparent'}`}
                         onClick={() => setFilter('inactive')}
                     >
                         Inactive
                     </Button>
-                    <Button 
-                        variant={filter === 'dead_star' ? 'default' : 'outline'} 
+                    <Button
+                        variant={filter === 'dead_star' ? 'default' : 'outline'}
                         className={`rounded-xl shrink-0 ${filter === 'dead_star' ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-white border-transparent'}`}
                         onClick={() => setFilter('dead_star')}
                     >
@@ -93,7 +92,7 @@ export function TeamGrid({ initialReferrals }: { initialReferrals: any[] }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filteredReferrals.map((user) => (
                         <div key={user.id} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-50 flex flex-col group hover:shadow-md transition-all">
-                            
+
                             <div className="flex items-start justify-between mb-4">
                                 <div className="flex items-center gap-3">
                                     <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-100 to-indigo-50 flex items-center justify-center text-blue-900 font-black text-xl shrink-0">
@@ -104,13 +103,13 @@ export function TeamGrid({ initialReferrals }: { initialReferrals: any[] }) {
                                         <p className="text-xs text-gray-500 truncate max-w-[150px]">{user.fullName || "No name provided"}</p>
                                     </div>
                                 </div>
-                                
+
                                 {/* Status Badge */}
                                 <div className="px-2 py-1 rounded-lg bg-orange-50 text-orange-600 text-[10px] font-black uppercase tracking-widest border border-orange-100 shrink-0">
                                     {user.rank === 'Member' ? 'Free' : user.rank}
                                 </div>
                             </div>
-                            
+
                             <div className="space-y-2 mb-6">
                                 <div className="flex items-center text-xs text-gray-500">
                                     <Calendar className="w-3.5 h-3.5 mr-2 opacity-50" />
@@ -121,7 +120,7 @@ export function TeamGrid({ initialReferrals }: { initialReferrals: any[] }) {
                                     Last Active: Unknown
                                 </div>
                             </div>
-                            
+
                             <div className="mt-auto flex gap-2 pt-4 border-t border-gray-50">
                                 <Button size="sm" variant="outline" className="flex-1 rounded-xl bg-orange-50/50 hover:bg-orange-50 text-orange-600 border-none font-bold">
                                     <MessageSquare className="w-3.5 h-3.5 mr-1.5" /> Message
@@ -130,7 +129,7 @@ export function TeamGrid({ initialReferrals }: { initialReferrals: any[] }) {
                                     <Zap className="w-3.5 h-3.5 mr-1.5" /> Nudge
                                 </Button>
                             </div>
-                            
+
                         </div>
                     ))}
                 </div>

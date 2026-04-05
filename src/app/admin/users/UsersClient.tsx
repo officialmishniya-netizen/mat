@@ -10,12 +10,12 @@ import {
 import {
     freezeUserAccount, unfreezeUserAccount, banUser, softDeleteUser,
     addBalance, deductBalance, sendDirectMessage, banIPAddress,
-    bulkUserAction, getUserDetailForPanel, getUserIPLogs
+    bulkUserAction, getUserDetailForPanel, getUserIPLogs, changeUserRole
 } from '@/app/actions/adminUserManagement';
 import { toast } from 'react-hot-toast';
 
 interface UserData {
-    id: string; username: string; email: string;
+    id: string; username: string; email: string | null;
     role: string; createdAt: string; status: string;
     riskScore: number; balance: string; plan: string;
 }
@@ -316,10 +316,11 @@ function IPBanModal({ user, open, onClose }: { user: UserData; open: boolean; on
 }
 
 /* â”€â”€ Action Slide-over â”€â”€ */
-type ActionModal = 'freeze' | 'unfreeze' | 'ban' | 'msg' | 'add_bal' | 'deduct_bal' | 'delete' | 'ip_ban' | 'detail' | null;
+type ActionModal = 'freeze' | 'unfreeze' | 'ban' | 'msg' | 'add_bal' | 'deduct_bal' | 'delete' | 'ip_ban' | 'detail' | 'role' | null;
 
 function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
     const [modal, setModal] = useState<ActionModal>(null);
+    const [newRole, setNewRole] = useState(user.role);
     const [reason, setReason] = useState('');
     const [banType, setBanType] = useState<'permanent' | 'temporary'>('permanent');
     const [banDays, setBanDays] = useState('7');
@@ -376,7 +377,7 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
         { label: 'Ban User', icon: <Ban className="h-4 w-4" />, onClick: () => setModal('ban'), cls: 'text-red-600 hover:bg-red-50 border-red-200' },
         { label: 'IP Logs & Ban', icon: <Globe className="h-4 w-4" />, onClick: () => setModal('ip_ban'), cls: 'text-red-500 hover:bg-red-50 border-red-200' },
         { label: 'Force PW Reset', icon: <RefreshCw className="h-4 w-4" />, onClick: () => toast('PW reset queued'), cls: 'text-gray-600 hover:bg-gray-50 border-gray-200' },
-        { label: 'Change Role', icon: <UserCog className="h-4 w-4" />, onClick: () => toast('Role modal TODO'), cls: 'text-gray-600 hover:bg-gray-50 border-gray-200' },
+        { label: 'Change Role', icon: <UserCog className="h-4 w-4" />, onClick: () => setModal('role'), cls: 'text-gray-600 hover:bg-gray-50 border-gray-200' },
         { label: 'Soft Delete', icon: <Trash2 className="h-4 w-4" />, onClick: () => setModal('delete'), cls: 'text-red-700 hover:bg-red-50 border-red-200' },
     ];
 
@@ -498,7 +499,7 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
                     {lbl('Type', sel({ value: banType, onChange: e => setBanType(e.target.value as any) }, <><option value="permanent">Permanent</option><option value="temporary">Temporary</option></>))}
                     {banType === 'temporary' && lbl('Duration (days)', inp({ type: 'number', min: '1', value: banDays, onChange: e => setBanDays(e.target.value) }))}
                     {lbl('Reason', ta({ placeholder: 'Ban reasonâ€¦', value: reason, onChange: e => setReason(e.target.value) }))}
-                    <div className="flex gap-3 pt-1">{confirmBtn('Ban User', () => run(() => banUser(user.id, reason, banType, banType === 'temporary' ? parseInt(banDays) : undefined), `@${user.username} banned`), true)}{cancelBtn()}</div>
+                    <div className="flex gap-3 pt-1">{confirmBtn('Ban User', () => run(() => banUser(user.id, reason, banType, banType === 'temporary' ? new Date(Date.now() + parseInt(banDays) * 86400000) : undefined), `@${user.username} banned`), true)}{cancelBtn()}</div>
                 </div>
             </Modal>
 
@@ -507,7 +508,25 @@ function UserPanel({ user, onClose }: { user: UserData; onClose: () => void }) {
                 <div className="space-y-4">
                     <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-xs text-red-700 flex gap-2"><AlertTriangle className="h-4 w-4 flex-shrink-0" />Soft delete â€” data preserved but account deactivated.</div>
                     {lbl('Reason', ta({ placeholder: 'Reason for deletionâ€¦', value: reason, onChange: e => setReason(e.target.value) }))}
-                    <div className="flex gap-3 pt-1">{confirmBtn('Confirm Delete', () => run(() => softDeleteUser(user.id, reason, 'soft'), `@${user.username} deleted`), true)}{cancelBtn()}</div>
+                    <div className="flex gap-3 pt-1">{confirmBtn('Confirm Delete', () => run(() => softDeleteUser(user.id, reason), `@${user.username} deleted`), true)}{cancelBtn()}</div>
+                </div>
+            </Modal>
+
+            {/* Change Role */}
+            <Modal open={modal === 'role'} onClose={() => setModal(null)} title={`Change Role â€” @${user.username}`}>
+                <div className="space-y-4">
+                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-700 flex gap-2"><ShieldCheck className="h-4 w-4 flex-shrink-0" />Changing a user's role affects their platform permissions.</div>
+                    {lbl('New Role', sel({ value: newRole, onChange: e => setNewRole(e.target.value) },
+                        <>
+                            <option value="user">User</option>
+                            <option value="advertiser">Advertiser</option>
+                            <option value="admin">Admin</option>
+                        </>
+                    ))}
+                    <div className="flex gap-3 pt-1">
+                        {confirmBtn('Update Role', () => run(() => changeUserRole(user.id, newRole as any, 'Admin changed role'), `Role changed to ${newRole}`))}
+                        {cancelBtn()}
+                    </div>
                 </div>
             </Modal>
         </>

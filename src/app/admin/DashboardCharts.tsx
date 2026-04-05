@@ -34,16 +34,7 @@ const renderLegend = (props: any) => {
 };
 
 export function UserGrowthChart({ data }: { data: { name: string, free: number, pro: number }[] }) {
-    // If no real data, fallback to visual mock
-    const displayData = data && data.length > 0 ? data : [
-        { name: 'Jan', free: 250, pro: 100 },
-        { name: 'Feb', free: 300, pro: 150 },
-        { name: 'Mar', free: 280, pro: 200 },
-        { name: 'Apr', free: 320, pro: 250 },
-        { name: 'May', free: 400, pro: 280 },
-        { name: 'Jun', free: 450, pro: 310 },
-        { name: 'Jul', free: 500, pro: 380 },
-    ];
+    const displayData = data;
 
     return (
         <div className="h-[250px] w-full">
@@ -73,15 +64,7 @@ export function UserGrowthChart({ data }: { data: { name: string, free: number, 
 }
 
 export function LedgerFlowChart({ data }: { data: { name: string, deposits: number, payouts: number }[] }) {
-    const displayData = data && data.length > 0 ? data : [
-        { name: 'Mon', deposits: 1400, payouts: 1200 },
-        { name: 'Tue', deposits: 1700, payouts: 1000 },
-        { name: 'Wed', deposits: 600, payouts: 2300 },
-        { name: 'Thu', deposits: 1500, payouts: 700 },
-        { name: 'Fri', deposits: 1200, payouts: 1100 },
-        { name: 'Sat', deposits: 1600, payouts: 1300 },
-        { name: 'Sun', deposits: 2000, payouts: 1100 },
-    ];
+    const displayData = data;
 
     return (
         <div className="h-[300px] w-full mt-4">
@@ -101,15 +84,7 @@ export function LedgerFlowChart({ data }: { data: { name: string, deposits: numb
 }
 
 export function AdCyclePerformance({ data, stats }: { data: { name: string, adsViewed: number, limitHits: number }[], stats: { viewsPerDay: number, drainStatus: string } }) {
-    const displayData = data && data.length > 0 ? data : [
-        { name: '1', adsViewed: 400, limitHits: 80 },
-        { name: '2', adsViewed: 550, limitHits: 60 },
-        { name: '3', adsViewed: 300, limitHits: 70 },
-        { name: '4', adsViewed: 400, limitHits: 55 },
-        { name: '5', adsViewed: 450, limitHits: 80 },
-        { name: '6', adsViewed: 650, limitHits: 100 },
-        { name: '7', adsViewed: 800, limitHits: 120 },
-    ];
+    const displayData = data;
 
     return (
         <div className="h-[200px] w-full mt-4 flex flex-col">
@@ -124,11 +99,11 @@ export function AdCyclePerformance({ data, stats }: { data: { name: string, adsV
             <div className="flex justify-center space-x-6 text-[#a0a8b9] text-xs font-semibold pt-4">
                 <div className="text-center">
                     <div className="flex items-center space-x-2"><span className="w-2.5 h-1 bg-[#0ea5e9] rounded-full"></span><span>Est. Views/Day</span></div>
-                    <p className="text-[#151d48] font-bold text-sm mt-1">{stats?.viewsPerDay || 850}</p>
+                    <p className="text-[#151d48] font-bold text-sm mt-1">{stats?.viewsPerDay || 0}</p>
                 </div>
                 <div className="text-center">
                     <div className="flex items-center space-x-2"><span className="w-2.5 h-1 bg-[#ef4444] rounded-full"></span><span>Budget Drain</span></div>
-                    <p className="text-[#151d48] font-bold text-sm mt-1">{stats?.drainStatus || 'High'}</p>
+                    <p className="text-[#151d48] font-bold text-sm mt-1">{stats?.drainStatus || 'N/A'}</p>
                 </div>
             </div>
         </div>
@@ -136,13 +111,7 @@ export function AdCyclePerformance({ data, stats }: { data: { name: string, adsV
 }
 
 export function LevelDistributionChart({ levelData }: { levelData: { name: string, count: number }[] }) {
-    // If no real data, fallback to visual mock
-    const data = levelData.length > 0 ? levelData : [
-        { name: 'Level 1', count: 120 },
-        { name: 'Level 2', count: 80 },
-        { name: 'Level 3', count: 40 },
-        { name: 'Level 4', count: 10 },
-    ];
+    const data = levelData;
 
     const COLORS = ['#f97316', '#0ea5e9', '#22c55e', '#a855f7', '#fbbf24', '#ef4444'];
 

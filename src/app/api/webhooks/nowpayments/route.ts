@@ -13,19 +13,29 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
         }
 
+        const payload = JSON.parse(rawBody);
+
         // 1. Verify NowPayments Signature
-        // Process requires the IPN Secret key set in the dashboard
-        const ipnSecret = process.env.NOWPAYMENTS_IPN_SECRET || 'MOCK_SECRET_FOR_BUILD';
+        const { getSiteSettings } = await import('@/lib/settings');
+        const settings = await getSiteSettings();
+        const ipnSecret = settings.nowpayments_ipn_secret;
+
+        if (!ipnSecret) {
+            console.error("NOWPayments IPN Secret is not configured in settings.");
+            return NextResponse.json({ error: 'Gateway misconfigured' }, { status: 500 });
+        }
+
+        // Sort keys alphabetically and stringify (NOWPayments requirement)
+        const sortedPayload = JSON.stringify(payload, Object.keys(payload).sort());
+
         const hmac = crypto.createHmac('sha512', ipnSecret);
-        hmac.update(rawBody);
+        hmac.update(sortedPayload);
         const calculatedSignature = hmac.digest('hex');
 
-        if (signature !== calculatedSignature && process.env.NODE_ENV === 'production') {
+        if (signature !== calculatedSignature) {
             console.error("Invalid NowPayments webhook signature.");
             return NextResponse.json({ error: 'Invalid signature' }, { status: 403 });
         }
-
-        const payload = JSON.parse(rawBody);
 
         // 2. Process Successful Payment
         if (payload.payment_status === 'finished') {

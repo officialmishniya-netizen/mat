@@ -8,21 +8,29 @@ import { Textarea } from "@/components/ui/textarea";
 import { Copy, Save, Globe, Eye, Image as ImageIcon } from "lucide-react";
 import toast from "react-hot-toast";
 
+import { updateReferralPageAction } from "@/app/actions/profile";
+
 export function ReferralPageClient({ currentUser }: { currentUser: any }) {
-    const [title, setTitle] = useState(`Join ${currentUser.username}'s Team`);
-    const [welcomeMessage, setWelcomeMessage] = useState("I'm looking for motivated individuals to join my MatClick network. Let's grow together!");
-    const [showContact, setShowContact] = useState(true);
+    const [title, setTitle] = useState(currentUser.referral_page_title || `Join ${currentUser.username}'s Team`);
+    const [welcomeMessage, setWelcomeMessage] = useState(currentUser.referral_page_message || "I'm looking for motivated individuals to join my MatClick network. Let's grow together!");
     const [isSaving, setIsSaving] = useState(false);
 
     const refLink = `${typeof window !== 'undefined' ? window.location.origin : ''}/ref/${currentUser.username}`;
 
-    const handleSave = () => {
+    const handleSave = async () => {
         setIsSaving(true);
-        // Mock save for now
-        setTimeout(() => {
+        try {
+            const res = await updateReferralPageAction(title, welcomeMessage);
+            if (res.success) {
+                toast.success("Referral page settings saved!");
+            } else {
+                toast.error(res.error || "Failed to save settings");
+            }
+        } catch (error) {
+            toast.error("An error occurred");
+        } finally {
             setIsSaving(false);
-            toast.success("Referral page settings saved!");
-        }, 1000);
+        }
     };
 
     const copyLink = () => {
@@ -32,7 +40,7 @@ export function ReferralPageClient({ currentUser }: { currentUser: any }) {
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
+
             {/* Editor */}
             <div className="space-y-6">
                 <Card className="rounded-3xl border-none shadow-sm shadow-blue-900/5 bg-white p-6">
@@ -48,15 +56,15 @@ export function ReferralPageClient({ currentUser }: { currentUser: any }) {
                                 <div className="flex-1 px-3 py-2 text-sm text-gray-600 truncate font-mono">
                                     {refLink}
                                 </div>
-                                <Button 
-                                    variant="ghost" 
+                                <Button
+                                    variant="ghost"
                                     className="shrink-0 h-9 rounded-lg hover:bg-white text-blue-600 font-bold"
                                     onClick={copyLink}
                                 >
                                     <Copy className="w-4 h-4 mr-2" /> Copy
                                 </Button>
-                                <Button 
-                                    variant="ghost" 
+                                <Button
+                                    variant="ghost"
                                     className="shrink-0 h-9 rounded-lg hover:bg-white text-orange-600 font-bold ml-1"
                                     onClick={() => window.open(refLink, '_blank')}
                                 >
@@ -67,7 +75,7 @@ export function ReferralPageClient({ currentUser }: { currentUser: any }) {
 
                         <div>
                             <label className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 block">Page Title</label>
-                            <Input 
+                            <Input
                                 value={title}
                                 onChange={e => setTitle(e.target.value)}
                                 className="h-11 rounded-xl bg-gray-50 border-gray-100"
@@ -76,7 +84,7 @@ export function ReferralPageClient({ currentUser }: { currentUser: any }) {
 
                         <div>
                             <label className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 block">Welcome Message</label>
-                            <Textarea 
+                            <Textarea
                                 value={welcomeMessage}
                                 onChange={e => setWelcomeMessage(e.target.value)}
                                 rows={4}
@@ -86,7 +94,7 @@ export function ReferralPageClient({ currentUser }: { currentUser: any }) {
                         </div>
 
                         <div className="pt-4 border-t border-gray-50">
-                            <Button 
+                            <Button
                                 onClick={handleSave}
                                 disabled={isSaving}
                                 className="w-full h-12 bg-[#151d48] hover:bg-blue-900 text-white rounded-xl font-bold"
@@ -111,7 +119,7 @@ export function ReferralPageClient({ currentUser }: { currentUser: any }) {
                             <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-blue-100 to-indigo-50 flex items-center justify-center text-blue-900 font-black text-3xl shadow-sm">
                                 {currentUser.username.charAt(0).toUpperCase()}
                             </div>
-                            
+
                             <div>
                                 <h1 className="text-2xl font-black text-[#151d48] mb-3">{title || "Your Title Here"}</h1>
                                 <p className="text-gray-500 text-sm leading-relaxed">{welcomeMessage || "Your compelling welcome message will appear here."}</p>
@@ -127,7 +135,7 @@ export function ReferralPageClient({ currentUser }: { currentUser: any }) {
                     </div>
                 </Card>
             </div>
-            
+
         </div>
     );
 }

@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 
 export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
     const [rules, setRules] = useState(initialRules);
-    
+
     // New Rule Form State
     const [isCreating, setIsCreating] = useState(false);
     const [name, setName] = useState("");
@@ -40,11 +40,11 @@ export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
                 })
             });
             const data = await res.json();
-            
+
             if (data.success) {
                 toast.success("Follow-up rule created");
                 setRules([data.rule, ...rules]);
-                
+
                 // Reset form
                 setName("");
                 setCondition("on_signup");
@@ -68,7 +68,7 @@ export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
     };
 
     const getConditionBadge = (cond: string) => {
-        switch(cond) {
+        switch (cond) {
             case 'on_signup': return <span className="px-2 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-widest">On Signup</span>;
             case 'inactive_3_days': return <span className="px-2 py-1 bg-orange-50 text-orange-600 rounded-lg text-[10px] font-black uppercase tracking-widest">Inactive 3 Days</span>;
             case 'inactive_7_days': return <span className="px-2 py-1 bg-red-50 text-red-600 rounded-lg text-[10px] font-black uppercase tracking-widest">Inactive 7 Days</span>;
@@ -78,7 +78,7 @@ export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
+
             {/* Left/Top: Create Rule */}
             <div className="lg:col-span-1">
                 <Card className="rounded-3xl border-none shadow-sm shadow-blue-900/5 bg-white p-6 sticky top-6">
@@ -90,7 +90,7 @@ export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
                     <form onSubmit={handleCreate} className="space-y-5">
                         <div>
                             <label className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 block">Rule Name</label>
-                            <Input 
+                            <Input
                                 value={name}
                                 onChange={e => setName(e.target.value)}
                                 placeholder="e.g. Welcome Message"
@@ -115,7 +115,7 @@ export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
                         {condition === "on_signup" && (
                             <div>
                                 <label className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 block">Delay (Days)</label>
-                                <Input 
+                                <Input
                                     type="number"
                                     min={0}
                                     value={delayDays}
@@ -140,8 +140,8 @@ export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
                         </div>
 
                         <div className="pt-4 border-t border-gray-50">
-                            <Button 
-                                type="submit" 
+                            <Button
+                                type="submit"
                                 disabled={isCreating}
                                 className="w-full h-12 bg-[#151d48] hover:bg-blue-900 text-white rounded-xl font-bold"
                             >
@@ -154,7 +154,7 @@ export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
 
             {/* Right/Bottom: Active Rules & Logs */}
             <div className="lg:col-span-2 space-y-6">
-                
+
                 {/* Active Rules List */}
                 <Card className="rounded-3xl border-none shadow-sm shadow-blue-900/5 bg-white p-6">
                     <h3 className="text-lg font-black text-[#151d48] mb-1">Your Follow-Up Rules</h3>
@@ -186,7 +186,7 @@ export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
                                             <span className={`text-xs font-bold ${rule.isActive ? 'text-green-600' : 'text-gray-400'}`}>
                                                 {rule.isActive ? 'Active' : 'Paused'}
                                             </span>
-                                            <Switch 
+                                            <Switch
                                                 checked={rule.isActive || false}
                                                 onCheckedChange={() => toggleRuleStatus(rule.id, rule.isActive)}
                                             />
@@ -201,38 +201,20 @@ export function FollowUpsClient({ initialRules }: { initialRules: any[] }) {
                     </div>
                 </Card>
 
-                {/* Automation Logs (Mocked) */}
+                {/* Automation Logs */}
                 <Card className="rounded-3xl border-none shadow-sm shadow-blue-900/5 bg-white p-6">
                     <h3 className="text-lg font-black text-[#151d48] mb-1">Recent Activity Logs</h3>
                     <p className="text-sm text-gray-500 mb-6">See what your automations are doing behind the scenes.</p>
 
                     <div className="space-y-4">
-                        <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center shrink-0 mt-1">
-                                <Send className="w-4 h-4 text-blue-600" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-gray-700"><span className="font-bold text-[#151d48]">Welcome Message</span> sent to <span className="font-bold">@alex99</span></p>
-                                <p className="text-xs text-gray-400 mt-0.5">2 hours ago</p>
-                            </div>
+                        <div className="bg-gray-50 rounded-2xl p-6 text-center border border-gray-100">
+                            <Activity className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                            <p className="text-gray-500 text-sm font-bold">No activity logs yet.</p>
                         </div>
-                        <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center shrink-0 mt-1">
-                                <MessageSquare className="w-4 h-4 text-orange-600" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-gray-700"><span className="font-bold text-[#151d48]">Nudge Inactive User</span> sent to <span className="font-bold">@sarahO</span></p>
-                                <p className="text-xs text-gray-400 mt-0.5">Yesterday</p>
-                            </div>
-                        </div>
-                        
-                        <Button variant="outline" className="w-full rounded-xl border-gray-200 text-gray-600 font-bold h-10 mt-2">
-                            View All Logs
-                        </Button>
                     </div>
                 </Card>
             </div>
-            
+
         </div>
     );
 }

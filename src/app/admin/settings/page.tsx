@@ -12,9 +12,6 @@ export default async function AdminSettingsPage() {
             logo_url: formData.get("logo_url") as string,
             primary_color: formData.get("primary_color") as string,
             secondary_color: formData.get("secondary_color") as string,
-            nowpayments_api_key: formData.get("nowpayments_api_key") as string,
-            withdrawal_fee_percent: parseFloat(formData.get("withdrawal_fee_percent") as string) || 0,
-            service_fee_percent: parseFloat(formData.get("service_fee_percent") as string) || 0,
             seo_title: formData.get("seo_title") as string || "MatClick",
             seo_description: formData.get("seo_description") as string || "Join our amazing platform.",
             enable_team_emails: formData.get("enable_team_emails") === "on",
@@ -91,29 +88,6 @@ export default async function AdminSettingsPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Withdrawal Fee (%)</label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            name="withdrawal_fee_percent"
-                            defaultValue={settings.withdrawal_fee_percent}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">General Service Fee (%)</label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            name="service_fee_percent"
-                            defaultValue={settings.service_fee_percent}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                        />
-                    </div>
-                </div>
-
                 <div className="border-t pt-4">
                     <h3 className="text-lg font-medium text-gray-900 mb-2">Search Engine Optimization (SEO)</h3>
                     <div className="space-y-4">
@@ -136,16 +110,6 @@ export default async function AdminSettingsPage() {
                             />
                         </div>
                     </div>
-                </div>
-
-                <div className="border-t pt-4">
-                    <label className="block text-sm font-medium text-gray-700">NowPayments API Key</label>
-                    <input
-                        type="password"
-                        name="nowpayments_api_key"
-                        defaultValue={settings.nowpayments_api_key || ""}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                    />
                 </div>
 
                 <div className="border-t pt-4">

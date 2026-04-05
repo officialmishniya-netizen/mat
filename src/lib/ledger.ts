@@ -214,3 +214,31 @@ export const getSystemFinancials = async () => {
 
     return { totalLiability, revenueIn, totalWithdrawn };
 };
+
+/**
+ * Gets daily earnings for the last 12 days.
+ */
+export const getDailyEarnings = async (userId: string): Promise<number[]> => {
+    const days = 12;
+    const earnings: number[] = new Array(days).fill(0);
+    const now = new Date();
+
+    const { data, error } = await supabase
+        .from('ledger')
+        .select('amount, created_at')
+        .eq('user_id', userId)
+        .in('type', ['ad_reward', 'matrix_cycle', 'referral_bonus', 'matching_bonus', 'cycle_revenue'])
+        .gte('created_at', new Date(now.getTime() - days * 24 * 60 * 60 * 1000).toISOString());
+
+    if (error || !data) return earnings;
+
+    data.forEach(row => {
+        const createdDate = new Date(row.created_at);
+        const dayDiff = Math.floor((now.getTime() - createdDate.getTime()) / (24 * 60 * 60 * 1000));
+        if (dayDiff >= 0 && dayDiff < days) {
+            earnings[(days - 1) - dayDiff] += parseFloat(row.amount as string);
+        }
+    });
+
+    return earnings;
+}

@@ -6,6 +6,7 @@ export type SiteSettings = {
     primary_color: string;
     secondary_color: string;
     nowpayments_api_key: string | null;
+    nowpayments_ipn_secret: string | null;
     withdrawal_fee_percent: number;
     service_fee_percent: number;
     seo_title: string;
@@ -34,6 +35,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
     primary_color: "#ea580c",
     secondary_color: "#fdba74",
     nowpayments_api_key: null,
+    nowpayments_ipn_secret: null,
     withdrawal_fee_percent: 0,
     service_fee_percent: 0,
     seo_title: "MatClick - Professional Earning Platform",

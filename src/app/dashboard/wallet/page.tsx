@@ -3,6 +3,7 @@ import { getEffectiveUserId } from "@/app/actions/impersonate";
 import { getUserBalance } from "@/lib/ledger";
 import { formatMoney } from "@/lib/money";
 import { redirect } from "next/navigation";
+import { initiateDepositAction, requestWithdrawalAction } from "@/app/actions/wallet";
 
 export default async function WalletPage() {
     const supabase = await createServerSupabaseClient();
@@ -13,7 +14,6 @@ export default async function WalletPage() {
     }
 
     const effectiveUserId = await getEffectiveUserId(session.user.id);
-
     const balance = await getUserBalance(effectiveUserId);
 
     // Fetch recent Ledger transactions for Wallet history
@@ -23,27 +23,6 @@ export default async function WalletPage() {
         .eq("user_id", effectiveUserId)
         .in("type", ["deposit", "withdrawal"])
         .order("created_at", { ascending: false });
-
-    // Placeholder actions for NowPayments
-    async function initiateDeposit(formData: FormData) {
-        "use server";
-        const amount = formData.get("amount");
-        // 1. Fetch NowPayments API Key from settings
-        // 2. Call NowPayments API `POST https://api.nowpayments.io/v1/invoice`
-        // 3. Insert pending deposit row
-        // 4. Redirect user to `invoice_url`
-        console.log("Mock Deposit Initiated:", amount);
-    }
-
-    async function requestWithdrawal(formData: FormData) {
-        "use server";
-        const amount = formData.get("amount");
-        const address = formData.get("address");
-        // 1. Check if balance >= amount
-        // 2. Insert into Ledger as negative 'withdrawal'
-        // 3. Ping NowPayments API for payout OR flag for Admin Manual Review
-        console.log("Mock Withdrawal Requested:", amount, address);
-    }
 
     return (
         <div className="space-y-8 max-w-6xl mx-auto">
@@ -56,7 +35,7 @@ export default async function WalletPage() {
                     <h2 className="text-xl font-bold mb-4">Deposit Crypto</h2>
                     <p className="text-sm text-gray-500 mb-6">Fund your account using any major cryptocurrency via NowPayments.</p>
 
-                    <form action={initiateDeposit} className="space-y-4">
+                    <form action={initiateDepositAction} className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Amount (USD)</label>
                             <div className="mt-1 relative rounded-md shadow-sm">
@@ -88,7 +67,7 @@ export default async function WalletPage() {
                         <span className="text-2xl font-bold text-primary">{formatMoney(balance)}</span>
                     </div>
 
-                    <form action={requestWithdrawal} className="space-y-4">
+                    <form action={requestWithdrawalAction} className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Amount to Withdraw (USD)</label>
                             <div className="mt-1 relative rounded-md shadow-sm">

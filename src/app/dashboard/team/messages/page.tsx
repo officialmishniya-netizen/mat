@@ -40,14 +40,14 @@ export default async function TeamMessagesPage() {
     const contacts = contactsQuery.map(c => ({
         ...c,
         isSponsor: c.id === currentUser.sponsor_id,
-        isOnline: Math.random() > 0.5 // Mock online status
+        isOnline: false // Removed mock random status
     }));
 
     return (
         <div className="h-[calc(100vh-140px)] min-h-[600px] -mx-4 sm:-mx-6 lg:-mx-10 -my-6">
-            <MessagesClient 
-                currentUser={{ id: effectiveUserId, username: currentUser.username }} 
-                initialContacts={contacts} 
+            <MessagesClient
+                currentUser={{ id: effectiveUserId, username: currentUser.username }}
+                initialContacts={contacts}
             />
         </div>
     );

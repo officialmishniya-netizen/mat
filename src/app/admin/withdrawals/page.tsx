@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { 
-    Wallet, 
-    CheckCircle2, 
-    XCircle, 
-    Clock, 
-    Search, 
-    Filter, 
-    ArrowUpRight, 
+import {
+    Wallet,
+    CheckCircle2,
+    XCircle,
+    Clock,
+    Search,
+    Filter,
+    ArrowUpRight,
     RefreshCw,
     MoreHorizontal,
     ExternalLink,
@@ -53,7 +53,7 @@ export default function AdminWithdrawalsPage() {
     const handleAction = async (id: string, newStatus: 'approved' | 'rejected') => {
         const { error } = await supabase
             .from('withdrawals')
-            .update({ 
+            .update({
                 status: newStatus,
                 processed_at: new Date().toISOString()
             })
@@ -89,9 +89,9 @@ export default function AdminWithdrawalsPage() {
                     </button>
                     <div className="relative">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                        <input 
-                            className="bg-white border border-gray-100 rounded-2xl pl-12 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none shadow-sm w-64" 
-                            placeholder="Search by username..." 
+                        <input
+                            className="bg-white border border-gray-100 rounded-2xl pl-12 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none shadow-sm w-64"
+                            placeholder="Search by username..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -99,17 +99,61 @@ export default function AdminWithdrawalsPage() {
                 </div>
             </header>
 
+            {/* Financial Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm transition-all hover:shadow-md">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-amber-50 text-amber-600 rounded-2xl"><Clock size={24} /></div>
+                        <span className="text-[10px] font-black text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full uppercase tracking-widest">Pending</span>
+                    </div>
+                    <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Pending Count</p>
+                    <h3 className="text-3xl font-black text-[#151d48] mt-1">{withdrawals.filter(w => w.status === 'pending').length}</h3>
+                </div>
+
+                <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm transition-all hover:shadow-md">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-primary/10 text-primary rounded-2xl"><Wallet size={24} /></div>
+                        <span className="text-[10px] font-black text-primary bg-primary/5 px-2 py-0.5 rounded-full uppercase tracking-widest">Awaiting</span>
+                    </div>
+                    <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Pending Amount</p>
+                    <h3 className="text-3xl font-black text-primary mt-1">
+                        ${withdrawals.filter(w => w.status === 'pending').reduce((sum, w) => sum + parseFloat(w.amount), 0).toFixed(2)}
+                    </h3>
+                </div>
+
+                <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm transition-all hover:shadow-md">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-green-50 text-green-600 rounded-2xl"><CheckCircle2 size={24} /></div>
+                        <span className="text-[10px] font-black text-green-600 bg-green-50 px-2 py-0.5 rounded-full uppercase tracking-widest">Completed</span>
+                    </div>
+                    <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Total Approved</p>
+                    <h3 className="text-3xl font-black text-green-600 mt-1">
+                        ${withdrawals.filter(w => w.status === 'approved').reduce((sum, w) => sum + parseFloat(w.amount), 0).toFixed(2)}
+                    </h3>
+                </div>
+
+                <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm transition-all hover:shadow-md">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-red-50 text-red-600 rounded-2xl"><XCircle size={24} /></div>
+                        <span className="text-[10px] font-black text-red-600 bg-red-50 px-2 py-0.5 rounded-full uppercase tracking-widest">Rejected</span>
+                    </div>
+                    <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Total Rejected</p>
+                    <h3 className="text-3xl font-black text-red-600 mt-1">
+                        ${withdrawals.filter(w => w.status === 'rejected').reduce((sum, w) => sum + parseFloat(w.amount), 0).toFixed(2)}
+                    </h3>
+                </div>
+            </div>
+
             {/* Filter Tabs */}
             <div className="flex gap-2 p-1 bg-gray-50 rounded-2xl w-fit border border-gray-100">
                 {['pending', 'approved', 'rejected', 'all'].map((tab) => (
                     <button
                         key={tab}
                         onClick={() => setFilter(tab)}
-                        className={`px-6 py-2.5 rounded-xl text-sm font-black capitalize transition-all ${
-                            filter === tab 
-                            ? 'bg-white text-primary shadow-sm ring-1 ring-black/5' 
-                            : 'text-gray-400 hover:text-gray-600'
-                        }`}
+                        className={`px-6 py-2.5 rounded-xl text-sm font-black capitalize transition-all ${filter === tab
+                                ? 'bg-white text-primary shadow-sm ring-1 ring-black/5'
+                                : 'text-gray-400 hover:text-gray-600'
+                            }`}
                     >
                         {tab}
                     </button>
@@ -140,58 +184,58 @@ export default function AdminWithdrawalsPage() {
                                 </tr>
                             ) : (
                                 withdrawals
-                                .filter(w => (w.users?.username || '').toLowerCase().includes(searchTerm.toLowerCase()))
-                                .map((w) => (
-                                    <tr key={w.id} className="hover:bg-gray-50/50 transition-colors group">
-                                        <td className="px-8 py-6">
-                                            <div className="flex flex-col">
-                                                <span className="font-black text-[#151d48]">@{w.users?.username}</span>
-                                                <span className="text-[10px] text-gray-400 font-bold uppercase">{new Date(w.created_at).toLocaleString()}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-6 text-lg font-black text-primary">
-                                            ${parseFloat(w.amount).toFixed(2)}
-                                        </td>
-                                        <td className="px-8 py-6">
-                                            <div className="flex flex-col gap-1">
-                                                <span className="text-xs font-black text-[#444a6d] uppercase">{w.payment_method}</span>
-                                                <span className="text-xs font-mono text-gray-400 truncate max-w-[200px]">{w.details}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-6">
-                                            <div className="flex justify-center">
-                                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${getStatusColor(w.status)}`}>
-                                                    {w.status}
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-6">
-                                            <div className="flex justify-end gap-2">
-                                                {w.status === 'pending' && (
-                                                    <>
-                                                        <button 
-                                                            onClick={() => handleAction(w.id, 'approved')}
-                                                            className="p-2.5 bg-green-50 text-green-600 rounded-xl hover:bg-green-600 hover:text-white transition-all shadow-sm"
-                                                            title="Approve Payout"
-                                                        >
-                                                            <CheckCircle2 size={18} />
-                                                        </button>
-                                                        <button 
-                                                            onClick={() => handleAction(w.id, 'rejected')}
-                                                            className="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all shadow-sm"
-                                                            title="Reject Request"
-                                                        >
-                                                            <XCircle size={18} />
-                                                        </button>
-                                                    </>
-                                                )}
-                                                <button className="p-2.5 bg-gray-50 text-gray-400 rounded-xl hover:bg-gray-100 transition-all">
-                                                    <MoreHorizontal size={18} />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
+                                    .filter(w => (w.users?.username || '').toLowerCase().includes(searchTerm.toLowerCase()))
+                                    .map((w) => (
+                                        <tr key={w.id} className="hover:bg-gray-50/50 transition-colors group">
+                                            <td className="px-8 py-6">
+                                                <div className="flex flex-col">
+                                                    <span className="font-black text-[#151d48]">@{w.users?.username}</span>
+                                                    <span className="text-[10px] text-gray-400 font-bold uppercase">{new Date(w.created_at).toLocaleString()}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-6 text-lg font-black text-primary">
+                                                ${parseFloat(w.amount).toFixed(2)}
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-xs font-black text-[#444a6d] uppercase">{w.payment_method}</span>
+                                                    <span className="text-xs font-mono text-gray-400 truncate max-w-[200px]">{w.details}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <div className="flex justify-center">
+                                                    <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${getStatusColor(w.status)}`}>
+                                                        {w.status}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <div className="flex justify-end gap-2">
+                                                    {w.status === 'pending' && (
+                                                        <>
+                                                            <button
+                                                                onClick={() => handleAction(w.id, 'approved')}
+                                                                className="p-2.5 bg-green-50 text-green-600 rounded-xl hover:bg-green-600 hover:text-white transition-all shadow-sm"
+                                                                title="Approve Payout"
+                                                            >
+                                                                <CheckCircle2 size={18} />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleAction(w.id, 'rejected')}
+                                                                className="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all shadow-sm"
+                                                                title="Reject Request"
+                                                            >
+                                                                <XCircle size={18} />
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                    <button className="p-2.5 bg-gray-50 text-gray-400 rounded-xl hover:bg-gray-100 transition-all">
+                                                        <MoreHorizontal size={18} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
                             )}
                         </tbody>
                     </table>

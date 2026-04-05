@@ -8,6 +8,10 @@ import {
     User, Settings, ShieldCheck, Gamepad2, 
     Trophy, HelpCircle, LogOut, ChevronRight, Edit3 
 } from 'lucide-react-native';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/slices/authSlice';
+import { supabase } from '../../api/supabase';
+import * as SecureStore from 'expo-secure-store';
 
 export const ProfileScreen: React.FC<any> = ({ navigation }) => {
     
@@ -21,15 +25,18 @@ export const ProfileScreen: React.FC<any> = ({ navigation }) => {
         joinDate: 'Jan 15, 2026'
     };
 
+    const dispatch = useDispatch();
+
     const handleLogout = () => {
         Alert.alert(
             "Logout", 
             "Are you sure you want to log out?",
             [
                 { text: "Cancel", style: "cancel" },
-                { text: "Logout", style: "destructive", onPress: () => {
-                    // Navigate to Auth Stack (handled securely by Redux later)
-                    Alert.alert("Logged Out", "You have been logged out.");
+                { text: "Logout", style: "destructive", onPress: async () => {
+                    await supabase.auth.signOut();
+                    await SecureStore.deleteItemAsync('jwt_token');
+                    dispatch(logout());
                 }}
             ]
         );

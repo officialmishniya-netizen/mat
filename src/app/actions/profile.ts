@@ -75,3 +75,26 @@ export async function updatePasswordAction(formData: FormData) {
 
     return { success: true };
 }
+
+export async function updateReferralPageAction(title: string, message: string) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) return { error: "Unauthorized" };
+
+    const { error } = await supabase
+        .from("users")
+        .update({
+            referral_page_title: title,
+            referral_page_message: message,
+        })
+        .eq("id", session.user.id);
+
+    if (error) {
+        console.error("Referral page update error:", error);
+        return { error: "Failed to update referral page." };
+    }
+
+    revalidatePath("/dashboard/team/referral-page");
+    return { success: true };
+}

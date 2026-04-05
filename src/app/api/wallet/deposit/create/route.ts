@@ -24,18 +24,8 @@ export async function POST(req: Request) {
         const settings = await getSiteSettings();
         const apiKey = settings.nowpayments_api_key;
 
-        // In local development or if API key is missing, return a mock response
-        if (!apiKey || apiKey === 'MOCK_KEY') {
-            console.log('Using Mock NOWPayments Response (API Key Missing or Local)');
-            return NextResponse.json({
-                payment_id: 'mock_' + Date.now(),
-                pay_address: '0xMockWalletAddressFor' + coin,
-                pay_amount: (amount / 1).toFixed(8), // Mock exchange rate 1:1 for simplicity
-                pay_currency: coin,
-                price_amount: amount,
-                price_currency: 'usd',
-                payment_status: 'waiting'
-            });
+        if (!apiKey) {
+            return NextResponse.json({ error: 'Payment gateway not configured. Please contact support.' }, { status: 500 });
         }
 
         const response = await fetch('https://api.nowpayments.io/v1/payment', {

@@ -7,7 +7,7 @@ import { Button } from '../../components/common/Button';
 import { Card } from '../../components/common/Card';
 import { useDispatch } from 'react-redux';
 import { setToken, setUser } from '../../store/slices/authSlice';
-import apiClient from '../../api/config';
+import { supabase } from '../../api/supabase';
 import * as SecureStore from 'expo-secure-store';
 
 export const LoginScreen: React.FC<any> = ({ navigation }) => {
@@ -24,16 +24,29 @@ export const LoginScreen: React.FC<any> = ({ navigation }) => {
 
         setLoading(true);
         try {
-            const response = await apiClient.post('/auth/login', { email, password });
-            const { token, user } = response.data;
-            
-            await SecureStore.setItemAsync('jwt_token', token);
-            dispatch(setToken(token));
-            dispatch(setUser(user));
-            // RootNavigator will automatically redirect to MainTabs
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+
+            if (error) {
+                console.error('Login error', error.message);
+                Alert.alert("Login Failed", error.message);
+                return;
+            }
+
+            if (data.session && data.user) {
+                await SecureStore.setItemAsync('jwt_token', data.session.access_token);
+                dispatch(setToken(data.session.access_token));
+                dispatch(setUser({
+                    id: data.user.id,
+                    email: data.user.email,
+                    name: data.user.user_metadata?.name || 'User'
+                }));
+            }
         } catch (error: any) {
-            console.error('Login error', error.response?.data || error.message);
-            Alert.alert("Login Failed", error.response?.data?.message || "Invalid credentials");
+            console.error('Unexpected login error', error);
+            Alert.alert("Error", "An unexpected error occurred during login.");
         } finally {
             setLoading(false);
         }

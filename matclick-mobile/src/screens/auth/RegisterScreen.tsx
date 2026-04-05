@@ -6,7 +6,7 @@ import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { useDispatch } from 'react-redux';
 import { setToken, setUser } from '../../store/slices/authSlice';
-import apiClient from '../../api/config';
+import { supabase } from '../../api/supabase';
 import * as SecureStore from 'expo-secure-store';
 
 export const RegisterScreen: React.FC<any> = ({ navigation }) => {
@@ -32,18 +32,39 @@ export const RegisterScreen: React.FC<any> = ({ navigation }) => {
 
         setLoading(true);
         try {
-            const response = await apiClient.post('/auth/register', { 
-                name, username, email, password, referral_code: referralCode 
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        name,
+                        username,
+                        referral_code: referralCode
+                    }
+                }
             });
-            const { token, user } = response.data;
-            
-            await SecureStore.setItemAsync('jwt_token', token);
-            dispatch(setToken(token));
-            dispatch(setUser(user));
-            // RootNavigator will automatically redirect
+
+            if (error) {
+                console.error('Registration error', error.message);
+                Alert.alert("Registration Failed", error.message);
+                return;
+            }
+
+            if (data.session && data.user) {
+                await SecureStore.setItemAsync('jwt_token', data.session.access_token);
+                dispatch(setToken(data.session.access_token));
+                dispatch(setUser({
+                    id: data.user.id,
+                    email: data.user.email,
+                    name: data.user.user_metadata?.name || name
+                }));
+            } else {
+                Alert.alert("Verification Sent", "Please check your email to verify your account!");
+                navigation.navigate('Login');
+            }
         } catch (error: any) {
-            console.error('Registration error', error.response?.data || error.message);
-            Alert.alert("Registration Failed", error.response?.data?.message || "An error occurred during sign up.");
+            console.error('Registration error', error);
+            Alert.alert("Registration Failed", "An unexpected error occurred.");
         } finally {
             setLoading(false);
         }

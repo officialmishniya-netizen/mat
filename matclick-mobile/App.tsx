@@ -5,6 +5,8 @@ import { useFonts, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import { Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/nunito';
 import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
 import { RootNavigator } from './src/navigation/RootNavigator';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { View } from 'react-native';
 
 
@@ -23,7 +25,11 @@ export default function App() {
 
     return (
         <Provider store={store}>
-            <RootNavigator />
+            <SafeAreaProvider>
+                <NavigationContainer>
+                    <RootNavigator />
+                </NavigationContainer>
+            </SafeAreaProvider>
         </Provider>
     );
 }

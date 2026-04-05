@@ -188,47 +188,47 @@ export default async function AdminDashboardPage() {
                 <div className="lg:col-span-3 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                     <div className="flex justify-between items-center mb-6">
                         <div>
-                            <h2 className="text-xl font-bold flex items-center"><Wallet className="mr-2 text-primary" size={24} /> Financial Health</h2>
-                            <p className="text-sm text-[#a0a8b9] font-medium mt-1">Real-time Global Ledger Aggregation</p>
+                            <h2 className="text-xl font-bold flex items-center"><Wallet className="mr-2 text-primary" size={24} /> Money Overview</h2>
+                            <p className="text-sm text-[#a0a8b9] font-medium mt-1">Real-time balances across the entire system</p>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                        {/* Liability */}
+                        {/* Total User Funds */}
                         <div className="bg-[#f3e8ff] rounded-xl p-4 border border-purple-100">
                             <div className="w-10 h-10 bg-[#bf83ff] rounded-full flex items-center justify-center text-white mb-3 shadow-sm text-lg"><Banknote size={20} /></div>
                             <h3 className="text-2xl font-bold mb-1">${totalLiability}</h3>
-                            <p className="text-sm font-semibold text-[#444a6d] mb-1">Total System Liability</p>
-                            <p className="text-[11px] font-bold text-gray-500">Sitting in User Balances</p>
+                            <p className="text-sm font-semibold text-[#444a6d] mb-1">Total Member Balances</p>
+                            <p className="text-[11px] font-bold text-gray-500">Money currently held by users</p>
                         </div>
                         {/* Revenue */}
                         <div className="bg-[#dcfce7] rounded-xl p-4 border border-green-100">
                             <div className="w-10 h-10 bg-[#3cd856] rounded-full flex items-center justify-center text-white mb-3 shadow-sm text-lg"><Wallet size={20} /></div>
                             <h3 className="text-2xl font-bold mb-1">${revenueIn}</h3>
-                            <p className="text-sm font-semibold text-[#444a6d] mb-1">Total Revenue In</p>
-                            <p className="text-[11px] font-bold text-gray-500">Deposited via Payments</p>
+                            <p className="text-sm font-semibold text-[#444a6d] mb-1">Total Money In</p>
+                            <p className="text-[11px] font-bold text-gray-500">Payments made into the system</p>
                         </div>
                         {/* Withdrawn */}
                         <div className="bg-[#fff4de] rounded-xl p-4 border border-orange-100">
                             <div className="w-10 h-10 bg-[#ff947a] rounded-full flex items-center justify-center text-white mb-3 shadow-sm text-lg"><Wallet size={20} /></div>
                             <h3 className="text-2xl font-bold mb-1">${totalWithdrawn}</h3>
-                            <p className="text-sm font-semibold text-[#444a6d] mb-1">Total Withdrawn</p>
-                            <p className="text-[11px] font-bold text-gray-500">Successfully Paid Out</p>
+                            <p className="text-sm font-semibold text-[#444a6d] mb-1">Total Paid Out</p>
+                            <p className="text-[11px] font-bold text-gray-500">Money successfully withdrawn</p>
                         </div>
-                        {/* Net Profit */}
+                        {/* System Health */}
                         {isProfitNegative ? (
                             <div className="bg-red-50 rounded-xl p-4 border border-red-200 shadow-inner">
                                 <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white mb-3 shadow-sm text-lg animate-pulse"><AlertTriangle size={20} /></div>
                                 <h3 className="text-2xl font-bold mb-1 text-red-600">-${Math.abs(parseFloat(netProfit)).toFixed(2)}</h3>
-                                <p className="text-sm font-semibold text-red-800 mb-1">Net Profit Deficit</p>
-                                <p className="text-[11px] font-bold text-red-600">System is over-leveraged!</p>
+                                <p className="text-sm font-semibold text-red-800 mb-1">System Shortfall</p>
+                                <p className="text-[11px] font-bold text-red-600">Growth is outpacing reserves!</p>
                             </div>
                         ) : (
                             <div className="bg-[#e0f2fe] rounded-xl p-4 border border-blue-100">
                                 <div className="w-10 h-10 bg-[#38bdf8] rounded-full flex items-center justify-center text-white mb-3 shadow-sm text-lg"><ActivitySquare size={20} /></div>
                                 <h3 className="text-2xl font-bold mb-1 text-blue-700">${netProfit}</h3>
-                                <p className="text-sm font-semibold text-blue-800 mb-1">Net System Profit</p>
-                                <p className="text-[11px] font-bold text-blue-600">Total Sustainable Margins</p>
+                                <p className="text-sm font-semibold text-blue-800 mb-1">System Surplus</p>
+                                <p className="text-[11px] font-bold text-blue-600">Available growth margins</p>
                             </div>
                         )}
                     </div>
@@ -252,7 +252,7 @@ export default async function AdminDashboardPage() {
                             <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-100">
                                 <div className="flex items-center space-x-3">
                                     <ShieldAlert size={18} className="text-red-600" />
-                                    <span className="font-semibold text-sm text-red-900">Flagged Users</span>
+                                    <span className="font-semibold text-sm text-red-900">Security Threats</span>
                                 </div>
                                 <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">{flaggedUsers}</span>
                             </div>
@@ -263,8 +263,8 @@ export default async function AdminDashboardPage() {
 
             {/* ROW 2: ACTIVITY PULSE (TODAY) */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-bold mb-1 flex items-center"><ActivitySquare className="mr-2 text-primary" size={24} /> Activity Pulse</h2>
-                <p className="text-sm text-[#a0a8b9] font-medium mb-6">Last 24 Hours</p>
+                <h2 className="text-xl font-bold mb-1 flex items-center"><ActivitySquare className="mr-2 text-primary" size={24} /> Recent Activity</h2>
+                <p className="text-sm text-[#a0a8b9] font-medium mb-6">Overview of the last 24 hours</p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                     <div className="flex items-center space-x-4 p-4 border border-gray-100 rounded-xl bg-gray-50">
@@ -311,7 +311,7 @@ export default async function AdminDashboardPage() {
                 </div>
 
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col">
-                    <h2 className="text-xl font-bold mb-2">Matrix Penetration</h2>
+                    <h2 className="text-xl font-bold mb-2">Growth Level Stats</h2>
                     <div className="flex-1 w-full min-h-[300px]">
                         <LevelDistributionChart levelData={levelDistribution} />
                     </div>
@@ -333,7 +333,7 @@ export default async function AdminDashboardPage() {
                             data={last7DaysAds}
                             stats={{
                                 viewsPerDay: Math.round(last7DaysAds.reduce((acc, curr) => acc + curr.adsViewed, 0) / 7),
-                                drainStatus: 'Stable'
+                                drainStatus: last7DaysAds[6].adsViewed > last7DaysAds[0].adsViewed ? 'Increasing' : 'Stable'
                             }}
                         />
                     </div>

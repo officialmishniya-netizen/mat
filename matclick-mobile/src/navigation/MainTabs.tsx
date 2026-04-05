@@ -1,9 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { colors } from '../theme/colors';
 import { typography } from '../theme/typography';
 import { Home, Play, Users, Wallet, User } from 'lucide-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HomeScreen } from '../screens/dashboard/HomeScreen';
 
@@ -15,6 +16,8 @@ import { WalletStack } from './WalletStack';
 import { ProfileStack } from './ProfileStack';
 
 export const MainTabs = () => {
+    const insets = useSafeAreaInsets();
+    
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -25,8 +28,8 @@ export const MainTabs = () => {
                     backgroundColor: colors.white,
                     borderTopWidth: 1,
                     borderTopColor: colors.border,
-                    height: 60,
-                    paddingBottom: 8,
+                    height: 60 + (Platform.OS === 'ios' ? insets.bottom : insets.bottom > 0 ? insets.bottom : 0),
+                    paddingBottom: Platform.OS === 'ios' ? insets.bottom : insets.bottom > 0 ? insets.bottom + 8 : 8,
                     paddingTop: 8,
                 },
                 tabBarLabelStyle: {

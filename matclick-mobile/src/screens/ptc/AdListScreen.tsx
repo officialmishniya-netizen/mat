@@ -4,7 +4,9 @@ import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { Badge } from '../../components/common/Badge';
 import { Card } from '../../components/common/Card';
-import apiClient from '../../api/config';
+import { supabase } from '../../api/supabase';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import { PlayCircle, Clock } from 'lucide-react-native';
 
 interface Ad {
@@ -19,30 +21,77 @@ interface Ad {
 const TABS = ['All', 'Standard', 'Premium', 'Bonus'];
 
 export const AdListScreen: React.FC<any> = ({ navigation }) => {
+    const { user } = useSelector((state: RootState) => state.auth);
     const [activeTab, setActiveTab] = useState('All');
     const [ads, setAds] = useState<Ad[]>([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
+    const [stats, setStats] = useState({ watched: 0, limit: 20 });
 
     const fetchAds = async () => {
-        // MOCK DATA: pending real API connection
-        const mockData: Ad[] = [
-            { id: '1', title: 'Crypto Cloud Mining', advertiser: 'CoinX', category: 'Premium', reward: 0.05, duration: 60 },
-            { id: '2', title: 'Earn Money Surveys', advertiser: 'SurveyJunkie', category: 'Standard', reward: 0.01, duration: 30 },
-            { id: '3', title: 'MatClick Referral Promo', advertiser: 'System', category: 'Bonus', reward: 0.10, duration: 120 },
-            { id: '4', title: 'Web Hosting Deal', advertiser: 'Hostinger', category: 'Standard', reward: 0.005, duration: 15 },
-        ];
-        
         try {
-            // const res = await apiClient.get('/ads/available');
-            // setAds(res.data);
-            setAds(mockData);
+            setLoading(true);
+            
+            // 1. Fetch available ads
+            const { data, error } = await supabase
+                .from('ads')
+                .select('*')
+                .eq('active', true);
+
+            if (error) throw error;
+
+            const mappedAds: Ad[] = (data || []).map(ad => ({
+                id: ad.id,
+                title: ad.title,
+                advertiser: 'Sponsored',
+                category: ad.reward > 0.05 ? 'Premium' : 'Standard',
+                reward: parseFloat(ad.reward),
+                duration: ad.duration
+            }));
+
+            setAds(mappedAds);
+
+            // 2. Fetch user's watch progress for today
+            if (user?.id) {
+                const { data: posData } = await supabase
+                    .from('user_ad_positions')
+                    .select('ads_watched_today')
+                    .eq('user_id', user.id)
+                    .eq('status', 'active')
+                    .limit(1)
+                    .maybeSingle();
+                
+                if (posData) {
+                    setStats({ 
+                        watched: posData.ads_watched_today || 0,
+                        limit: 20 
+                    });
+                }
+            }
         } catch (error) {
             console.error("Failed to load ads", error);
         } finally {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        fetchAds();
+    }, []);
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await fetchAds();
+        setRefreshing(false);
+    };
+
+    const handleWatchAd = (ad: Ad) => {
+        navigation.navigate('AdView', { ad });
+    };
+
+    const filteredAds = activeTab === 'All' 
+        ? ads 
+        : ads.filter(ad => ad.category === activeTab);
 
     useEffect(() => {
         fetchAds();
@@ -98,9 +147,9 @@ export const AdListScreen: React.FC<any> = ({ navigation }) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>Watch Ads</Text>
-                <Text style={styles.progressText}>12/20 watched today</Text>
+                <Text style={styles.progressText}>{stats.watched}/{stats.limit} watched today</Text>
                 <View style={styles.progressBarBg}>
-                    <View style={[styles.progressBarFill, { width: '60%' }]} />
+                    <View style={[styles.progressBarFill, { width: `${(stats.watched/stats.limit) * 100}%` }]} />
                 </View>
             </View>
 

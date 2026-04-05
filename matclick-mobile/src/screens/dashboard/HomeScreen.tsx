@@ -4,42 +4,45 @@ import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { Bell, ArrowUpRight, ArrowDownLeft, Play, Zap, CheckCircle2, Waves, QrCode, Users, Trophy, Star, TrendingUp } from 'lucide-react-native';
 import { Card } from '../../components/common/Card';
-import apiClient from '../../api/config';
+import { SkeletonLoader } from '../../components/common/SkeletonLoader';
+import { useDashboard } from '../../hooks/useDashboard';
 
 const { width } = Dimensions.get('window');
 
 export const HomeScreen: React.FC<any> = ({ navigation }) => {
-    const [refreshing, setRefreshing] = useState(false);
-    const [stats, setStats] = useState<any>(null);
-
-    const loadDashboard = async () => {
-        // Mock data for UI presentation until API is live
-        setStats({
-            user: { name: 'Ahmad', level: '🥈 Silver Member' },
-            balance: '24.75',
-            totalEarned: '142.50',
-            referrals: 48,
-            stats: { ads: '12/20', tasks: '3/5', team: '$1.20' },
-            streak: 7
-        });
-    };
-
-    useEffect(() => {
-        loadDashboard();
-    }, []);
+    const { stats, loading, refresh } = useDashboard();
 
     const onRefresh = React.useCallback(async () => {
-        setRefreshing(true);
-        await loadDashboard();
-        setRefreshing(false);
-    }, []);
+        await refresh();
+    }, [refresh]);
 
-    if (!stats) return null; // Or skeleton loader
+    if (loading && !stats) {
+        return (
+            <View style={styles.container}>
+                <View style={[styles.headerBackground, { paddingBottom: 40 }]}>
+                    <SkeletonLoader width={150} height={24} style={{ marginBottom: 8 }} />
+                    <SkeletonLoader width={100} height={20} />
+                </View>
+                <View style={styles.balanceContainer}>
+                    <Card style={styles.balanceCard}>
+                        <SkeletonLoader width={120} height={16} style={{ marginBottom: 12 }} />
+                        <SkeletonLoader width={200} height={40} style={{ marginBottom: 16 }} />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <SkeletonLoader width={80} height={14} />
+                            <SkeletonLoader width={80} height={14} />
+                        </View>
+                    </Card>
+                </View>
+            </View>
+        );
+    }
+
+    if (!stats) return null;
 
     return (
         <ScrollView 
             style={styles.container}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
+            refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} tintColor={colors.primary} />}
             showsVerticalScrollIndicator={false}
         >
             {/* Header Section (Orange Gradient Base) */}
@@ -70,11 +73,11 @@ export const HomeScreen: React.FC<any> = ({ navigation }) => {
                     </View>
 
                     <View style={styles.actionButtonsRow}>
-                        <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Wallet')}>
+                        <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Wallet', { screen: 'Withdraw' })}>
                             <ArrowUpRight color={colors.primary} size={16} />
                             <Text style={styles.actionButtonText}>Withdraw</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Wallet')}>
+                        <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Wallet', { screen: 'Deposit' })}>
                             <ArrowDownLeft color={colors.primary} size={16} />
                             <Text style={styles.actionButtonText}>Deposit</Text>
                         </TouchableOpacity>
@@ -108,21 +111,21 @@ export const HomeScreen: React.FC<any> = ({ navigation }) => {
                     </TouchableOpacity>
 
                     {/* PowerGrid */}
-                    <TouchableOpacity style={styles.gridCard}>
+                    <TouchableOpacity style={styles.gridCard} onPress={() => navigation.navigate('Earn', { screen: 'PowerGrid' })}>
                         <View style={styles.gridIconContainer}><Zap color={colors.primary} size={24} /></View>
                         <Text style={styles.gridTitle}>PowerGrid Cycle</Text>
                         <Text style={styles.gridSubtitle}>Pack #3 Active</Text>
                     </TouchableOpacity>
 
                     {/* Task Surge */}
-                    <TouchableOpacity style={styles.gridCard}>
+                    <TouchableOpacity style={styles.gridCard} onPress={() => navigation.navigate('Earn', { screen: 'TaskList' })}>
                         <View style={styles.gridIconContainer}><CheckCircle2 color={colors.primary} size={24} /></View>
                         <Text style={styles.gridTitle}>Task Surge</Text>
                         <Text style={styles.gridSubtitle}>5 tasks ready</Text>
                     </TouchableOpacity>
 
                     {/* Tide Pool */}
-                    <TouchableOpacity style={styles.gridCard}>
+                    <TouchableOpacity style={styles.gridCard} onPress={() => navigation.navigate('Earn', { screen: 'TidePool' })}>
                         <View style={styles.gridIconContainer}><Waves color={colors.primary} size={24} /></View>
                         <Text style={styles.gridTitle}>Tide Pool</Text>
                         <Text style={styles.gridSubtitle}>$8.50 accruing</Text>
@@ -135,13 +138,17 @@ export const HomeScreen: React.FC<any> = ({ navigation }) => {
                 <Text style={styles.sectionTitle}>Quick Actions</Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.quickActionsStrip}>
                     {[
-                        { icon: QrCode, label: 'Refer Friend' },
-                        { icon: Users, label: 'View Team' },
-                        { icon: Trophy, label: 'My Rank' },
-                        { icon: Star, label: 'Spin Wheel' },
-                        { icon: TrendingUp, label: 'Leaderboard' },
+                        { icon: QrCode, label: 'Refer Friend', stack: 'Team', screen: 'Referral' },
+                        { icon: Users, label: 'View Team', stack: 'Team', screen: 'TeamDashboard' },
+                        { icon: Trophy, label: 'My Rank', stack: 'Team', screen: 'Rank' },
+                        { icon: Star, label: 'Spin Wheel', stack: 'Profile', screen: 'SpinWheel' },
+                        { icon: TrendingUp, label: 'Leaderboard', stack: 'Profile', screen: 'Leaderboard' },
                     ].map((action, i) => (
-                        <TouchableOpacity key={i} style={styles.quickActionPill}>
+                        <TouchableOpacity 
+                            key={i} 
+                            style={styles.quickActionPill} 
+                            onPress={() => navigation.navigate(action.stack, { screen: action.screen })}
+                        >
                             <View style={styles.quickActionIcon}>
                                 <action.icon color={colors.primary} size={18} />
                             </View>

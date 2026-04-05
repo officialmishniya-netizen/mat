@@ -6,6 +6,9 @@ import { typography } from '../../theme/typography';
 import { Button } from '../../components/common/Button';
 import apiClient from '../../api/config';
 import { CheckCircle } from 'lucide-react-native';
+import { supabase } from '../../api/supabase';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 export const AdViewScreen: React.FC<any> = ({ route, navigation }) => {
     const { ad } = route.params;
@@ -45,18 +48,63 @@ export const AdViewScreen: React.FC<any> = ({ route, navigation }) => {
         return () => clearInterval(timer);
     }, [timeLeft, isPaused, showCaptcha]);
 
+    const { user } = useSelector((state: RootState) => state.auth);
+
     const handleCaptchaComplete = async () => {
+        if (!user?.id) return;
         setLoading(true);
         try {
-            // Simulated API call for ad completion
-            // await apiClient.post(`/ads/${ad.id}/complete`, { captcha_token: 'valid' });
+            // 1. Record the view
+            const { error: viewError } = await supabase
+                .from('ad_views')
+                .insert({
+                    user_id: user.id,
+                    ad_id: ad.id,
+                    ip_address: '127.0.0.1' // In real app, get from public API if needed
+                });
+
+            if (viewError) throw viewError;
+
+            // 2. Update Position Balance & Count
+            // We fetch the active position first
+            const { data: pos } = await supabase
+                .from('user_ad_positions')
+                .select('*')
+                .eq('user_id', user.id)
+                .eq('status', 'active')
+                .limit(1)
+                .maybeSingle();
+
+            if (pos) {
+                const newWatched = (pos.ads_watched_today || 0) + 1;
+                const newBalance = parseFloat(pos.locked_balance || '0') + ad.reward;
+
+                await supabase
+                    .from('user_ad_positions')
+                    .update({
+                        ads_watched_today: newWatched,
+                        locked_balance: newBalance.toFixed(4),
+                        last_ad_watched_at: new Date().toISOString()
+                    })
+                    .eq('id', pos.id);
+                
+                // 3. Log it
+                await supabase.from('ad_watch_log').insert({
+                    user_id: user.id,
+                    ad_id: ad.id,
+                    earned_amount: ad.reward,
+                    locked_balance_before: pos.locked_balance,
+                    locked_balance_after: newBalance.toFixed(4)
+                });
+            }
             
             Alert.alert(
                 "Success! 🎉",
-                `$${ad.reward.toFixed(3)} credited to your wallet.`,
+                `$${ad.reward.toFixed(3)} credited to your position balance.`,
                 [{ text: "Awesome", onPress: () => navigation.goBack() }]
             );
-        } catch (error) {
+        } catch (error: any) {
+            console.error('Ad completion error', error.message);
             Alert.alert("Error", "Could not verify ad completion.");
         } finally {
             setLoading(false);
@@ -67,9 +115,8 @@ export const AdViewScreen: React.FC<any> = ({ route, navigation }) => {
         <View style={styles.container}>
             {/* Ad Website */}
             <View style={styles.webviewContainer}>
-                {/* Fallback to google.com if no URL is provided in the mock */}
                 <WebView 
-                    source={{ uri: 'https://example.com' }} 
+                    source={{ uri: ad.url || 'https://google.com' }} 
                     style={{ flex: 1 }}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}

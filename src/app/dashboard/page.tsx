@@ -1,6 +1,6 @@
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { getEffectiveUserId } from "@/app/actions/impersonate";
-import { getUserBalance, getPurchaseBalance, getTotalEarnings, getBonusTotals, getAdRewardTotal } from "@/lib/ledger";
+import { getUserBalance, getPurchaseBalance, getTotalEarnings, getBonusTotals, getAdRewardTotal, getDailyEarnings } from "@/lib/ledger";
 import { DashboardOverview } from "./DashboardOverview";
 import { redirect } from "next/navigation";
 
@@ -20,6 +20,7 @@ export default async function DashboardPage() {
     const totalEarnings = await getTotalEarnings(effectiveUserId);
     const { referral: referralBonus, matching: matchingBonus } = await getBonusTotals(effectiveUserId);
     const adRewardTotal = await getAdRewardTotal(effectiveUserId);
+    const dailyEarnings = await getDailyEarnings(effectiveUserId);
 
     // Get user profile for ad credits
     const { data: profile } = await supabase
@@ -110,6 +111,7 @@ export default async function DashboardPage() {
             communityPoolTotal={totalPoolBalance}
             topEarners={topEarners || []}
             recentShouts={recentShouts || []}
+            dailyEarnings={dailyEarnings}
         />
     );
 }

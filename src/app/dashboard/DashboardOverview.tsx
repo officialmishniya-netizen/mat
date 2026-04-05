@@ -52,6 +52,7 @@ interface DashboardOverviewProps {
     communityPoolTotal: string;
     topEarners: any[];
     recentShouts: any[];
+    dailyEarnings: number[];
 }
 
 const getTypeConfig = (type: string) => {
@@ -122,7 +123,8 @@ export function DashboardOverview({
     recentTransactions,
     communityPoolTotal,
     topEarners,
-    recentShouts
+    recentShouts,
+    dailyEarnings
 }: DashboardOverviewProps) {
     const { t, language } = useTranslation();
     const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -163,7 +165,7 @@ export function DashboardOverview({
                             <span className="text-3xl font-black text-[#151d48] tracking-tighter">{formatMoney(balance)}</span>
                         </div>
                     </div>
-                    <Sparkline color="#f97316" data={[20, 25, 23, 30, 28, 35, 40, 42]} />
+                    <Sparkline color="#f97316" data={dailyEarnings.slice(-8)} />
                 </div>
 
                 {/* Locked Balance */}
@@ -201,7 +203,7 @@ export function DashboardOverview({
                             <span className="text-3xl font-black tracking-tighter">{formatMoney(purchaseBalance)}</span>
                         </div>
                     </div>
-                    <Sparkline color="#3b82f6" data={[40, 35, 45, 30, 50, 45, 60, 65]} />
+                    <Sparkline color="#3b82f6" data={dailyEarnings.slice(-8)} />
                 </div>
 
                 {/* Total Earnings */}
@@ -216,7 +218,7 @@ export function DashboardOverview({
                             <span className="text-3xl font-black text-[#151d48] tracking-tighter">{formatMoney(totalEarnings)}</span>
                         </div>
                     </div>
-                    <Sparkline color="#22c55e" data={[10, 20, 15, 30, 25, 40, 35, 50]} />
+                    <Sparkline color="#22c55e" data={dailyEarnings.slice(-8)} />
                 </div>
 
                 {/* Ad Credits */}
@@ -259,7 +261,7 @@ export function DashboardOverview({
                                 </div>
                             ))}
                         </div>
-                        <span className="text-[10px] font-black text-[#737791] uppercase tracking-tighter">+5,240 Users Contributing</span>
+                        <span className="text-[10px] font-black text-[#737791] uppercase tracking-tighter">Verified Global Rewards</span>
                     </div>
                 </div>
             </div>
@@ -360,14 +362,14 @@ export function DashboardOverview({
                         </div>
                     </div>
 
-                    {/* Styled Bar Chart (Mock) */}
+                    {/* Real Bar Chart */}
                     <div className="flex-1 flex items-end justify-between gap-3 min-h-[300px] pb-6 px-2">
-                        {[45, 60, 55, 70, 85, 95, 80, 90, 100, 110, 105, 120].map((height, i) => (
+                        {dailyEarnings.map((val, i) => (
                             <div key={i} className="flex-1 flex flex-col items-center group cursor-pointer">
                                 <div className="w-full relative">
                                     <div
-                                        className={`w-full rounded-2xl transition-all duration-700 group-hover:scale-110 group-hover:shadow-lg ${i % 2 === 0 ? 'bg-[#151d48] shadow-blue-900/10' : 'bg-primary/20 group-hover:bg-primary/40'}`}
-                                        style={{ height: `${height * 2.2}px` }}
+                                        className={`w-full rounded-2xl transition-all duration-700 group-hover:scale-110 group-hover:shadow-lg ${i === dailyEarnings.length - 1 ? 'bg-primary' : (i % 2 === 0 ? 'bg-[#151d48] shadow-blue-900/10' : 'bg-primary/20 group-hover:bg-primary/40')}`}
+                                        style={{ height: `${Math.max(10, val * 5)}px` }}
                                     ></div>
                                 </div>
                                 <span className="mt-4 text-[8px] font-black text-[#a0a8b9] uppercase tracking-tighter group-hover:text-primary transition-colors">D{i + 1}</span>
@@ -481,7 +483,7 @@ export function DashboardOverview({
                     </div>
                     <div className="space-y-4">
                         {topEarners.length === 0 ? (
-                             <div className="py-10 text-center text-gray-400 font-bold italic">No data yet.</div>
+                            <div className="py-10 text-center text-gray-400 font-bold italic">No data yet.</div>
                         ) : (
                             topEarners.map((user, i) => (
                                 <div key={i} className="flex items-center justify-between p-4 rounded-3xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group relative">

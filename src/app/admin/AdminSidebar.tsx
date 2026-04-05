@@ -49,57 +49,44 @@ type NavGroup = {
 
 const navGroups: NavGroup[] = [
     {
-        name: "Dashboard",
+        name: "Overview",
         icon: LayoutDashboard,
-        href: "/admin"
+        items: [
+            { name: "Overview Dashboard", href: "/admin" },
+            { name: "Statistics", href: "/admin/analytics/stress-test" },
+            { name: "User Loyalty", href: "/admin/analytics/cohorts" },
+            { name: "Ad Results", href: "/admin/analytics/roi" }
+        ]
     },
     {
-        name: "Marketing Hub",
-        icon: ShieldAlert,
-        href: "/admin/marketing"
-    },
-    {
-        name: "Marketplace",
-        icon: ShoppingBag,
-        href: "/admin/marketplace",
-        reqModule: "enable_marketplace_module"
-    },
-    {
-        name: "User Management",
+        name: "Member Management",
         icon: Users,
         items: [
-            { name: "All Users", href: "/admin/users" },
-            { name: "Deep Audit Tool", href: "/admin/users/audit" },
-            { name: "Impersonate", href: "/admin/users/impersonate" },
-            { name: "Sponsor Manager", href: "/admin/users/sponsor" }
+            { name: "All Members", href: "/admin/users" },
+            { name: "Profile Search", href: "/admin/users/audit" },
+            { name: "Login as User", href: "/admin/users/impersonate" },
+            { name: "Sponsor Manager", href: "/admin/users/sponsor" },
+            { name: "Contest Manager", href: "/admin/contests", reqModule: "enable_contests_module" },
+            { name: "Give Awards", href: "/admin/achievements", reqModule: "enable_achievements_module" },
         ]
     },
     {
-        name: "Ad Cycle Center",
-        icon: MonitorPlay,
-        reqModule: "enable_ptc_module",
+        name: "Earning Systems",
+        icon: Zap,
         items: [
-            { name: "Ad Level Creation", href: "/admin/ads" },
-            { name: "Global Ad Settings", href: "/admin/ads/settings" },
-            { name: "Anti-Cheat Logs", href: "/admin/ads/anticheat" }
-        ]
-    },
-    {
-        name: "Matrix & Levels",
-        icon: Layers,
-        reqModule: "enable_matrix_module",
-        items: [
-            { name: "Level Configurator", href: "/admin/levels" },
+            { name: "Watching Ads Setup", href: "/admin/ads", reqModule: "enable_ptc_module" },
+            { name: "Earning Levels", href: "/admin/levels", reqModule: "enable_matrix_module" },
             { name: "Bonus Settings", href: "/admin/levels/bonuses" },
-            { name: "Live Trees", href: "/admin/levels/trees" }
+            { name: "Live Growth Trees", href: "/admin/levels/trees" },
+            { name: "Shop Manager", href: "/admin/marketplace", reqModule: "enable_marketplace_module" },
         ]
     },
     {
-        name: "Finance & Ledger",
+        name: "Money Management",
         icon: Wallet,
         reqModule: "enable_finance_module",
         items: [
-            { name: "Master Ledger", href: "/admin/ledger" },
+            { name: "Transaction History", href: "/admin/ledger" },
             { name: "Withdrawals", href: "/admin/withdrawals" },
             { name: "Scheduled Payouts", href: "/admin/withdrawals/scheduled" },
             { name: "Investment Pools", href: "/admin/investments", reqModule: "enable_roi_module" },
@@ -108,51 +95,29 @@ const navGroups: NavGroup[] = [
         ]
     },
     {
-        name: "Analytics",
-        icon: PieChart,
+        name: "Security Center",
+        icon: ShieldAlert,
         items: [
-            { name: "Stress Test", href: "/admin/analytics/stress-test" },
-            { name: "Cohort Retention", href: "/admin/analytics/cohorts" },
-            { name: "Advertiser ROI", href: "/admin/analytics/roi" }
-        ]
-    },
-    {
-        name: "Engagement",
-        icon: Trophy,
-        items: [
-            { name: "Contest Manager", href: "/admin/contests", reqModule: "enable_contests_module" },
-            { name: "Badge Manager", href: "/admin/achievements", reqModule: "enable_achievements_module" },
-            { name: "Team Chat MOD", href: "/admin/team-chat", reqModule: "enable_team_chat_module" }
+            { name: "Alert Center", href: "/admin/fraud" },
+            { name: "Duplicate IPs", href: "/admin/fraud/duplicate-ips" },
+            { name: "VPN Detector", href: "/admin/fraud/vpn-detector" },
+            { name: "Withdrawal Anomalies", href: "/admin/fraud/withdrawals" },
+            { name: "Self-Referral Check", href: "/admin/fraud/self-referral" },
+            { name: "Bot Patterns", href: "/admin/fraud/bots" },
+            { name: "Security Settings", href: "/admin/fraud/settings" },
         ]
     },
     {
         name: "System Settings",
         icon: Settings,
         items: [
-            { name: "White-Label UI", href: "/admin/settings" },
-            { name: "Modules", href: "/admin/settings/modules" },
-            { name: "Payments Config", href: "/admin/settings/payments" },
-            { name: "Email Templates", href: "/admin/emails" },
-            { name: "Simulation Engine", href: "/admin/simulation", reqModule: "enable_simulation_module" }
-        ]
-    },
-    {
-        name: "Fraud Intelligence",
-        icon: ScanSearch,
-        items: [
-            { name: "Alert Center", href: "/admin/fraud" },
-            { name: "Duplicate IPs", href: "/admin/fraud/duplicate-ips" },
-            { name: "Speed Violations", href: "/admin/fraud/speed-violations" },
-            { name: "VPN Detector", href: "/admin/fraud/vpn-detector" },
-            { name: "Withdrawal Anomalies", href: "/admin/fraud/withdrawals" },
-            { name: "Self-Referral", href: "/admin/fraud/self-referral" },
-            { name: "Device Clusters", href: "/admin/fraud/devices" },
-            { name: "Bot Patterns", href: "/admin/fraud/bots" },
-            { name: "Earnings Mismatch", href: "/admin/fraud/earnings-mismatch" },
-            { name: "Dormant Revivals", href: "/admin/fraud/dormant" },
-            { name: "Network Graph", href: "/admin/fraud/network" },
-            { name: "Burst Registrations", href: "/admin/fraud/burst-registrations" },
-            { name: "Fraud Settings", href: "/admin/fraud/settings" },
+            { name: "General Settings", href: "/admin/settings" },
+            { name: "Modules & Features", href: "/admin/settings/modules" },
+            { name: "Promotion Tools", href: "/admin/marketing" },
+            { name: "Payments Setup", href: "/admin/settings/payments" },
+            { name: "Email Editor", href: "/admin/emails" },
+            { name: "Simulation Tool", href: "/admin/simulation", reqModule: "enable_simulation_module" },
+            { name: "Team Chat MOD", href: "/admin/team-chat", reqModule: "enable_team_chat_module" },
         ]
     }
 ];
@@ -162,9 +127,9 @@ export default function AdminSidebar() {
     const { t } = useTranslation();
     const [settings, setSettings] = useState<SiteSettings | null>(null);
     const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
-        "Dashboard": true,
-        "Ad Click Center": true,
-        "Matrix & Levels": true
+        "Overview": true,
+        "Earning Systems": true,
+        "Member Management": true
     });
 
     useEffect(() => {
