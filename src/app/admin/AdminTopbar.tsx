@@ -45,7 +45,7 @@ export default function AdminTopbar() {
                 {/* Language Switcher */}
                 <div className="relative group">
                     <div className="flex items-center space-x-2 cursor-pointer bg-white px-3 py-2 rounded-xl ring-1 ring-gray-100 hover:bg-gray-50 transition-colors">
-                        <span className="text-lg">{language === "en" ? "ðŸ‡ºðŸ‡¸" : "ðŸ‡ªðŸ‡¸"}</span>
+                        <span className="text-lg">🇺🇸</span>
                         <span className="text-sm font-semibold text-[#444a6d]">{language === "en" ? "Eng (US)" : "Esp (ES)"}</span>
                         <ChevronDown size={14} className="text-[#a0a8b9]" />
                     </div>
@@ -56,13 +56,13 @@ export default function AdminTopbar() {
                                 onClick={() => setLanguage("en")}
                                 className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-bold ${language === 'en' ? 'bg-orange-50 text-[#f97316]' : 'text-[#737791] hover:bg-gray-50'}`}
                             >
-                                <span className="text-lg">ðŸ‡ºðŸ‡¸</span> <span>English</span>
+                                <span className="text-lg">🇺🇸</span> <span>English</span>
                             </button>
                             <button
                                 onClick={() => setLanguage("es")}
                                 className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-bold ${language === 'es' ? 'bg-orange-50 text-[#f97316]' : 'text-[#737791] hover:bg-gray-50'}`}
                             >
-                                <span className="text-lg">ðŸ‡ªðŸ‡¸</span> <span>EspaÃ±ol</span>
+                                <span className="text-lg">🇪🇸</span> <span>Español</span>
                             </button>
                         </div>
                     </div>

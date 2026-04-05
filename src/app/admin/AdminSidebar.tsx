@@ -79,6 +79,15 @@ const navGroups: NavGroup[] = [
             { name: "Bonus Settings", href: "/admin/levels/bonuses" },
             { name: "Live Growth Trees", href: "/admin/levels/trees" },
             { name: "Shop Manager", href: "/admin/marketplace", reqModule: "enable_marketplace_module" },
+            { name: "Interactive Games", href: "/dashboard/marketplace/spin", reqModule: "enable_marketplace_module" },
+        ]
+    },
+    {
+        name: "Customer Support",
+        icon: MessageSquare,
+        items: [
+            { name: "Support Tickets", href: "/admin/tickets" },
+            { name: "Team Chat MOD", href: "/admin/team-chat", reqModule: "enable_team_chat_module" },
         ]
     },
     {
@@ -117,7 +126,6 @@ const navGroups: NavGroup[] = [
             { name: "Payments Setup", href: "/admin/settings/payments" },
             { name: "Email Editor", href: "/admin/emails" },
             { name: "Simulation Tool", href: "/admin/simulation", reqModule: "enable_simulation_module" },
-            { name: "Team Chat MOD", href: "/admin/team-chat", reqModule: "enable_team_chat_module" },
         ]
     }
 ];
@@ -156,14 +164,14 @@ export default function AdminSidebar() {
             <div className="flex-1 px-4 py-4 overflow-y-auto pb-24 scrollbar-thin scrollbar-thumb-gray-200">
                 {navGroups.map((group) => {
                     if (group.reqModule && settings && !settings[group.reqModule]) return null;
-                    
+
                     const visibleItems = group.items?.filter(item => {
                         if (item.reqModule && settings && !settings[item.reqModule]) return false;
                         return true;
                     });
-                    
+
                     if (group.items && (!visibleItems || visibleItems.length === 0)) return null;
-                    
+
                     const activeItems = visibleItems || [];
 
                     const isStandalone = !!group.href;

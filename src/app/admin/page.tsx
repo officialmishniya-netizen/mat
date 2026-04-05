@@ -180,7 +180,7 @@ export default async function AdminDashboardPage() {
     }
 
     return (
-        <div className="space-y-6 max-w-[1400px] mx-auto text-[#151d48]">
+        <div className="space-y-6 text-[#151d48]">
             {/* ROW 1: MASTER FINANCIAL HEALTH & ALERTS */}
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 

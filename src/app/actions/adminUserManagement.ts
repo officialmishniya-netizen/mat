@@ -314,6 +314,41 @@ export async function restoreUser(targetUserId: string, reason: string) {
 }
 
 // ─────────────────────────────────────────────────────────
+// SPONSOR MANAGEMENT
+// ─────────────────────────────────────────────────────────
+
+export async function changeSponsor(targetUserId: string, newSponsorUsername: string) {
+    try {
+        const admin = await verifyAdmin();
+        const target = await db.query.users.findFirst({
+            where: eq(users.id, targetUserId)
+        });
+        if (!target) return { success: false, error: 'user_not_found' };
+
+        const newSponsor = await db.query.users.findFirst({
+            where: eq(users.username, newSponsorUsername)
+        });
+        if (!newSponsor && newSponsorUsername !== 'none') return { success: false, error: 'sponsor_not_found' };
+
+        return await db.transaction(async (tx) => {
+            await tx.update(users).set({
+                sponsor_id: newSponsor ? newSponsor.id : null
+            }).where(eq(users.id, targetUserId));
+
+            await logAdminAction(tx, admin.id, admin.username, 'change_sponsor',
+                'team', targetUserId, target.username,
+                `Sponsor changed to ${newSponsorUsername}`,
+                { oldSponsorId: target.sponsor_id, newSponsorId: newSponsor?.id }, 'medium'
+            );
+
+            return { success: true };
+        });
+    } catch (error: any) {
+        return { success: false, error: error.message };
+    }
+}
+
+// ─────────────────────────────────────────────────────────
 // FINANCIAL ACTIONS
 // ─────────────────────────────────────────────────────────
 
