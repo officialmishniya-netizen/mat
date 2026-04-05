@@ -37,7 +37,7 @@ export default async function SelfReferralPage() {
     LIMIT 100
   `);
 
-  const rows = (pairs.rows ?? []) as any[];
+  const rows = (pairs as any) as any[];
 
   return (
     <div>
@@ -47,7 +47,7 @@ export default async function SelfReferralPage() {
           Self-Referral Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Cross-referenced referral pairs with shared IPs â€” {settings.site_name}
+          Cross-referenced referral pairs with shared IPs — {settings.site_name}
         </p>
       </div>
 
@@ -105,7 +105,7 @@ export default async function SelfReferralPage() {
                     <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full
                       ${row.confidence === "critical" ? "bg-red-100 text-red-700" :
                         row.confidence === "high" ? "bg-orange-100 text-orange-700" :
-                        "bg-yellow-100 text-yellow-700"}`}>
+                          "bg-yellow-100 text-yellow-700"}`}>
                       {row.confidence}
                     </span>
                   </td>

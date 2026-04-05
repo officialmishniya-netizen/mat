@@ -44,7 +44,7 @@ export default async function VpnDetectorPage() {
       `)
     : { rows: [] };
 
-  const rows = ((vpnUsers as any).rows ?? []) as any[];
+  const rows = ((vpnUsers as any) ?? []) as any[];
 
   return (
     <div>
@@ -54,7 +54,7 @@ export default async function VpnDetectorPage() {
           VPN / Proxy Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Cross-referenced login IPs against {vpnRanges.length} known VPN/proxy ranges â€” {settings.site_name}
+          Cross-referenced login IPs against {vpnRanges.length} known VPN/proxy ranges — {settings.site_name}
         </p>
       </div>
 
@@ -161,7 +161,7 @@ export default async function VpnDetectorPage() {
                   <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full
                     ${r.rangeType === "tor" ? "bg-red-100 text-red-700" :
                       r.rangeType === "proxy" ? "bg-orange-100 text-orange-700" :
-                      "bg-blue-100 text-blue-700"}`}>
+                        "bg-blue-100 text-blue-700"}`}>
                     {r.rangeType}
                   </span>
                 </div>

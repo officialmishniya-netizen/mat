@@ -79,7 +79,7 @@ export default function GlobalShoutbox({ currentUserId }: { currentUserId: strin
                         <div key={msg.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
                             <div className="flex items-baseline space-x-2 mb-1">
                                 <span className={`text-xs font-bold ${isAdmin ? 'text-red-600' : 'text-gray-600'}`}>
-                                    {isAdmin && 'â­ '}@{msg.users?.username || 'Unknown'}
+                                    {isAdmin && '⭐ '}@{msg.users?.username || 'Unknown'}
                                 </span>
                                 <span className="text-[10px] text-gray-400">{new Date(msg.created_at).toLocaleTimeString()}</span>
                             </div>

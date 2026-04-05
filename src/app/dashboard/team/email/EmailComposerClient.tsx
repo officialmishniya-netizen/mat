@@ -19,7 +19,7 @@ export function EmailComposerClient({ initialHistory }: { initialHistory: any[] 
 
     // Tokens
     const tokens = ["{{username}}", "{{fullName}}", "{{rank}}"];
-    
+
     const insertToken = (token: string) => {
         setBody(prev => prev + token);
     };
@@ -60,12 +60,12 @@ export function EmailComposerClient({ initialHistory }: { initialHistory: any[] 
 
     const loadTemplate = () => {
         setSubject("Welcome to the team! Action required.");
-        setBody("Hello {{username}},\n\nI noticed you joined recently. To maximize your earnings, make sure to watch your daily PTC ads. If you need a recommended plan, let me know!\n\nBest,\nYour Sponsor");
+        setBody("Hello {{username}},\n\nI noticed you joined recently. To maximize your earnings, make sure to watch your daily MatClick ads. If you need a recommended plan, let me know!\n\nBest,\nYour Sponsor");
     };
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
+
             {/* Left: Composer */}
             <Card className="rounded-3xl border-none shadow-sm shadow-blue-900/5 bg-white p-6">
                 <div className="flex items-center justify-between mb-6">
@@ -96,7 +96,7 @@ export function EmailComposerClient({ initialHistory }: { initialHistory: any[] 
 
                     <div>
                         <label className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 block">Subject</label>
-                        <Input 
+                        <Input
                             value={subject}
                             onChange={(e) => setSubject(e.target.value)}
                             placeholder="Announcing our new team strategy..."
@@ -109,7 +109,7 @@ export function EmailComposerClient({ initialHistory }: { initialHistory: any[] 
                             <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Message Body</label>
                             <div className="flex items-center gap-1.5 overflow-x-auto custom-scrollbar hide-scrollbar">
                                 {tokens.map(t => (
-                                    <button 
+                                    <button
                                         key={t}
                                         type="button"
                                         onClick={() => insertToken(t)}
@@ -120,7 +120,7 @@ export function EmailComposerClient({ initialHistory }: { initialHistory: any[] 
                                 ))}
                             </div>
                         </div>
-                        <Textarea 
+                        <Textarea
                             value={body}
                             onChange={(e) => setBody(e.target.value)}
                             placeholder="Write your email here..."
@@ -130,14 +130,14 @@ export function EmailComposerClient({ initialHistory }: { initialHistory: any[] 
                     </div>
 
                     <div className="flex gap-3 pt-4 border-t border-gray-50">
-                        <Button 
-                            onClick={handleSend} 
+                        <Button
+                            onClick={handleSend}
                             disabled={isSending || !subject || !body}
                             className="flex-1 rounded-xl h-12 bg-[#151d48] hover:bg-blue-900 text-white font-bold"
                         >
                             {isSending ? 'Sending...' : <><Send className="w-4 h-4 mr-2" /> Send Now</>}
                         </Button>
-                        <Button 
+                        <Button
                             variant="outline"
                             onClick={() => setIsPreviewMode(!isPreviewMode)}
                             className="w-12 h-12 rounded-xl border-gray-200 text-gray-600 hover:bg-gray-50 p-0 flex items-center justify-center shrink-0"
@@ -151,7 +151,7 @@ export function EmailComposerClient({ initialHistory }: { initialHistory: any[] 
 
             {/* Right: Live Preview & History */}
             <div className="space-y-6 flex flex-col h-full">
-                
+
                 {/* Live Preview Pane */}
                 {isPreviewMode && (
                     <Card className="rounded-3xl border-none shadow-sm shadow-orange-900/5 bg-white overflow-hidden flex flex-col shrinks-0">
@@ -191,7 +191,7 @@ export function EmailComposerClient({ initialHistory }: { initialHistory: any[] 
                             Email History
                         </h3>
                     </div>
-                    
+
                     <div className="flex-1 overflow-y-auto custom-scrollbar -mx-2 px-2">
                         {history.length === 0 ? (
                             <div className="h-full flex flex-col items-center justify-center text-center py-10">
@@ -207,9 +207,8 @@ export function EmailComposerClient({ initialHistory }: { initialHistory: any[] 
                                     <div key={email.id} className="p-4 rounded-2xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50/30 transition-colors group">
                                         <div className="flex items-start justify-between mb-2">
                                             <h4 className="font-bold text-[#151d48] truncate pr-4">{email.subject}</h4>
-                                            <span className={`px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest shrink-0 ${
-                                                email.status === 'sent' ? 'bg-green-50 text-green-600' : 'bg-orange-50 text-orange-600'
-                                            }`}>
+                                            <span className={`px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest shrink-0 ${email.status === 'sent' ? 'bg-green-50 text-green-600' : 'bg-orange-50 text-orange-600'
+                                                }`}>
                                                 {email.status}
                                             </span>
                                         </div>

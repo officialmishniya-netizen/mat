@@ -15,9 +15,9 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
     const cardRef = useRef<HTMLDivElement>(null);
 
     const captions = [
-        `Just hit $${amount} in passive income with MatClick! ðŸš€ It's fully automated and free to join. Check out my link in bio to start earning today! #PassiveIncome #PTC #Crypto`,
-        `Another milestone reached! ðŸ’¸ Earning daily with MatClick has been a game-changer. Want to learn how? Join my team for free: [Your Link] #EarnOnline #SideHustle`,
-        `Who said making money online was hard? Simply clicking ads and building a team on MatClick got me to $${amount}! Join my network and let's grow together ðŸ“ˆ #TeamBuilding`
+        `Just hit $${amount} in passive income with MatClick! 🚀 It's fully automated and free to join. Check out my link in bio to start earning today! #PassiveIncome #MatClick #Crypto`,
+        `Another milestone reached! 💰 Earning daily with MatClick has been a game-changer. Want to learn how? Join my team for free: [Your Link] #EarnOnline #SideHustle`,
+        `Who said making money online was hard? Simply clicking ads and building a team on MatClick got me to $${amount}! Join my network and let's grow together 📈 #TeamBuilding`
     ];
 
     const handleDownload = () => {
@@ -40,7 +40,7 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
+
             {/* Left: Card Editor */}
             <div className="space-y-6">
                 <Card className="rounded-3xl border-none shadow-sm shadow-blue-900/5 bg-white p-6">
@@ -52,7 +52,7 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
                     <div className="space-y-5">
                         <div>
                             <label className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 block">Amount to Display ($)</label>
-                            <Input 
+                            <Input
                                 type="number"
                                 value={amount}
                                 onChange={e => setAmount(e.target.value)}
@@ -79,7 +79,7 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
                         </div>
 
                         <div className="pt-4 border-t border-gray-50">
-                            <Button 
+                            <Button
                                 onClick={handleDownload}
                                 className="w-full h-12 bg-[#151d48] hover:bg-blue-900 text-white rounded-xl font-bold"
                             >
@@ -98,7 +98,7 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
                         </h2>
                         <div className="flex gap-1">
                             {captions.map((_, idx) => (
-                                <button 
+                                <button
                                     key={idx}
                                     onClick={() => setCaptionIndex(idx)}
                                     className={`w-3 h-3 rounded-full ${captionIndex === idx ? 'bg-orange-500' : 'bg-gray-200'}`}
@@ -108,13 +108,13 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
                     </div>
 
                     <div className="relative">
-                        <Textarea 
+                        <Textarea
                             readOnly
                             value={captions[captionIndex]}
                             className="bg-gray-50 border-gray-100 rounded-xl resize-none min-h-[120px] p-4 text-sm text-gray-700 pr-12"
                         />
-                        <Button 
-                            variant="ghost" 
+                        <Button
+                            variant="ghost"
                             size="icon"
                             onClick={copyCaption}
                             className="absolute right-2 top-2 text-gray-400 hover:text-blue-600 bg-white shadow-sm border border-gray-100 rounded-lg"
@@ -127,9 +127,9 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
 
             {/* Right: Preview Canvas */}
             <div className="flex items-center justify-center bg-gray-50 rounded-3xl p-8 border border-gray-100 shadow-inner">
-                
+
                 {/* Visual Card (Square aspect ratio for social media) */}
-                <div 
+                <div
                     ref={cardRef}
                     className={`w-full max-w-[400px] aspect-square rounded-[2rem] p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden ${getBgStyle()}`}
                 >
@@ -175,7 +175,7 @@ export function ProofCardsClient({ currentUser, totalEarned }: { currentUser: an
                 </div>
 
             </div>
-            
+
         </div>
     );
 }

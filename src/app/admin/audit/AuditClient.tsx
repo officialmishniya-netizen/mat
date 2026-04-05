@@ -113,7 +113,7 @@ export default function AuditClient({ initialLogs }: { initialLogs: AuditLog[] }
                                 <th className="p-4 w-48">Admin</th>
                                 <th className="p-4 w-48">Target User</th>
                                 <th className="p-4">Action & Description</th>
-                                <th className="p-4 w-12 text-center">âš¡</th>
+                                <th className="p-4 w-12 text-center">⚡</th>
                             </tr>
                         </thead>
                         <tbody>

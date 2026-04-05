@@ -18,7 +18,7 @@ export default function AdClickViewer({ ads }: { ads: AdParams[] }) {
     const [success, setSuccess] = useState("");
 
     // Anti-Cheat Refs
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const timerRef = useRef<any>(null);
     const hasMovedMouse = useRef(false);
 
     // ANTI-CHEAT: Phase 3 (The Watch) - Page Visibility & Bot Motions
@@ -84,7 +84,7 @@ export default function AdClickViewer({ ads }: { ads: AdParams[] }) {
 
     const resumeTimer = () => {
         if (timerRef.current) clearInterval(timerRef.current);
-        timerRef.current = setInterval(() => {
+        timerRef.current = window.setInterval(() => {
             setTimeLeft((prev) => {
                 if (prev <= 1) {
                     clearInterval(timerRef.current!);
@@ -157,7 +157,7 @@ export default function AdClickViewer({ ads }: { ads: AdParams[] }) {
                     </div>
                 ) : (
                     <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded text-green-800">
-                        <span className="text-2xl block mb-2">ðŸŽ‰</span>
+                        <span className="text-2xl block mb-2">🎉</span>
                         <h3 className="font-bold text-lg">Verification Complete</h3>
                         <p className="text-sm">Click the button below to submit the secure token and claim your reward.</p>
                     </div>
@@ -165,7 +165,7 @@ export default function AdClickViewer({ ads }: { ads: AdParams[] }) {
 
                 {error && (
                     <div className="mb-6 p-3 bg-red-100 text-red-800 rounded font-bold animate-pulse">
-                        âš ï¸ {error}
+                        ⚠️ {error}
                     </div>
                 )}
 
@@ -195,13 +195,13 @@ export default function AdClickViewer({ ads }: { ads: AdParams[] }) {
 
             {error && (
                 <div className="p-4 bg-red-100 text-red-800 rounded font-bold">
-                    âŒ {error}
+                    ❌ {error}
                 </div>
             )}
 
             {success && (
                 <div className="p-4 bg-green-100 text-green-800 border-l-4 border-green-600 rounded font-bold">
-                    âœ… {success}
+                    ✅ {success}
                 </div>
             )}
 
@@ -217,7 +217,7 @@ export default function AdClickViewer({ ads }: { ads: AdParams[] }) {
                                 ${ad.reward}
                             </span>
                             <span className="bg-orange-100 text-orange-800 text-xs font-bold px-2 py-1 rounded flex items-center">
-                                <span className="mr-1">â±ï¸</span> {ad.duration}s
+                                <span className="mr-1">⏱️</span> {ad.duration}s
                             </span>
                         </div>
 

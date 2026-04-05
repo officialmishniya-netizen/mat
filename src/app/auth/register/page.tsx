@@ -151,7 +151,7 @@ function RegisterForm() {
                             />
                         </div>
                         <p className="text-[10px] text-gray-500 mt-1 px-1">
-                            ðŸ’¡ Get instant alerts for cycles, bonuses, and withdrawals.
+                            💡 Get instant alerts for cycles, bonuses, and withdrawals.
                         </p>
                     </div>
 
@@ -166,7 +166,7 @@ function RegisterForm() {
                                 type="password"
                                 required
                                 minLength={6}
-                                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                                placeholder="••••••••••••"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full bg-[#121215] border border-white/[0.05] rounded-xl py-3.5 pl-12 pr-4 text-white text-sm placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all duration-300"

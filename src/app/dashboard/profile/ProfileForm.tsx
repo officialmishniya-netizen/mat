@@ -219,7 +219,7 @@ export default function ProfileForm({ user }: { user: any }) {
                                 name="password"
                                 type="password"
                                 required
-                                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                                placeholder="••••••••"
                                 className="w-full bg-gray-50 border-2 border-transparent focus:border-primary/20 focus:bg-white rounded-2xl py-3 px-4 text-sm font-bold text-[#151d48] transition-all outline-none"
                             />
                         </div>
@@ -229,7 +229,7 @@ export default function ProfileForm({ user }: { user: any }) {
                                 name="confirm_password"
                                 type="password"
                                 required
-                                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                                placeholder="••••••••"
                                 className="w-full bg-gray-50 border-2 border-transparent focus:border-primary/20 focus:bg-white rounded-2xl py-3 px-4 text-sm font-bold text-[#151d48] transition-all outline-none"
                             />
                         </div>

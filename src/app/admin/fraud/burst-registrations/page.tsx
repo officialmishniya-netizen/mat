@@ -21,7 +21,7 @@ export default async function BurstRegistrationsPage() {
     .orderBy(desc(sql`COUNT(*)`))
     .limit(50);
 
-  const totalBursts  = burstRaw.length;
+  const totalBursts = burstRaw.length;
   const totalAffected = burstRaw.reduce((s, b) => s + Number(b.count), 0);
 
   return (
@@ -32,7 +32,7 @@ export default async function BurstRegistrationsPage() {
           Burst Registration Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Coordinated fake signup campaigns â€” {settings.site_name}
+          Coordinated fake signup campaigns — {settings.site_name}
         </p>
       </div>
 
@@ -81,7 +81,7 @@ export default async function BurstRegistrationsPage() {
                 return (
                   <tr key={burst.bucket} className="hover:bg-gray-50">
                     <td className="px-6 py-4 font-mono text-xs text-gray-600">
-                      {burst.bucket ? new Date(burst.bucket).toLocaleString() : "â€”"}
+                      {burst.bucket ? new Date(burst.bucket).toLocaleString() : "—"}
                     </td>
                     <td className="px-6 py-4 font-bold text-orange-600">
                       <div className="flex items-center gap-1.5">
@@ -93,7 +93,7 @@ export default async function BurstRegistrationsPage() {
                       <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full
                         ${severity === "critical" ? "bg-red-100 text-red-700" :
                           severity === "high_risk" ? "bg-orange-100 text-orange-700" :
-                          "bg-yellow-100 text-yellow-700"}`}>
+                            "bg-yellow-100 text-yellow-700"}`}>
                         {severity.replace("_", " ")}
                       </span>
                     </td>

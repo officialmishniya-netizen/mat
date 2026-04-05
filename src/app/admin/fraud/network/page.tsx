@@ -46,10 +46,10 @@ export default async function NetworkGraphPage() {
     LIMIT 500
   `);
 
-  const nodes = (nodesRaw.rows ?? []) as any[];
+  const nodes = (nodesRaw as any) as any[];
   const edges = [
-    ...(ipEdges.rows ?? []).map((e: any) => ({ ...e, color: "#f97316" })),
-    ...(refEdges.rows ?? []).map((e: any) => ({ ...e, color: "#3b82f6" })),
+    ...(ipEdges as any).map((e: any) => ({ ...e, color: "#f97316" })),
+    ...(refEdges as any).map((e: any) => ({ ...e, color: "#3b82f6" })),
   ];
 
   return (
@@ -60,7 +60,7 @@ export default async function NetworkGraphPage() {
           Account Network Graph
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Visual map of connections â€” {settings.site_name} Â· {nodes.length} nodes Â· {edges.length} edges
+          Visual map of connections — {settings.site_name} · {nodes.length} nodes · {edges.length} edges
         </p>
       </div>
 

@@ -56,7 +56,7 @@ export function DashboardNav({ userRole, unreadMessagesCount = 0 }: { userRole: 
                     { href: '/dashboard/matrix', icon: Users, label: t("dashboard.my_matrix"), reqModule: 'enable_matrix_module' },
                     { href: '/dashboard/cycles', icon: RefreshCcw, label: t("dashboard.ad_cycles"), reqModule: 'enable_ptc_module' },
                     { href: '/dashboard/marketplace', icon: Store, label: 'Marketplace', reqModule: 'enable_marketplace_module' },
-                    { href: '/dashboard/marketplace/spin', icon: Gamepad2, label: 'Spin Wheel', reqModule: 'enable_marketplace_module' },
+                    { href: '/dashboard/marketplace/spin', icon: Gamepad2, label: 'Interactive Games', reqModule: 'enable_marketplace_module' },
                     { href: '/dashboard/promotion', icon: Globe, label: t("dashboard.promo_center"), isCustomIcon: true },
                     { href: '/dashboard/community', icon: Users, label: t("dashboard.community") || 'Leaderboard' },
                     { href: '/dashboard/shoutbox', icon: MessageSquare, label: 'Shoutbox', reqModule: 'enable_shoutbox_module' },
@@ -147,11 +147,11 @@ export function DashboardNav({ userRole, unreadMessagesCount = 0 }: { userRole: 
                             </div>
                             <span className="text-sm font-bold">
                                 {language === "en" && "English"}
-                                {language === "es" && "EspaÃ±ol"}
-                                {language === "fr" && "FranÃ§ais"}
+                                {language === "es" && "Español"}
+                                {language === "fr" && "Français"}
                                 {language === "de" && "Deutsch"}
-                                {language === "pt" && "PortuguÃªs"}
-                                {language === "ru" && "Ð ÑƒÑÑÐºÐ¸Ð¹"}
+                                {language === "pt" && "Português"}
+                                {language === "ru" && "Русский"}
                             </span>
                         </div>
                         <ChevronDown size={14} className="group-hover:translate-y-0.5 transition-transform" />
@@ -161,37 +161,37 @@ export function DashboardNav({ userRole, unreadMessagesCount = 0 }: { userRole: 
                             onClick={() => setLanguage("en")}
                             className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-black ${language === 'en' ? 'bg-orange-50 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
                         >
-                            <span className="text-lg">ðŸ‡ºðŸ‡¸</span> <span>English</span>
+                            <span className="text-lg">🇺🇸</span> <span>English</span>
                         </button>
                         <button
                             onClick={() => setLanguage("es")}
                             className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-black ${language === 'es' ? 'bg-orange-50 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
                         >
-                            <span className="text-lg">ðŸ‡ªðŸ‡¸</span> <span>EspaÃ±ol</span>
+                            <span className="text-lg">🇪🇸</span> <span>Español</span>
                         </button>
                         <button
                             onClick={() => setLanguage("fr")}
                             className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-black ${language === 'fr' ? 'bg-orange-50 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
                         >
-                            <span className="text-lg">ðŸ‡«ðŸ‡·</span> <span>FranÃ§ais</span>
+                            <span className="text-lg">🇫🇷</span> <span>Français</span>
                         </button>
                         <button
                             onClick={() => setLanguage("de")}
                             className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-black ${language === 'de' ? 'bg-orange-50 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
                         >
-                            <span className="text-lg">ðŸ‡©ðŸ‡ª</span> <span>Deutsch</span>
+                            <span className="text-lg">🇩🇪</span> <span>Deutsch</span>
                         </button>
                         <button
                             onClick={() => setLanguage("pt")}
                             className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-black ${language === 'pt' ? 'bg-orange-50 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
                         >
-                            <span className="text-lg">ðŸ‡§ðŸ‡·</span> <span>PortuguÃªs</span>
+                            <span className="text-lg">🇧🇷</span> <span>Português</span>
                         </button>
                         <button
                             onClick={() => setLanguage("ru")}
                             className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-black ${language === 'ru' ? 'bg-orange-50 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
                         >
-                            <span className="text-lg">ðŸ‡·ðŸ‡º</span> <span>Ð ÑƒÑÑÐºÐ¸Ð¹</span>
+                            <span className="text-lg">🇷🇺</span> <span>Русский</span>
                         </button>
                     </div>
                 </div>

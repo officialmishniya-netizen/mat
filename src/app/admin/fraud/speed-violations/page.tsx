@@ -30,7 +30,7 @@ export default async function SpeedViolationsPage() {
     LIMIT 100
   `);
 
-  const rows = (violations.rows ?? []) as any[];
+  const rows = (violations as any) as any[];
   const uniqueUsers = new Set(rows.map((r) => r.user_id)).size;
 
   return (
@@ -41,7 +41,7 @@ export default async function SpeedViolationsPage() {
           Speed Violation Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Ad submissions faster than required watch duration â€” {settings.site_name}
+          Ad submissions faster than required watch duration — {settings.site_name}
         </p>
       </div>
 

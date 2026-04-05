@@ -9,15 +9,15 @@ import {
 
 const SEVERITY_COLORS: Record<string, string> = {
   suspicious: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  high_risk:  "bg-orange-100 text-orange-800 border-orange-200",
-  critical:   "bg-red-100 text-red-800 border-red-200",
+  high_risk: "bg-orange-100 text-orange-800 border-orange-200",
+  critical: "bg-red-100 text-red-800 border-red-200",
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  new:           "bg-blue-100 text-blue-700",
-  under_review:  "bg-purple-100 text-purple-700",
-  resolved:      "bg-green-100 text-green-700",
-  false_positive:"bg-gray-100 text-gray-500",
+  new: "bg-blue-100 text-blue-700",
+  under_review: "bg-purple-100 text-purple-700",
+  resolved: "bg-green-100 text-green-700",
+  false_positive: "bg-gray-100 text-gray-500",
 };
 
 const DETECTOR_LABELS: Record<string, string> = {
@@ -32,7 +32,7 @@ const DETECTOR_LABELS: Record<string, string> = {
 export default async function FraudAlertCenter() {
   const settings = await getSiteSettings();
   const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
-  const dayAgo  = new Date(); dayAgo.setDate(dayAgo.getDate() - 1);
+  const dayAgo = new Date(); dayAgo.setDate(dayAgo.getDate() - 1);
 
   const allAlerts = await db
     .select()
@@ -40,13 +40,13 @@ export default async function FraudAlertCenter() {
     .orderBy(desc(fraudAlerts.createdAt))
     .limit(200);
 
-  const todayAlerts   = allAlerts.filter(a => a.createdAt >= dayAgo);
-  const criticalNew   = allAlerts.filter(a => a.severity === "critical" && a.status === "new");
-  const weekAlerts    = allAlerts.filter(a => a.createdAt >= weekAgo);
+  const todayAlerts = allAlerts.filter(a => a.createdAt >= dayAgo);
+  const criticalNew = allAlerts.filter(a => a.severity === "critical" && a.status === "new");
+  const weekAlerts = allAlerts.filter(a => a.createdAt >= weekAgo);
   const resolvedCount = allAlerts.filter(a => a.status === "resolved").length;
-  const fpCount       = allAlerts.filter(a => a.status === "false_positive").length;
+  const fpCount = allAlerts.filter(a => a.status === "false_positive").length;
   const totalReviewed = resolvedCount + fpCount;
-  const fpRate        = totalReviewed > 0 ? Math.round((fpCount / totalReviewed) * 100) : 0;
+  const fpRate = totalReviewed > 0 ? Math.round((fpCount / totalReviewed) * 100) : 0;
 
   /* weekly bar chart data */
   const detectorCounts: Record<string, number> = {};
@@ -56,12 +56,12 @@ export default async function FraudAlertCenter() {
   const maxCount = Math.max(...Object.values(detectorCounts), 1);
 
   const statCards = [
-    { label: "Active Alerts Today",    value: todayAlerts.length, icon: ShieldAlert, color: "text-blue-600 bg-blue-50" },
-    { label: "Critical Unreviewed",    value: criticalNew.length, icon: AlertTriangle, color: "text-red-600 bg-red-50" },
-    { label: "Flagged This Week",      value: weekAlerts.length,  icon: TrendingUp, color: "text-orange-600 bg-orange-50" },
-    { label: "Resolved This Month",    value: resolvedCount,       icon: CheckCircle, color: "text-green-600 bg-green-50" },
-    { label: "False Positive Rate",    value: `${fpRate}%`,        icon: XCircle, color: "text-purple-600 bg-purple-50" },
-    { label: "Total in Audit Trail",   value: allAlerts.length,   icon: Clock, color: "text-gray-600 bg-gray-50" },
+    { label: "Active Alerts Today", value: todayAlerts.length, icon: ShieldAlert, color: "text-blue-600 bg-blue-50" },
+    { label: "Critical Unreviewed", value: criticalNew.length, icon: AlertTriangle, color: "text-red-600 bg-red-50" },
+    { label: "Flagged This Week", value: weekAlerts.length, icon: TrendingUp, color: "text-orange-600 bg-orange-50" },
+    { label: "Resolved This Month", value: resolvedCount, icon: CheckCircle, color: "text-green-600 bg-green-50" },
+    { label: "False Positive Rate", value: `${fpRate}%`, icon: XCircle, color: "text-purple-600 bg-purple-50" },
+    { label: "Total in Audit Trail", value: allAlerts.length, icon: Clock, color: "text-gray-600 bg-gray-50" },
   ];
 
   return (
@@ -72,7 +72,7 @@ export default async function FraudAlertCenter() {
           Fraud Alert Center
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Unified live feed from all 11 detectors â€” {settings.site_name}
+          Unified live feed from all 11 detectors — {settings.site_name}
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export default async function FraudAlertCenter() {
             {allAlerts.length === 0 && (
               <div className="flex flex-col items-center justify-center py-20 text-gray-300">
                 <CheckCircle size={40} className="mb-3" />
-                <p className="font-semibold">No alerts yet â€” all clear!</p>
+                <p className="font-semibold">No alerts yet — all clear!</p>
               </div>
             )}
             {allAlerts.map((alert) => (
@@ -132,7 +132,7 @@ export default async function FraudAlertCenter() {
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-[11px] text-gray-400">{new Date(alert.createdAt).toLocaleDateString()}</div>
-                    <div className="text-[10px] text-gray-300">{new Date(alert.createdAt).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"})}</div>
+                    <div className="text-[10px] text-gray-300">{new Date(alert.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</div>
                     <div className="flex gap-1 mt-2 justify-end">
                       <button className="p-1.5 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition-colors">
                         <Eye size={12} />
@@ -160,19 +160,19 @@ export default async function FraudAlertCenter() {
             {Object.entries(detectorCounts)
               .sort((a, b) => b[1] - a[1])
               .map(([type, count]) => (
-              <div key={type}>
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="text-gray-500 font-medium">{DETECTOR_LABELS[type] ?? type}</span>
-                  <span className="font-bold text-[#151d48]">{count}</span>
+                <div key={type}>
+                  <div className="flex justify-between text-xs mb-1">
+                    <span className="text-gray-500 font-medium">{DETECTOR_LABELS[type] ?? type}</span>
+                    <span className="font-bold text-[#151d48]">{count}</span>
+                  </div>
+                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-[#f97316] rounded-full"
+                      style={{ width: `${(count / maxCount) * 100}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#f97316] rounded-full"
-                    style={{ width: `${(count / maxCount) * 100}%` }}
-                  />
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>

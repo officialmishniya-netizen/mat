@@ -5,7 +5,7 @@ import { Award, Star, Zap, ShieldCheck, Target, Lock, Crown, CheckCircle2, Mouse
 
 export default function AchievementsPage() {
     const badges = [
-        { id: 1, name: 'First Click', description: 'Watch your first PTC ad cycle.', status: 'earned', icon: MousePointer2, color: 'text-blue-500', bg: 'bg-blue-50' },
+        { id: 1, name: 'First Click', description: 'Watch your first MatClick ad cycle.', status: 'earned', icon: MousePointer2, color: 'text-blue-500', bg: 'bg-blue-50' },
         { id: 2, name: 'Matrix pioneer', description: 'Enter the Phase 1 Matrix.', status: 'earned', icon: Zap, color: 'text-primary', bg: 'bg-primary/10' },
         { id: 3, name: 'Team Builder', description: 'Refer 5 active users.', status: 'in-progress', progress: 80, icon: Star, color: 'text-amber-500', bg: 'bg-amber-50' },
         { id: 4, name: 'Diamond Earner', description: 'Earn $1,000 from cycles.', status: 'locked', icon: Crown, color: 'text-purple-500', bg: 'bg-purple-50' },

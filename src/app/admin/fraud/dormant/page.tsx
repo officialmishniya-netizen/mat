@@ -47,7 +47,7 @@ export default async function DormantRevivalPage() {
     LIMIT 100
   `);
 
-  const rows = (dormant.rows ?? []) as any[];
+  const rows = (dormant as any) as any[];
 
   return (
     <div>
@@ -57,7 +57,7 @@ export default async function DormantRevivalPage() {
           Dormant Account Revival Alerts
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Inactive 60+ days then suddenly active â€” {settings.site_name}
+          Inactive 60+ days then suddenly active — {settings.site_name}
         </p>
       </div>
 

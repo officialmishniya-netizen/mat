@@ -5,12 +5,12 @@ import { getSiteSettings } from "@/lib/settings";
 import { Wallet, AlertTriangle } from "lucide-react";
 
 const RULE_LABELS: Record<string, string> = {
-  new_account: "Rule 1 â€” Withdrawal within 72h of signupup",
-  every_cycle:  "Rule 2 â€” Withdraws every cycle, zero reinvestment",
-  multi_24h:   "Rule 3 â€” Multiple withdrawals in 24h",
-  amount_match:"Rule 4 â€” Amount suspiciously close to deposit",
-  post_dormant:"Rule 5 â€” Large withdrawal after 60+ days inactivity",
-  address_change:"Rule 6 â€” Address changed within 24h of request",
+  new_account: "Rule 1 — Withdrawal within 72h of signupup",
+  every_cycle: "Rule 2 — Withdraws every cycle, zero reinvestment",
+  multi_24h: "Rule 3 — Multiple withdrawals in 24h",
+  amount_match: "Rule 4 — Amount suspiciously close to deposit",
+  post_dormant: "Rule 5 — Large withdrawal after 60+ days inactivity",
+  address_change: "Rule 6 — Address changed within 24h of request",
 };
 
 export default async function WithdrawalAnomaliesPage() {
@@ -39,8 +39,8 @@ export default async function WithdrawalAnomaliesPage() {
   `);
 
   const anomalies = [
-    ...(rule1.rows ?? []).map((r: any) => ({ ...r, rule: "new_account" })),
-    ...(rule3.rows ?? []).map((r: any) => ({ ...r, username: "â€”", amount: "multiple", rule: "multi_24h" })),
+    ...(rule1 as any).map((r: any) => ({ ...r, rule: "new_account" })),
+    ...(rule3 as any).map((r: any) => ({ ...r, username: "—", amount: "multiple", rule: "multi_24h" })),
   ];
 
   return (
@@ -51,15 +51,15 @@ export default async function WithdrawalAnomaliesPage() {
           Withdrawal Anomaly Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          6 detection rules across all withdrawal patterns â€” {settings.site_name}
+          6 detection rules across all withdrawal patterns — {settings.site_name}
         </p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[
           { label: "Total Anomalies", value: anomalies.length, color: "text-red-600" },
-          { label: "Rule 1 Hits (New Acct)", value: (rule1.rows ?? []).length, color: "text-orange-600" },
-          { label: "Rule 3 Hits (Multi 24h)", value: (rule3.rows ?? []).length, color: "text-yellow-600" },
+          { label: "Rule 1 Hits (New Acct)", value: (rule1 as any).length, color: "text-orange-600" },
+          { label: "Rule 3 Hits (Multi 24h)", value: (rule3 as any).length, color: "text-yellow-600" },
           { label: "Under Review", value: 0, color: "text-blue-600" },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
@@ -90,7 +90,7 @@ export default async function WithdrawalAnomaliesPage() {
                     {RULE_LABELS[a.rule] ?? a.rule}
                   </span>
                   <div className="mt-2 flex items-center gap-3">
-                    <span className="font-semibold text-[#151d48]">@{a.username ?? "â€”"}</span>
+                    <span className="font-semibold text-[#151d48]">@{a.username ?? "—"}</span>
                     <span className="font-bold text-orange-600">${Number(a.amount).toFixed(2)}</span>
                     {a.hours_since_join && (
                       <span className="text-xs text-gray-400">{Number(a.hours_since_join).toFixed(1)}h after signup</span>

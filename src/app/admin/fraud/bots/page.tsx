@@ -47,7 +47,7 @@ export default async function BotPatternsPage() {
     LIMIT 100
   `);
 
-  const rows = (botScores ?? []) as any[];
+  const rows = (botScores as any) as any[];
 
   return (
     <div>
@@ -57,15 +57,15 @@ export default async function BotPatternsPage() {
           Bot Pattern Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Automated activity scoring across 5 behavioral signals â€” {settings.site_name}
+          Automated activity scoring across 5 behavioral signals — {settings.site_name}
         </p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[
           { label: "Accounts Scored", value: rows.length, color: "text-blue-600" },
-          { label: "Score â‰¥ 70 (High Risk)", value: rows.filter(r => Number(r.bot_score) >= 70).length, color: "text-orange-600" },
-          { label: "Score â‰¥ 90 (Critical)", value: rows.filter(r => Number(r.bot_score) >= 90).length, color: "text-red-600" },
+          { label: "Score ≥ 70 (High Risk)", value: rows.filter(r => Number(r.bot_score) >= 70).length, color: "text-orange-600" },
+          { label: "Score ≥ 90 (Critical)", value: rows.filter(r => Number(r.bot_score) >= 90).length, color: "text-red-600" },
           { label: "Min Watches req'd", value: "50", color: "text-gray-500" },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
@@ -94,7 +94,7 @@ export default async function BotPatternsPage() {
                 <tr>
                   <th className="px-6 py-3 text-left">Username</th>
                   <th className="px-6 py-3 text-right">Bot Score</th>
-                  <th className="px-6 py-3 text-right">Timing Ïƒ (s)</th>
+                  <th className="px-6 py-3 text-right">Timing σ (s)</th>
                   <th className="px-6 py-3 text-right">Night %</th>
                   <th className="px-6 py-3 text-right">Total Watches</th>
                   <th className="px-6 py-3 text-left">Actions</th>
@@ -124,7 +124,7 @@ export default async function BotPatternsPage() {
                           </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-right font-mono text-xs text-gray-500">{row.timing_stddev ?? "â€”"}</td>
+                      <td className="px-6 py-4 text-right font-mono text-xs text-gray-500">{row.timing_stddev ?? "—"}</td>
                       <td className="px-6 py-4 text-right text-xs text-gray-500">{row.night_pct}%</td>
                       <td className="px-6 py-4 text-right text-gray-400">{row.total_watches}</td>
                       <td className="px-6 py-4">

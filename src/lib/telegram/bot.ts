@@ -5,9 +5,9 @@ import {
 } from '../db/schema';
 import { eq, and, gte } from 'drizzle-orm';
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 // GET PLATFORM SETTINGS (never hardcode name)
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 async function getPlatformSettings() {
     const siteSettings = await db.query.settings.findFirst();
     return {
@@ -17,9 +17,9 @@ async function getPlatformSettings() {
     };
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 // SEND TELEGRAM MESSAGE (core function)
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 export async function sendTelegramMessage(
     chatId: string,
     message: string,
@@ -67,10 +67,10 @@ export async function sendTelegramMessage(
     }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 // SEND NOTIFICATION TO USER (main entry point)
 // Called from every server action
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 export async function notifyUser(
     userId: string,
     eventType: NotificationEventType,
@@ -153,10 +153,10 @@ export async function notifyUser(
     }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 // TEMPLATE INTERPOLATION
 // Replaces {variable_name} with actual values
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 function interpolateTemplate(
     template: string,
     variables: Record<string, string | number>
@@ -166,48 +166,48 @@ function interpolateTemplate(
     });
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 // DEFAULT MESSAGE TEMPLATES
 // Used when admin hasn't customized yet
 // All use {platform_name} never hardcoded
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 export function getDefaultTemplate(eventType: NotificationEventType): string {
     const templates: Record<NotificationEventType, string> = {
 
-        cycle_complete: `ðŸŽ‰ <b>Cycle Complete!</b>
+        cycle_complete: `🎉 <b>Cycle Complete!</b>
 
-ðŸ’° Payout: <b>\${'{payout}'}</b> â†’ Your Wallet
-ðŸ“‹ Plan: {plan_name}
-ðŸ” Cycle #{cycle_number}
-ðŸ‘¥ Sponsor Bonus: {sponsor_bonus} sent
-ðŸŒŠ Pool Contribution: {pool_contribution}
+💰 Payout: <b>{payout}</b> → Your Wallet
+📋 Plan: {plan_name}
+🔍 Cycle #{cycle_number}
+👥 Sponsor Bonus: {sponsor_bonus} sent
+🌊 Pool Contribution: {pool_contribution}
 
 {spin_line}
 
-<a href="{platform_url}/dashboard/ad-plans">Open {platform_name} â†’</a>`,
+<a href="{platform_url}/dashboard/ad-plans">Open {platform_name} →</a>`,
 
-        spin_wheel_ready: `ðŸŽ¡ <b>Your Spin Wheel is Ready!</b>
+        spin_wheel_ready: `🎡 <b>Your Spin Wheel is Ready!</b>
 
 Your {plan_name} just cycled.
 Spin now to boost your payout!
 
-âš¡ Don't wait â€” spin events may be active.
+⚡ Don't wait — spin events may be active.
 
-<a href="{platform_url}/dashboard/ad-plans/spin/{position_id}">Spin Now â†’</a>
+<a href="{platform_url}/dashboard/ad-plans/spin/{position_id}">Spin Now →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        withdrawal_submitted: `ðŸ“¤ <b>Withdrawal Submitted</b>
+        withdrawal_submitted: `📤 <b>Withdrawal Submitted</b>
 
 Amount: <b>{amount}</b>
 Method: {method}
-Status: â³ Pending Review
+Status: ⏳ Pending Review
 
 You'll be notified when it's approved.
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        withdrawal_approved: `âœ… <b>Withdrawal Approved!</b>
+        withdrawal_approved: `✅ <b>Withdrawal Approved!</b>
 
 Amount: <b>{amount}</b>
 Method: {method}
@@ -215,21 +215,21 @@ Estimated arrival: {eta}
 
 Your payment is being processed.
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        withdrawal_paid: `ðŸ’¸ <b>Payment Sent!</b>
+        withdrawal_paid: `💸 <b>Payment Sent!</b>
 
 Amount: <b>{amount}</b>
 Transaction ID: <code>{txn_id}</code>
 Method: {method}
 
-Your withdrawal has been paid. âœ…
+Your withdrawal has been paid. ✅
 
-<a href="{platform_url}/dashboard/wallet">View Wallet â†’</a>
+<a href="{platform_url}/dashboard/wallet">View Wallet →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        withdrawal_rejected: `âŒ <b>Withdrawal Rejected</b>
+        withdrawal_rejected: `❌ <b>Withdrawal Rejected</b>
 
 Amount: {amount}
 Reason: {reason}
@@ -237,24 +237,24 @@ Reason: {reason}
 Your balance has been refunded.
 Please contact support if you have questions.
 
-<a href="{platform_url}/dashboard/wallet">View Wallet â†’</a>
+<a href="{platform_url}/dashboard/wallet">View Wallet →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        ads_ready: `ðŸŽ¯ <b>Your Ads Are Ready!</b>
+        ads_ready: `🎯 <b>Your Ads Are Ready!</b>
 
 Your 24-hour session has reset.
 {ads_available} ads available to watch.
 Potential earn today: <b>{potential_earn}</b>
 
-ðŸ”’ Locked balance: {locked_balance} / {click_goal}
+🔓 Locked balance: {locked_balance} / {click_goal}
 {progress_bar} {progress_pct}% to cycle
 
-<a href="{platform_url}/dashboard/ad-plans">Watch Ads Now â†’</a>
+<a href="{platform_url}/dashboard/ad-plans">Watch Ads Now →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        referral_joined: `ðŸ‘¥ <b>New Team Member!</b>
+        referral_joined: `👥 <b>New Team Member!</b>
 
 <b>{referral_username}</b> just joined {platform_name}
 under your referral link.
@@ -262,22 +262,22 @@ under your referral link.
 Once they start cycling, you'll earn
 matching bonuses automatically.
 
-<a href="{platform_url}/dashboard/team">View Your Team â†’</a>
+<a href="{platform_url}/dashboard/team">View Your Team →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        referral_cycled: `ðŸ’Ž <b>Team Bonus Earned!</b>
+        referral_cycled: `💎 <b>Team Bonus Earned!</b>
 
 <b>{referral_username}</b> just completed a cycle.
 
 You earned: <b>{bonus_amount}</b> matching bonus
-Credited to your wallet automatically. âœ…
+Credited to your wallet automatically. ✅
 
 Total team bonuses: {total_team_bonus}
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        spin_bonus_won: `ðŸŽ° <b>Spin Win!</b>
+        spin_bonus_won: `🎰 <b>Spin Win!</b>
 
 You landed on: <b>{slice_label}</b>
 Bonus earned: <b>{bonus_amount}</b>
@@ -286,9 +286,9 @@ Bonus earned: <b>{bonus_amount}</b>
 
 Total this cycle: {total_payout}
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        badge_unlocked: `ðŸ† <b>Badge Unlocked!</b>
+        badge_unlocked: `🏆 <b>Badge Unlocked!</b>
 
 You earned: <b>{badge_name}</b>
 Category: {badge_category}
@@ -296,23 +296,23 @@ Rarity: {badge_rarity}
 
 {badge_perk_line}
 
-<a href="{platform_url}/dashboard/achievements">View Achievements â†’</a>
+<a href="{platform_url}/dashboard/achievements">View Achievements →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        pool_jackpot_won: `ðŸŽ° <b>JACKPOT! You Won!</b>
+        pool_jackpot_won: `🎰 <b>JACKPOT! You Won!</b>
 
-ðŸŽ‰ Congratulations!
+🎉 Congratulations!
 You won the Community Pool Jackpot!
 
 Prize: <b>{jackpot_amount}</b>
-Credited to your wallet now. âœ…
+Credited to your wallet now. ✅
 
-<a href="{platform_url}/dashboard/wallet">View Wallet â†’</a>
+<a href="{platform_url}/dashboard/wallet">View Wallet →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        pool_distribution: `ðŸŒŠ <b>Pool Reward!</b>
+        pool_distribution: `🌊 <b>Pool Reward!</b>
 
 You received a Community Pool distribution.
 
@@ -322,9 +322,9 @@ Amount: <b>{amount}</b>
 Keep watching ads to stay eligible
 for the next distribution!
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        dead_star_warning: `âš ï¸ <b>Action Required</b>
+        dead_star_warning: `⚠️ <b>Action Required</b>
 
 Your {plan_name} position has been
 inactive for {days_inactive} days.
@@ -335,11 +335,11 @@ Dead Star status.
 To reactivate: watch ads or pay the
 revival fee ({revival_fee}).
 
-<a href="{platform_url}/dashboard/ad-plans">Reactivate Now â†’</a>
+<a href="{platform_url}/dashboard/ad-plans">Reactivate Now →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        contest_rank_update: `ðŸ… <b>Contest Update</b>
+        contest_rank_update: `🏆 <b>Contest Update</b>
 
 {contest_name}
 Your current rank: <b>#{your_rank}</b>
@@ -348,11 +348,11 @@ Leader: {leader_score}
 
 Time remaining: {time_remaining}
 
-<a href="{platform_url}/dashboard/contests">View Leaderboard â†’</a>
+<a href="{platform_url}/dashboard/contests">View Leaderboard →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        flash_sale_live: `âš¡ <b>Flash Sale Live!</b>
+        flash_sale_live: `⚡ <b>Flash Sale Live!</b>
 
 {sale_name}
 Discount: <b>{discount_pct}% OFF</b>
@@ -361,11 +361,11 @@ Ends in: {ends_in}
 Don't miss out on boosters and
 power-ups at discounted prices!
 
-<a href="{platform_url}/dashboard/marketplace">Shop Now â†’</a>
+<a href="{platform_url}/dashboard/marketplace">Shop Now →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        spin_event_active: `ðŸŽ¡ <b>Special Spin Event!</b>
+        spin_event_active: `🎡 <b>Special Spin Event!</b>
 
 <b>{event_name}</b> is now active!
 
@@ -374,11 +374,11 @@ Ends: {ends_at}
 
 Cycle now to take advantage!
 
-<a href="{platform_url}/dashboard/ad-plans">Go to Ad Plans â†’</a>
+<a href="{platform_url}/dashboard/ad-plans">Go to Ad Plans →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        matrix_cycle: `ðŸ”· <b>Matrix Cycle Complete!</b>
+        matrix_cycle: `🔹 <b>Matrix Cycle Complete!</b>
 
 Level: {matrix_level}
 Payout: <b>{cycle_reward}</b>
@@ -386,11 +386,11 @@ Matching Bonus Sent: {matching_bonus}
 
 Position #{position_number} in your matrix.
 
-<a href="{platform_url}/dashboard/matrix">View Matrix â†’</a>
+<a href="{platform_url}/dashboard/matrix">View Matrix →</a>
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        matching_bonus: `ðŸ’° <b>Matching Bonus!</b>
+        matching_bonus: `💰 <b>Matching Bonus!</b>
 
 Your downline member cycled.
 You earned: <b>{bonus_amount}</b>
@@ -400,9 +400,9 @@ Plan: {plan_name}
 
 Total matching earned: {total_matching}
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        login_streak: `ðŸ”¥ <b>{streak_days}-Day Streak!</b>
+        login_streak: `🔥 <b>{streak_days}-Day Streak!</b>
 
 You've been active for {streak_days}
 consecutive days on {platform_name}.
@@ -411,40 +411,40 @@ consecutive days on {platform_name}.
 
 Keep it up!
 
-â€” {platform_name}`,
+— {platform_name}`,
 
-        system_announcement: `ðŸ“¢ <b>Announcement from {platform_name}</b>
+        system_announcement: `📢 <b>Announcement from {platform_name}</b>
 
 {announcement_text}
 
-â€” {platform_name} Team`,
+— {platform_name} Team`,
 
-        welcome: `ðŸ‘‹ <b>Welcome to {platform_name}!</b>
+        welcome: `👋 <b>Welcome to {platform_name}!</b>
 
 Hi {username}! Your Telegram notifications
-are now active. âœ…
+are now active. ✅
 
 You'll receive alerts for:
-â€¢ ðŸ’° Cycle payouts
-â€¢ ðŸŽ¡ Spin wheel ready
-â€¢ ðŸ’¸ Withdrawal updates
-â€¢ ðŸ‘¥ Team bonuses
-â€¢ ðŸ† Achievements & more
+• 💰 Cycle payouts
+• 🎡 Spin wheel ready
+• 💸 Withdrawal updates
+• 👥 Team bonuses
+• 🏆 Achievements & more
 
 Manage your notification preferences
 in your account settings.
 
-<a href="{platform_url}/dashboard">Open Dashboard â†’</a>
+<a href="{platform_url}/dashboard">Open Dashboard →</a>
 
-â€” {platform_name} Team`,
+— {platform_name} Team`,
     };
 
-    return templates[eventType] || `ðŸ“¬ New notification from {platform_name}`;
+    return templates[eventType] || `📩 New notification from {platform_name}`;
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 // HELPERS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 function toPascalCase(str: string): string {
     return str.replace(/(^|_)(\w)/g, (_, __, c) => c.toUpperCase());
 }

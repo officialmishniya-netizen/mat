@@ -19,7 +19,7 @@ async function getUserBalance(userId: string): Promise<string> {
     return result[0]?.total || '0.00';
 }
 
-// â”€â”€ HELPER: Log admin action â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── HELPER: Log admin action ─────────────────────────────
 async function logAdminAction(
     tx: any,
     adminId: string,
@@ -40,7 +40,7 @@ async function logAdminAction(
     } as any);
 }
 
-// â”€â”€ HELPER: Verify admin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── HELPER: Verify admin ─────────────────────────────────
 async function verifyAdmin() {
     const supabase = await createClient();
     // Try getUser first; fall back to getSession for dummy-proxy compatibility
@@ -63,9 +63,9 @@ async function verifyAdmin() {
     return admin;
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 // ACCOUNT STATUS ACTIONS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 
 // Freeze account
 export async function freezeUser(
@@ -313,9 +313,9 @@ export async function restoreUser(targetUserId: string, reason: string) {
     }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 // FINANCIAL ACTIONS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 
 // Add balance (credit)
 export async function addBalance(
@@ -592,7 +592,7 @@ export async function setEarningsMultiplier(
             await logAdminAction(tx, admin.id, admin.username,
                 'earnings_multiplier_set', 'financial',
                 targetUserId, target.username,
-                `Earnings multiplier set to ${multiplier}Ã—: ${reason}`,
+                `Earnings multiplier set to ${multiplier}×: ${reason}`,
                 { multiplier, reason }, 'high'
             );
 
@@ -646,9 +646,9 @@ export async function placeWithdrawalHold(
     }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 // ACCOUNT MANAGEMENT ACTIONS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────
 
 // Change user role
 export async function changeUserRole(

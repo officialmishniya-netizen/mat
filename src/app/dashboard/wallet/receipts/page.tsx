@@ -107,7 +107,7 @@ export default function VerifiableReceiptsPage() {
                                     <td className="px-4 py-6">
                                         <div className="flex items-center gap-2 font-mono text-xs text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg w-fit">
                                             <Hash size={12} />
-                                            {receipt.receipt_hash.substring(0, 10)}...
+                                            {(receipt.receipt_hash || 'PENDING').substring(0, 10)}...
                                         </div>
                                     </td>
                                     <td className="px-4 py-6 text-right">

@@ -153,7 +153,7 @@ export default function FraudSettingsForm({ config }: { config: Config }) {
           className="flex items-center gap-2 bg-[#f97316] hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-xl transition-all shadow-lg shadow-orange-500/20 disabled:opacity-50"
         >
           <Save size={16} />
-          {saving ? "Savingâ€¦" : saved ? "Saved âœ“" : "Save All Settings"}
+          {saving ? "Saving…" : saved ? "Saved ✓" : "Save All Settings"}
         </button>
       </div>
     </div>
