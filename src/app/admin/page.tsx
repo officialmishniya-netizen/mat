@@ -25,131 +25,144 @@ todayStart.setUTCHours(0, 0, 0, 0);
 const todayStr = todayStart.toISOString();
 
 export default async function AdminDashboardPage() {
-    // ----------------------------------------------------------------------
-    // 1. FINANCIAL HEALTH CALCULATIONS (SQL Aggregates for Performance)
-    // ----------------------------------------------------------------------
-    const financialStats = await db.select({
-        totalLiability: sql<string>`SUM(amount)`,
-        totalRevenue: sql<string>`SUM(CASE WHEN type = 'deposit' THEN amount ELSE 0 END)`,
-        totalWithdrawn: sql<string>`SUM(CASE WHEN type = 'withdrawal' THEN ABS(amount) ELSE 0 END)`,
-        adRewardsToday: sql<string>`SUM(CASE WHEN type = 'ad_reward' AND created_at >= ${todayStr} THEN amount ELSE 0 END)`,
-        matrixCyclesToday: sql<number>`COUNT(CASE WHEN type = 'matrix_cycle' AND created_at >= ${todayStr} THEN 1 END)`
-    }).from(ledgerSchema);
+    let financialStats: any[] = [];
+    let activeUsersToday = 0;
+    let adViewsToday = 0;
+    let pendingWithdrawalsCount = 0;
+    let flaggedUsersCount = 0;
+    let levelDistribution: any[] = [];
+    let last7DaysLedger: any[] = [];
+    let last7DaysAds: any[] = [];
+    let userGrowth: any[] = [];
 
-    const stats = financialStats[0];
+    try {
+        // 1. Financial Health
+        financialStats = await db.select({
+            totalLiability: sql<string>`SUM(amount)`,
+            totalRevenue: sql<string>`SUM(CASE WHEN type = 'deposit' THEN amount ELSE 0 END)`,
+            totalWithdrawn: sql<string>`SUM(CASE WHEN type = 'withdrawal' THEN ABS(amount) ELSE 0 END)`,
+            adRewardsToday: sql<string>`SUM(CASE WHEN type = 'ad_reward' AND created_at >= ${todayStr} THEN amount ELSE 0 END)`,
+            matrixCyclesToday: sql<number>`COUNT(CASE WHEN type = 'matrix_cycle' AND created_at >= ${todayStr} THEN 1 END)`
+        }).from(ledgerSchema);
+
+        // 2. Activity Pulse
+        activeUsersToday = await db.select({ count: sql<number>`count(distinct user_id)` })
+            .from(ledgerSchema)
+            .where(sql`created_at >= ${todayStr}`)
+            .then(res => Number(res[0]?.count || 0));
+
+        try {
+            adViewsToday = await db.select({ count: sql<number>`count(*)` })
+                .from(adWatchLogSchema)
+                .where(sql`created_at >= ${todayStr}`)
+                .then(res => Number(res[0]?.count || 0));
+        } catch (e) {
+            console.warn("Table ad_watch_log likely missing");
+        }
+
+        // 3. Alerts
+        pendingWithdrawalsCount = await db.select({ count: count() })
+            .from(withdrawalsSchema)
+            .where(eq(withdrawalsSchema.status, 'pending'))
+            .then(res => res[0].count);
+
+        flaggedUsersCount = await db.select({ count: count() })
+            .from(fraudAlertsSchema)
+            .where(eq(fraudAlertsSchema.status, 'new'))
+            .then(res => res[0].count);
+
+        // Matrix Stats
+        const levelDistributionQuery = await db.select({
+            name: levelsSchema.name,
+            count: sql<number>`count(${userLevelsSchema.id})`
+        })
+            .from(levelsSchema)
+            .leftJoin(userLevelsSchema, eq(levelsSchema.id, userLevelsSchema.level_id))
+            .groupBy(levelsSchema.id, levelsSchema.name);
+
+        levelDistribution = levelDistributionQuery.map(row => ({
+            name: row.name,
+            count: Number(row.count)
+        }));
+
+        // 4. Charts (Last 7 Days)
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setUTCDate(sevenDaysAgo.getUTCDate() - 6);
+        sevenDaysAgo.setUTCHours(0, 0, 0, 0);
+
+        const ledgerFlowQuery = await db.select({
+            day: sql<string>`TO_CHAR(created_at, 'Dy')`,
+            deposits: sql<string>`SUM(CASE WHEN type = 'deposit' THEN amount ELSE 0 END)`,
+            payouts: sql<string>`SUM(CASE WHEN type IN ('matrix_cycle', 'matching_bonus', 'ad_reward', 'referral_bonus') THEN ABS(amount) ELSE 0 END)`,
+            dayOrder: sql<string>`TO_CHAR(created_at, 'ID')`
+        })
+            .from(ledgerSchema)
+            .where(gte(ledgerSchema.created_at, sevenDaysAgo))
+            .groupBy(sql`TO_CHAR(created_at, 'Dy')`, sql`TO_CHAR(created_at, 'ID')`)
+            .orderBy(sql`TO_CHAR(created_at, 'ID')`);
+
+        last7DaysLedger = ledgerFlowQuery.map(row => ({
+            name: row.day,
+            deposits: parseFloat(row.deposits || '0'),
+            payouts: parseFloat(row.payouts || '0')
+        }));
+
+        try {
+            const adViews7Days = await db.select({
+                day: sql<string>`TO_CHAR(created_at, 'DD')`,
+                count: sql<number>`count(*)`
+            })
+                .from(adWatchLogSchema)
+                .where(gte(adWatchLogSchema.createdAt, sevenDaysAgo))
+                .groupBy(sql`TO_CHAR(created_at, 'DD')`)
+                .orderBy(sql`TO_CHAR(created_at, 'DD')`);
+
+            last7DaysAds = adViews7Days.map(row => ({
+                name: row.day,
+                adsViewed: Number(row.count),
+                limitHits: 0
+            }));
+        } catch (e) {
+            console.warn("Ad views query failed (table missing?)");
+        }
+
+        const userGrowthQuery = await db.select({
+            month: sql<string>`TO_CHAR(created_at, 'Mon')`,
+            count: sql<number>`count(*)`
+        })
+            .from(usersSchema)
+            .where(eq(usersSchema.role, 'user'))
+            .groupBy(sql`TO_CHAR(created_at, 'Mon')`, sql`date_trunc('month', created_at)`)
+            .orderBy(sql`date_trunc('month', created_at)`);
+
+        userGrowth = userGrowthQuery.map(row => ({
+            name: row.month,
+            free: Number(row.count),
+            pro: 0
+        }));
+
+    } catch (error: any) {
+        console.error("CRITICAL DASHBOARD DATA ERROR:", error);
+        // Fallback for UI variables
+    }
+
+    const stats = financialStats[0] || {};
     const totalLiability = stats.totalLiability || '0.00';
     const revenueIn = stats.totalRevenue || '0.00';
     const totalWithdrawn = stats.totalWithdrawn || '0.00';
     const adRewardsToday = stats.adRewardsToday || '0.00';
     const matrixCyclesToday = Number(stats.matrixCyclesToday || 0);
 
-    // Net Profit: Revenue In - Total Withdrawn - Current Liability
     const profitAfterWithdrawals = subtractMoney(revenueIn, totalWithdrawn);
     const netProfit = subtractMoney(profitAfterWithdrawals, totalLiability);
     const isProfitNegative = parseFloat(netProfit) < 0;
 
-    // ----------------------------------------------------------------------
-    // 2. ACTIVITY PULSE (TODAY)
-    // ----------------------------------------------------------------------
-    const activeUsersToday = await db.select({ count: sql<number>`count(distinct user_id)` })
-        .from(ledgerSchema)
-        .where(sql`created_at >= ${todayStr}`)
-        .then(res => Number(res[0]?.count || 0));
-
-    const adViewsToday = await db.select({ count: sql<number>`count(*)` })
-        .from(adWatchLogSchema)
-        .where(sql`created_at >= ${todayStr}`)
-        .then(res => Number(res[0]?.count || 0));
-
-    // ----------------------------------------------------------------------
-    // 3. ACTION NEEDED ALERTS
-    // ----------------------------------------------------------------------
-    const pendingWithdrawalsCount = await db.select({ count: count() })
-        .from(withdrawalsSchema)
-        .where(eq(withdrawalsSchema.status, 'pending'))
-        .then(res => res[0].count);
-
-    const flaggedUsersCount = await db.select({ count: count() })
-        .from(fraudAlertsSchema)
-        .where(eq(fraudAlertsSchema.status, 'new'))
-        .then(res => res[0].count);
-
-    // Matrix Distribution for the pie chart
-    const levelDistributionQuery = await db.select({
-        name: levelsSchema.name,
-        count: sql<number>`count(${userLevelsSchema.id})`
-    })
-        .from(levelsSchema)
-        .leftJoin(userLevelsSchema, eq(levelsSchema.id, userLevelsSchema.level_id))
-        .groupBy(levelsSchema.id, levelsSchema.name);
-
-    const levelDistribution = levelDistributionQuery.map(row => ({
-        name: row.name,
-        count: Number(row.count)
-    }));
-
-    // ----------------------------------------------------------------------
-    // 4. CHART DATA AGGREGATION (Last 7 Days)
-    // ----------------------------------------------------------------------
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setUTCDate(sevenDaysAgo.getUTCDate() - 6);
-    sevenDaysAgo.setUTCHours(0, 0, 0, 0);
-
-    const ledgerFlowQuery = await db.select({
-        day: sql<string>`TO_CHAR(created_at, 'Dy')`,
-        deposits: sql<string>`SUM(CASE WHEN type = 'deposit' THEN amount ELSE 0 END)`,
-        payouts: sql<string>`SUM(CASE WHEN type IN ('matrix_cycle', 'matching_bonus', 'ad_reward', 'referral_bonus') THEN ABS(amount) ELSE 0 END)`,
-        dayOrder: sql<string>`TO_CHAR(created_at, 'ID')`
-    })
-        .from(ledgerSchema)
-        .where(gte(ledgerSchema.created_at, sevenDaysAgo))
-        .groupBy(sql`TO_CHAR(created_at, 'Dy')`, sql`TO_CHAR(created_at, 'ID')`)
-        .orderBy(sql`TO_CHAR(created_at, 'ID')`);
-
-    // Ad views aggregation (7 days)
-    const adViews7Days = await db.select({
-        day: sql<string>`TO_CHAR(created_at, 'DD')`,
-        count: sql<number>`count(*)`
-    })
-        .from(adWatchLogSchema)
-        .where(gte(adWatchLogSchema.createdAt, sevenDaysAgo))
-        .groupBy(sql`TO_CHAR(created_at, 'DD')`)
-        .orderBy(sql`TO_CHAR(created_at, 'DD')`);
-
-    // User growth aggregation (Monthly)
-    const userGrowthQuery = await db.select({
-        month: sql<string>`TO_CHAR(created_at, 'Mon')`,
-        count: sql<number>`count(*)`
-    })
-        .from(usersSchema)
-        .where(eq(usersSchema.role, 'user'))
-        .groupBy(sql`TO_CHAR(created_at, 'Mon')`, sql`date_trunc('month', created_at)`)
-        .orderBy(sql`date_trunc('month', created_at)`);
-
-    // Map the results back to the expected format for charts
-    const last7DaysLedger = ledgerFlowQuery.map(row => ({
-        name: row.day,
-        deposits: parseFloat(row.deposits || '0'),
-        payouts: parseFloat(row.payouts || '0')
-    }));
-
-    const last7DaysAds = adViews7Days.map(row => ({
-        name: row.day,
-        adsViewed: Number(row.count),
-        limitHits: 0
-    }));
-
-    const userGrowth = userGrowthQuery.map(row => ({
-        name: row.month,
-        free: Number(row.count),
-        pro: 0
-    }));
-
-    // Ensure we have 7 days for ledger chart even if empty
     if (last7DaysLedger.length === 0) {
         const daysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const startDay = new Date();
+        startDay.setUTCDate(startDay.getUTCDate() - 6);
         for (let i = 0; i < 7; i++) {
-            const d = new Date(sevenDaysAgo);
+            const d = new Date(startDay);
             d.setUTCDate(d.getUTCDate() + i);
             last7DaysLedger.push({ name: daysShort[d.getUTCDay()], deposits: 0, payouts: 0 });
         }
