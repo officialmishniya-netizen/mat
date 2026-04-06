@@ -111,12 +111,12 @@ export default function ModuleSettingsPage() {
 
     const handleToggle = async (key: keyof SiteSettings) => {
         if (!settings) return;
-        
+
         const newValue = !settings[key];
-        
+
         setSavingKey(key);
         setSettings(prev => prev ? { ...prev, [key]: newValue } : null);
-        
+
         try {
             const success = await updateSiteSettings({ [key]: newValue });
             if (success) {
@@ -146,72 +146,75 @@ export default function ModuleSettingsPage() {
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
+            <div className="border-b border-gray-100 pb-6">
+                <h1 className="text-3xl font-black text-[#1e293b] tracking-tight">
                     Module Manager
                 </h1>
-                <p className="text-gray-400 mt-1">
+                <p className="text-gray-500 mt-2 font-medium">
                     Enable or disable core platform features dynamically. Disabling a module instantly hides it from sidebars and restricts direct access.
                 </p>
             </div>
 
-            <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4 flex items-start space-x-3 mb-6">
-                <ShieldAlert className="w-5 h-5 text-orange-400 mt-0.5 shrink-0" />
-                <div className="text-sm text-orange-200">
-                    <strong>Note:</strong> Disabling a module does not delete its data. It simply hides the functionality from both users and admins until re-enabled.
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start space-x-4 mb-8 shadow-sm">
+                <div className="p-2 bg-amber-100 rounded-lg shrink-0">
+                    <ShieldAlert className="w-5 h-5 text-amber-600" />
+                </div>
+                <div className="text-sm text-amber-900 leading-relaxed">
+                    <strong className="block text-amber-950 font-bold mb-0.5">Administrative Note</strong>
+                    Disabling a module does not delete its data. It simply hides the functionality from both users and admins until re-enabled for maintenance or staged rollout.
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {MODULES.map((module) => {
                     const isEnabled = !!settings[module.key];
                     const isSaving = savingKey === module.key;
 
                     return (
-                        <div 
+                        <div
                             key={module.key}
-                            className={`p-5 rounded-xl border transition-all duration-300 ${
-                                isEnabled 
-                                    ? 'bg-[#1a1f2e] border-gray-800' 
-                                    : 'bg-[#151923] border-gray-800/50 opacity-80'
-                            }`}
+                            className={`group p-6 rounded-3xl border transition-all duration-300 shadow-sm ${isEnabled
+                                    ? 'bg-[#0f172a] border-slate-800'
+                                    : 'bg-white border-slate-200 opacity-90'
+                                }`}
                         >
-                            <div className="flex items-start justify-between mb-4">
-                                <div className={`p-2.5 rounded-lg ${
-                                    isEnabled 
-                                        ? 'bg-orange-500/20 text-orange-400' 
-                                        : 'bg-gray-800 text-gray-500'
-                                }`}>
-                                    <module.icon className="w-5 h-5" />
+                            <div className="flex items-start justify-between mb-6">
+                                <div className={`p-3 rounded-2xl transition-colors ${isEnabled
+                                        ? 'bg-orange-500/20 text-orange-400 group-hover:bg-orange-500/30'
+                                        : 'bg-slate-100 text-slate-400'
+                                    }`}>
+                                    <module.icon className="w-6 h-6" />
                                 </div>
-                                
+
                                 <button
                                     onClick={() => handleToggle(module.key)}
                                     disabled={isSaving}
-                                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900 ${
-                                        isEnabled ? 'bg-orange-500' : 'bg-gray-700'
-                                    } ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    className={`relative inline-flex h-7 w-12 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${isEnabled ? 'bg-orange-500' : 'bg-slate-300'
+                                        } ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     <span
-                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                            isEnabled ? 'translate-x-5' : 'translate-x-0'
-                                        }`}
+                                        className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition duration-200 ease-in-out ${isEnabled ? 'translate-x-5' : 'translate-x-0'
+                                            }`}
                                     />
                                 </button>
                             </div>
-                            
-                            <h3 className={`text-lg font-semibold mb-1 ${isEnabled ? 'text-white' : 'text-gray-400'}`}>
+
+                            <h3 className={`text-xl font-bold mb-2 transition-colors ${isEnabled ? 'text-white' : 'text-slate-800'}`}>
                                 {module.title}
                             </h3>
-                            <p className="text-sm text-gray-400 line-clamp-2">
+                            <p className={`text-sm leading-relaxed transition-colors ${isEnabled ? 'text-slate-300' : 'text-slate-500'}`}>
                                 {module.description}
                             </p>
-                            
-                            <div className="mt-4 flex items-center text-xs font-medium">
-                                <span className={`flex items-center space-x-1.5 ${isEnabled ? 'text-green-400' : 'text-gray-500'}`}>
-                                    <span className={`w-2 h-2 rounded-full ${isEnabled ? 'bg-green-400' : 'bg-gray-500'}`}></span>
-                                    <span>{isEnabled ? 'Active' : 'Disabled'}</span>
-                                </span>
+
+                            <div className="mt-6 flex items-center justify-between">
+                                <div className={`flex items-center space-x-2 text-xs font-black uppercase tracking-wider ${isEnabled ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                    <span className={`w-2 h-2 rounded-full animate-pulse ${isEnabled ? 'bg-emerald-400' : 'bg-slate-300'}`}></span>
+                                    <span>{isEnabled ? 'Operational' : 'Inactive'}</span>
+                                </div>
+
+                                {isSaving && (
+                                    <RefreshCw className="w-4 h-4 animate-spin text-orange-500" />
+                                )}
                             </div>
                         </div>
                     );
