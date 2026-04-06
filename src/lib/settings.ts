@@ -33,6 +33,13 @@ export type SiteSettings = {
     ptc_enabled: boolean;
     matrix_enabled: boolean;
     purchases_enabled: boolean;
+    min_withdrawal_amount: number;
+    max_withdrawal_amount: number;
+    min_deposit_amount: number;
+    max_deposit_amount: number;
+    nowpayments_sandbox: boolean;
+    auto_withdrawal_enabled: boolean;
+    accepted_crypto_methods: string;
 };
 
 const DEFAULT_SETTINGS: SiteSettings = {
@@ -68,6 +75,13 @@ const DEFAULT_SETTINGS: SiteSettings = {
     ptc_enabled: true,
     matrix_enabled: true,
     purchases_enabled: true,
+    min_withdrawal_amount: 10,
+    max_withdrawal_amount: 10000,
+    min_deposit_amount: 10,
+    max_deposit_amount: 50000,
+    nowpayments_sandbox: false,
+    auto_withdrawal_enabled: false,
+    accepted_crypto_methods: "BTC,ETH,USDT,LTC,TRX",
 };
 
 export const getSiteSettings = async (): Promise<SiteSettings> => {

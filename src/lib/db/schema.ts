@@ -51,6 +51,16 @@ export const settings = pgTable("settings", {
     ptc_enabled: boolean("ptc_enabled").default(true).notNull(),
     matrix_enabled: boolean("matrix_enabled").default(true).notNull(),
     purchases_enabled: boolean("purchases_enabled").default(true).notNull(),
+
+    // Comprehensive Payment Settings
+    min_withdrawal_amount: decimal("min_withdrawal_amount", { precision: 20, scale: 4 }).default("10.00").notNull(),
+    max_withdrawal_amount: decimal("max_withdrawal_amount", { precision: 20, scale: 4 }).default("10000.00").notNull(),
+    min_deposit_amount: decimal("min_deposit_amount", { precision: 20, scale: 4 }).default("10.00").notNull(),
+    max_deposit_amount: decimal("max_deposit_amount", { precision: 20, scale: 4 }).default("50000.00").notNull(),
+    nowpayments_sandbox: boolean("nowpayments_sandbox").default(false).notNull(),
+    auto_withdrawal_enabled: boolean("auto_withdrawal_enabled").default(false).notNull(),
+    accepted_crypto_methods: text("accepted_crypto_methods").default("BTC,ETH,USDT,LTC,TRX"),
+
     updated_at: timestamp("updated_at").defaultNow().notNull()
 });
 

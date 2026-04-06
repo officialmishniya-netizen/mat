@@ -45,6 +45,13 @@ export default function PaymentsSetupPage() {
                 nowpayments_ipn_secret: settings.nowpayments_ipn_secret,
                 withdrawal_fee_percent: settings.withdrawal_fee_percent,
                 service_fee_percent: settings.service_fee_percent,
+                min_withdrawal_amount: settings.min_withdrawal_amount,
+                max_withdrawal_amount: settings.max_withdrawal_amount,
+                min_deposit_amount: settings.min_deposit_amount,
+                max_deposit_amount: settings.max_deposit_amount,
+                nowpayments_sandbox: settings.nowpayments_sandbox,
+                auto_withdrawal_enabled: settings.auto_withdrawal_enabled,
+                accepted_crypto_methods: settings.accepted_crypto_methods,
             });
 
             if (success) {
@@ -81,125 +88,233 @@ export default function PaymentsSetupPage() {
                 </p>
             </header>
 
-            <form onSubmit={handleSave} className="space-y-6">
+            <form onSubmit={handleSave} className="space-y-6 pb-20">
                 {/* NOWPayments Configuration */}
-                <div className="bg-[#1a1f2e] border border-gray-800 rounded-2xl overflow-hidden">
-                    <div className="bg-orange-500/10 border-b border-gray-800 p-6 flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                            <div className="p-2 bg-orange-500/20 rounded-lg">
-                                <Wallet className="w-6 h-6 text-orange-400" />
+                <div className="bg-[#1a1f2e] border border-gray-800 rounded-3xl overflow-hidden shadow-xl shadow-black/20">
+                    <div className="bg-gradient-to-r from-orange-500/10 to-transparent border-b border-gray-800 p-8 flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                            <div className="p-3 bg-orange-500/20 rounded-2xl">
+                                <Wallet className="w-7 h-7 text-orange-400" />
                             </div>
                             <div>
-                                <h2 className="text-lg font-bold text-white">NOWPayments Gateway</h2>
-                                <p className="text-xs text-orange-200/60 font-medium uppercase tracking-wider">Active Gateway</p>
+                                <h2 className="text-xl font-black text-white tracking-tight">NOWPayments Gateway</h2>
+                                <p className="text-[10px] text-orange-400 font-black uppercase tracking-[0.2em]">Active Crypto Engine</p>
                             </div>
                         </div>
                         <a
                             href="https://nowpayments.io"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs font-semibold text-orange-400 hover:text-orange-300 flex items-center space-x-1"
+                            className="px-4 py-2 bg-gray-800/50 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-gray-800 border border-gray-700 transition-all flex items-center space-x-2"
                         >
-                            <span>Dashboard</span>
-                            <ExternalLink size={12} />
+                            <span>API Dashboard</span>
+                            <ExternalLink size={14} />
                         </a>
                     </div>
 
-                    <div className="p-8 space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-gray-300 flex items-center space-x-2">
-                                    <span>API Key</span>
-                                    <ShieldCheck size={14} className="text-orange-500" />
+                    <div className="p-8 space-y-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-3">
+                                <label className="text-sm font-bold text-gray-200 flex items-center justify-between">
+                                    <span className="flex items-center space-x-2">
+                                        <ShieldCheck size={16} className="text-orange-500" />
+                                        <span>Production API Key</span>
+                                    </span>
                                 </label>
                                 <input
                                     type="password"
                                     value={settings.nowpayments_api_key || ""}
                                     onChange={(e) => setSettings({ ...settings, nowpayments_api_key: e.target.value })}
                                     placeholder="Enter your API key"
-                                    className="w-full bg-[#151923] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all font-mono text-sm"
+                                    className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl px-5 py-4 text-white focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition-all font-mono text-sm placeholder:text-slate-600"
                                 />
-                                <p className="text-[10px] text-gray-500 italic">Found in NOWPayments → Store Settings → API Keys</p>
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-gray-300 flex items-center space-x-2">
-                                    <span>IPN Secret</span>
-                                    <AlertCircle size={14} className="text-orange-500" />
+                            <div className="space-y-3">
+                                <label className="text-sm font-bold text-gray-200 flex items-center justify-between">
+                                    <span className="flex items-center space-x-2">
+                                        <AlertCircle size={16} className="text-orange-500" />
+                                        <span>IPN Callback Secret</span>
+                                    </span>
                                 </label>
                                 <input
                                     type="password"
                                     value={settings.nowpayments_ipn_secret || ""}
                                     onChange={(e) => setSettings({ ...settings, nowpayments_ipn_secret: e.target.value })}
                                     placeholder="Enter IPN secret"
-                                    className="w-full bg-[#151923] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all font-mono text-sm"
+                                    className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl px-5 py-4 text-white focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition-all font-mono text-sm placeholder:text-slate-600"
                                 />
-                                <p className="text-[10px] text-gray-500 italic">Used to verify instant payment notifications (IPN)</p>
                             </div>
                         </div>
 
-                        <div className="bg-orange-500/5 border border-orange-500/10 rounded-xl p-4 flex items-start space-x-3">
-                            <CheckCircle2 size={18} className="text-orange-400 mt-0.5" />
-                            <div className="text-sm text-gray-400 leading-relaxed">
-                                <strong className="text-orange-200">Webhook URL:</strong><br />
-                                <code className="text-xs bg-black/40 px-2 py-0.5 rounded mt-1 inline-block">
-                                    {typeof window !== 'undefined' ? window.location.origin : ''}/api/webhooks/nowpayments
-                                </code>
-                                <p className="mt-2">Enable IPN in your NOWPayments dashboard and set the URL above to receive automated payment confirmations.</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                            <div className="bg-[#0f172a] p-6 rounded-2xl border border-slate-800 flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-sm font-bold text-white mb-1">Sandbox Mode</h3>
+                                    <p className="text-xs text-slate-500">Enable trial transactions without real funds</p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setSettings({ ...settings, nowpayments_sandbox: !settings.nowpayments_sandbox })}
+                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${settings.nowpayments_sandbox ? 'bg-orange-500' : 'bg-slate-700'}`}
+                                >
+                                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${settings.nowpayments_sandbox ? 'translate-x-6' : 'translate-x-1'}`} />
+                                </button>
+                            </div>
+
+                            <div className="bg-[#0f172a] p-6 rounded-2xl border border-slate-800 flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-sm font-bold text-white mb-1">Automated Payouts</h3>
+                                    <p className="text-xs text-slate-500">Approve withdrawals automatically via API</p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setSettings({ ...settings, auto_withdrawal_enabled: !settings.auto_withdrawal_enabled })}
+                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${settings.auto_withdrawal_enabled ? 'bg-emerald-500' : 'bg-slate-700'}`}
+                                >
+                                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${settings.auto_withdrawal_enabled ? 'translate-x-6' : 'translate-x-1'}`} />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="bg-orange-500/5 border border-orange-500/10 rounded-2xl p-6 flex items-start space-x-4">
+                            <CheckCircle2 size={24} className="text-orange-400 mt-1" />
+                            <div className="text-sm text-gray-400 leading-relaxed w-full">
+                                <strong className="text-orange-200 block mb-1">Live Webhook Configuration:</strong>
+                                <div className="flex items-center justify-between bg-black/40 rounded-xl px-4 py-2.5 border border-white/5 mb-3 group cursor-pointer hover:border-orange-500/30 transition-all">
+                                    <code className="text-xs text-orange-400 font-mono">
+                                        {typeof window !== 'undefined' ? window.location.origin : ''}/api/webhooks/nowpayments
+                                    </code>
+                                    <span className="text-[10px] text-slate-500 font-bold uppercase opacity-0 group-hover:opacity-100 transition-opacity">Copy Endpoint</span>
+                                </div>
+                                <p className="text-xs">Ensure your IPN secret matches the one in your NOWPayments dashboard to prevent signature verification failures.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Financial Parameters */}
-                <div className="bg-[#1a1f2e] border border-gray-800 rounded-2xl p-8">
-                    <h2 className="text-lg font-bold text-white mb-6 flex items-center space-x-2">
-                        <span>Fee Configuration</span>
-                    </h2>
+                {/* Limits & Fees Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Financial Parameters */}
+                    <div className="bg-[#1a1f2e] border border-gray-800 rounded-3xl p-8 space-y-8 shadow-xl shadow-black/10">
+                        <h2 className="text-lg font-black text-white flex items-center space-x-3">
+                            <span className="p-2 bg-slate-800 rounded-lg"><RefreshCw size={18} className="text-emerald-400" /></span>
+                            <span>Transaction Limits</span>
+                        </h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="space-y-2">
-                            <label className="text-sm font-semibold text-gray-300">Withdrawal Fee (%)</label>
-                            <div className="relative">
-                                <input
-                                    type="number"
-                                    step="0.1"
-                                    min="0"
-                                    max="100"
-                                    value={settings.withdrawal_fee_percent}
-                                    onChange={(e) => setSettings({ ...settings, withdrawal_fee_percent: parseFloat(e.target.value) || 0 })}
-                                    className="w-full bg-[#151923] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all"
-                                />
-                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">%</span>
+                        <div className="grid grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Min. Withdrawal</label>
+                                <div className="relative">
+                                    <input
+                                        type="number"
+                                        value={settings.min_withdrawal_amount}
+                                        onChange={(e) => setSettings({ ...settings, min_withdrawal_amount: parseFloat(e.target.value) || 0 })}
+                                        className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500/30 transition-all"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-xs">$</span>
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Max. Withdrawal</label>
+                                <div className="relative">
+                                    <input
+                                        type="number"
+                                        value={settings.max_withdrawal_amount}
+                                        onChange={(e) => setSettings({ ...settings, max_withdrawal_amount: parseFloat(e.target.value) || 0 })}
+                                        className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500/30 transition-all"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-xs">$</span>
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Min. Deposit</label>
+                                <div className="relative">
+                                    <input
+                                        type="number"
+                                        value={settings.min_deposit_amount}
+                                        onChange={(e) => setSettings({ ...settings, min_deposit_amount: parseFloat(e.target.value) || 0 })}
+                                        className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/30 transition-all"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-xs">$</span>
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Max. Deposit</label>
+                                <div className="relative">
+                                    <input
+                                        type="number"
+                                        value={settings.max_deposit_amount}
+                                        onChange={(e) => setSettings({ ...settings, max_deposit_amount: parseFloat(e.target.value) || 0 })}
+                                        className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/30 transition-all"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-xs">$</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Fees & Currencies */}
+                    <div className="bg-[#1a1f2e] border border-gray-800 rounded-3xl p-8 space-y-8 shadow-xl shadow-black/10">
+                        <h2 className="text-lg font-black text-white flex items-center space-x-3">
+                            <span className="p-2 bg-slate-800 rounded-lg"><Save size={18} className="text-orange-400" /></span>
+                            <span>Fees & Currencies</span>
+                        </h2>
+
+                        <div className="grid grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Withdrawal Fee (%)</label>
+                                <div className="relative">
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        value={settings.withdrawal_fee_percent}
+                                        onChange={(e) => setSettings({ ...settings, withdrawal_fee_percent: parseFloat(e.target.value) || 0 })}
+                                        className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-orange-500/30 transition-all"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-xs">%</span>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Service Fee (%)</label>
+                                <div className="relative">
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        value={settings.service_fee_percent}
+                                        onChange={(e) => setSettings({ ...settings, service_fee_percent: parseFloat(e.target.value) || 0 })}
+                                        className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-orange-500/30 transition-all"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-xs">%</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-semibold text-gray-300">Service Fee (%)</label>
-                            <div className="relative">
-                                <input
-                                    type="number"
-                                    step="0.1"
-                                    min="0"
-                                    max="100"
-                                    value={settings.service_fee_percent}
-                                    onChange={(e) => setSettings({ ...settings, service_fee_percent: parseFloat(e.target.value) || 0 })}
-                                    className="w-full bg-[#151923] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all"
-                                />
-                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">%</span>
-                            </div>
+                        <div className="space-y-3">
+                            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Accepted Crypto Methods</label>
+                            <input
+                                type="text"
+                                value={settings.accepted_crypto_methods}
+                                onChange={(e) => setSettings({ ...settings, accepted_crypto_methods: e.target.value })}
+                                placeholder="BTC, ETH, USDT, LTC, TRX..."
+                                className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-orange-500/30 transition-all placeholder:text-slate-600"
+                            />
+                            <p className="text-[10px] text-slate-500 font-medium leading-relaxed">
+                                You can add any assets supported by NOWPayments. Popular: <strong>BTC, ETH, USDT (ERC20/TRC20), LTC, TRX, XRP, BNB, SOL</strong>. Separate with commas.
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex justify-end pt-4">
+                <div className="sticky bottom-8 flex justify-end pt-4">
                     <button
                         type="submit"
                         disabled={saving}
-                        className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-orange-500/20 disabled:opacity-50 transition-all"
+                        className="flex items-center space-x-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black px-10 py-4 rounded-2xl hover:shadow-2xl hover:shadow-orange-500/40 disabled:opacity-50 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
                     >
-                        {saving ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-                        <span>{saving ? 'Saving...' : 'Save Settings'}</span>
+                        {saving ? <RefreshCw className="w-6 h-6 animate-spin text-white" /> : <ShieldCheck className="w-6 h-6 text-white" />}
+                        <span className="text-lg tracking-tight">{saving ? 'Syncing...' : 'Deploy Settings'}</span>
                     </button>
                 </div>
             </form>

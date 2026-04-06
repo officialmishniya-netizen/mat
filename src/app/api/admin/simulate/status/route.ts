@@ -5,26 +5,29 @@ import { sql } from "drizzle-orm";
 
 export async function GET() {
     try {
+        let tableExists = false;
+        try {
+            const tableCheck = await db.execute(sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'simulation_runs')`);
+            tableExists = (tableCheck as any).rows[0].exists;
+        } catch (e) {
+            console.error("Schema check failed:", e);
+        }
+
+        if (!tableExists) {
+            return NextResponse.json({
+                status: 'error',
+                message: 'Database schema mismatch: simulation_runs table missing. Please run migrations.'
+            }, { status: 200 }); // Return 200 with error message to avoid 500 loop
+        }
+
         const latestRun = await getLatestSimulationRun();
         return NextResponse.json(latestRun || { status: 'idle' });
     } catch (error: any) {
-        let tableList: any[] = [];
-        try {
-            // Check if DB is accessible and tables exist
-            const result = await db.execute(sql`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`);
-            tableList = (result as any).rows || [];
-        } catch (e) {
-            console.error("DB Connectivity Error in Status Route:", e);
-        }
-
-        console.error("FULL SIMULATION STATUS ERROR:", JSON.stringify(error, Object.getOwnPropertyNames(error)));
+        console.error("SIMULATION STATUS CRITICAL ERROR:", error);
         return NextResponse.json({
-            error: error.message || "Unknown error",
-            code: error.code || "No code",
-            detail: error.detail || "No details",
-            hint: error.hint || "No hint",
-            query: error.query || "No query captured",
-            visibleTables: tableList
+            status: 'error',
+            message: error.message || "Internal Server Error",
+            visibleTables: []
         }, { status: 500 });
     }
 }
