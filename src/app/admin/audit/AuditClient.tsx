@@ -56,7 +56,7 @@ export default function AuditClient({ initialLogs }: { initialLogs: AuditLog[] }
 
     return (
         <div className="min-h-screen bg-[#09090f] text-[#f8fafc] p-8 font-sans">
-            <div className="max-w-[1200px] mx-auto">
+            <div className="w-full">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold font-syne text-white flex items-center gap-3">
@@ -67,7 +67,7 @@ export default function AuditClient({ initialLogs }: { initialLogs: AuditLog[] }
 
                 {/* Filters & Search */}
                 <div className="bg-[#0f0f1a] border border-[#1f1f35] p-4 rounded-xl mb-6 flex gap-4 items-center">
-                    <div className="relative flex-1 max-w-md">
+                    <div className="relative flex-1 ">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#475569] h-5 w-5" />
                         <input
                             type="text"

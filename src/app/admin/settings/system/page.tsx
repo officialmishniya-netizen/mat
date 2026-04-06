@@ -58,7 +58,7 @@ export default function SystemManagerPage() {
     };
 
     return (
-        <div className="max-w-4xl space-y-8 pb-12">
+        <div className="space-y-8 pb-12">
             <header>
                 <h1 className="text-2xl font-black text-white flex items-center space-x-3">
                     <div className="p-2 bg-indigo-500/20 rounded-xl">

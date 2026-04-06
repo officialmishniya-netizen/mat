@@ -20,7 +20,7 @@ export default function CohortHeatmap({ cohorts }: { cohorts: CohortRow[] }) {
     };
 
     return (
-        <div className="p-6 space-y-6 max-w-6xl mx-auto">
+        <div className="p-6 space-y-6 ">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold text-[#151d48]">Cohort Retention Analysis</h1>

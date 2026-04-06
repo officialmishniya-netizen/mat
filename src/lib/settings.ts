@@ -7,6 +7,11 @@ export type SiteSettings = {
     secondary_color: string;
     nowpayments_api_key: string | null;
     nowpayments_ipn_secret: string | null;
+    active_payment_gateway: string;
+    coinpayments_merchant_id: string | null;
+    coinpayments_ipn_secret: string | null;
+    coinbase_api_key: string | null;
+    coinbase_webhook_secret: string | null;
     withdrawal_fee_percent: number;
     service_fee_percent: number;
     seo_title: string;
@@ -40,6 +45,15 @@ export type SiteSettings = {
     nowpayments_sandbox: boolean;
     auto_withdrawal_enabled: boolean;
     accepted_crypto_methods: string;
+
+    // Mobile App Configurations
+    mobile_app_maintenance: boolean;
+    mobile_min_version: string;
+    mobile_latest_version: string;
+    onesignal_app_id: string | null;
+    onesignal_rest_key: string | null;
+    play_store_url: string | null;
+    app_store_url: string | null;
 };
 
 const DEFAULT_SETTINGS: SiteSettings = {
@@ -49,6 +63,11 @@ const DEFAULT_SETTINGS: SiteSettings = {
     secondary_color: "#fdba74",
     nowpayments_api_key: null,
     nowpayments_ipn_secret: null,
+    active_payment_gateway: "nowpayments",
+    coinpayments_merchant_id: null,
+    coinpayments_ipn_secret: null,
+    coinbase_api_key: null,
+    coinbase_webhook_secret: null,
     withdrawal_fee_percent: 0,
     service_fee_percent: 0,
     seo_title: "MatClick - Professional Earning Platform",
@@ -82,6 +101,14 @@ const DEFAULT_SETTINGS: SiteSettings = {
     nowpayments_sandbox: false,
     auto_withdrawal_enabled: false,
     accepted_crypto_methods: "BTC,ETH,USDT,LTC,TRX",
+
+    mobile_app_maintenance: false,
+    mobile_min_version: "1.0.0",
+    mobile_latest_version: "1.0.0",
+    onesignal_app_id: null,
+    onesignal_rest_key: null,
+    play_store_url: null,
+    app_store_url: null,
 };
 
 export const getSiteSettings = async (): Promise<SiteSettings> => {

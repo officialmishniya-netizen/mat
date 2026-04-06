@@ -36,7 +36,7 @@ export default async function AdminMarketingPage() {
     }
 
     return (
-        <div className="p-8 max-w-6xl mx-auto space-y-8 text-[#151d48]">
+        <div className="p-8 space-y-8 text-[#151d48]">
             <h1 className="text-3xl font-bold border-b pb-4">Marketing & Promotion Center</h1>
             <p className="text-gray-600 mb-6 font-medium">Upload banners and promotional text here. These will be automatically populated with the user's referral links in their Promo Dashboard.</p>
 
@@ -102,9 +102,9 @@ export default async function AdminMarketingPage() {
                                     </td>
                                     <td className="px-6 py-4">
                                         {mat.type === 'banner' && mat.media_url ? (
-                                            <div className="border border-gray-200 p-1 1bg-gray-50 rounded-lg max-w-xs overflow-hidden flex items-center justify-center min-h-[60px]">
+                                            <div className="border border-gray-200 p-1 1bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center min-h-[60px]">
                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img src={mat.media_url} alt={mat.title} className="max-h-24 max-w-full object-contain" />
+                                                <img src={mat.media_url} alt={mat.title} className="max-h-24 object-contain" />
                                             </div>
                                         ) : (
                                             <span className="text-sm text-gray-500 italic">Text Link</span>

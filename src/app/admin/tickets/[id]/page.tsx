@@ -167,7 +167,7 @@ export default function AdminTicketDetailPage() {
             {/* Conversation */}
             <div className="flex-1 overflow-y-auto p-12 space-y-8 bg-[#f8f9fa]" ref={scrollRef}>
                 {messages.map((m) => (
-                    <div key={m.id} className={`flex gap-6 max-w-4xl ${m.is_admin ? 'ml-auto flex-row-reverse' : ''}`}>
+                    <div key={m.id} className={`flex gap-6 ${m.is_admin ? 'ml-auto flex-row-reverse' : ''}`}>
                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${m.is_admin ? 'bg-gray-900 text-white' : 'bg-white text-primary'}`}>
                             {m.is_admin ? <ShieldCheck size={20} /> : <User size={20} />}
                         </div>
@@ -189,7 +189,7 @@ export default function AdminTicketDetailPage() {
             {/* Reply Area */}
             {ticket.status !== 'closed' && (
                 <div className="p-8 bg-white border-t border-gray-100">
-                    <div className="relative max-w-6xl mx-auto">
+                    <div className="relative ">
                         <textarea
                             className="w-full bg-gray-50 border border-gray-100 rounded-[2rem] pl-8 pr-32 py-6 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none font-bold text-[#444a6d]"
                             placeholder="Type your official response here..."

@@ -6,7 +6,7 @@ export type LedgerEntry = {
     id: string;
     user_id: string;
     amount: number | string;
-    type: 'deposit' | 'withdrawal' | 'ad_reward' | 'matrix_cycle' | 'referral_bonus' | 'matching_bonus' | 'matrix_purchase' | 'transfer_in' | 'transfer_out' | 'marketplace_purchase' | 'pool_lock' | 'pool_return' | 'pool_early_withdrawal' | 'contest_prize' | 'scheduled_withdrawal' | 'ad_spend' | 'surprise_box_reward' | 'balance_bundle_credit' | 'ad_point_bonus' | 'referral_tool_purchase' | 'plan_upgrade_credit_purchase';
+    type: 'deposit' | 'withdrawal' | 'ad_reward' | 'matrix_cycle' | 'referral_bonus' | 'matching_bonus' | 'matrix_purchase' | 'transfer_in' | 'transfer_out' | 'marketplace_purchase' | 'pool_lock' | 'pool_return' | 'pool_early_withdrawal' | 'contest_prize' | 'scheduled_withdrawal' | 'ad_spend' | 'surprise_box_reward' | 'balance_bundle_credit' | 'ad_point_bonus' | 'referral_tool_purchase' | 'plan_upgrade_credit_purchase' | 'bounty_reward';
     reference_id: string | null;
     created_at: string;
 };
@@ -44,7 +44,7 @@ export const getPurchaseBalance = async (userId: string): Promise<string> => {
         .from('ledger')
         .select('amount')
         .eq('user_id', userId)
-        .in('type', ['deposit', 'matrix_purchase', 'marketplace_purchase']);
+        .in('type', ['deposit', 'matrix_purchase', 'marketplace_purchase', 'transfer_in']);
 
     if (error || !data) return '0.00';
 
@@ -63,7 +63,7 @@ export const getTotalEarnings = async (userId: string): Promise<string> => {
         .from('ledger')
         .select('amount')
         .eq('user_id', userId)
-        .in('type', ['ad_reward', 'matrix_cycle', 'referral_bonus', 'matching_bonus', 'cycle_revenue']);
+        .in('type', ['ad_reward', 'matrix_cycle', 'referral_bonus', 'matching_bonus', 'cycle_revenue', 'bounty_reward']);
 
     if (error || !data) return '0.00';
 
@@ -141,7 +141,7 @@ export const createLedgerEntry = async (
     }
 
     // Auto-Notification Logic
-    const notifyTypes: LedgerEntry['type'][] = ['ad_reward', 'matrix_cycle', 'referral_bonus', 'matching_bonus', 'deposit', 'withdrawal'];
+    const notifyTypes: LedgerEntry['type'][] = ['ad_reward', 'matrix_cycle', 'referral_bonus', 'matching_bonus', 'deposit', 'withdrawal', 'transfer_in', 'bounty_reward'];
     if (notifyTypes.includes(type)) {
         let title = '';
         let description = '';
@@ -171,6 +171,14 @@ export const createLedgerEntry = async (
             case 'withdrawal':
                 title = 'Withdrawal Requested';
                 description = `Your withdrawal request of $${amountStr} is being processed.`;
+                break;
+            case 'transfer_in':
+                title = 'Funds Received';
+                description = `You received $${amountStr} from another member.`;
+                break;
+            case 'bounty_reward':
+                title = 'Bounty Completed';
+                description = `Awesome! You earned $${amountStr} for completing a micro-job.`;
                 break;
         }
 

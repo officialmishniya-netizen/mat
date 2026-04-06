@@ -44,7 +44,7 @@ export default async function AdminAdLevelsPage() {
     }
 
     return (
-        <div className="p-8 max-w-[1400px] mx-auto space-y-8 text-[#151d48]">
+        <div className="p-8 space-y-8 text-[#151d48]">
             {/* Header section */}
             <div className="flex justify-between items-end border-b pb-6">
                 <div>

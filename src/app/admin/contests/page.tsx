@@ -72,7 +72,7 @@ export default function AdminContestManagerPage() {
                     </div>
                     <div>
                         <h2 className="text-xl font-bold mb-2">Automated Prize Distribution</h2>
-                        <p className="text-sm opacity-60 max-w-xl">
+                        <p className="text-sm opacity-60 ">
                             Upon contest completion, the system automatically verifies winners and credits their 'Purchase Balance' or 'Withdraw Balance' based on contest settings. No manual intervention required.
                         </p>
                     </div>

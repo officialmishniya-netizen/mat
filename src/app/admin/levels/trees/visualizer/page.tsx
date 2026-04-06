@@ -135,7 +135,7 @@ export default function AdminMatrixVisualizer() {
                         <div className="p-8 bg-gray-50 rounded-full text-gray-200">
                             <Network size={80} strokeWidth={1} />
                         </div>
-                        <div className="max-w-sm">
+                        <div className="">
                             <h3 className="text-xl font-black text-[#151d48]">No Target Selected</h3>
                             <p className="text-gray-400 font-bold text-sm mt-2">Use the search bar above to drill down into any user's matrix structure. Results include all active boards up to 3 levels deep.</p>
                         </div>

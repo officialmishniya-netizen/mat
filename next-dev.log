@@ -78,3 +78,35 @@ The width(-1) and height(-1) of chart should be greater than 0,
  ○ Compiling /admin/settings/system ...
  ✓ Compiled /admin/settings/system in 762ms (2146 modules)
  GET /favicon.ico 200 in 13ms
+ ✓ Compiled in 572ms (849 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 897ms (2118 modules)
+ GET /_next/static/css/app/layout.css?v=1775512758220 404 in 1297ms
+ ✓ Compiled in 589ms (2129 modules)
+ ✓ Compiled /_not-found in 133ms (2118 modules)
+ GET /_next/static/css/app/layout.css?v=1775512854619 404 in 451ms
+ ✓ Compiled in 533ms (2129 modules)
+ ✓ Compiled /_not-found in 131ms (2118 modules)
+ GET /_next/static/css/app/layout.css?v=1775512945259 404 in 474ms
+ ✓ Compiled in 647ms (2132 modules)
+ GET /_next/static/css/app/layout.css?v=1775512957969 404 in 368ms
+ ✓ Compiled in 428ms (2132 modules)
+ ✓ Compiled in 513ms (849 modules)
+ ✓ Compiled in 412ms (849 modules)
+ ✓ Compiled in 358ms (849 modules)
+ ✓ Compiled in 406ms (2129 modules)
+ ✓ Compiled in 196ms (849 modules)
+ ✓ Compiled in 323ms (2129 modules)
+ ✓ Compiled in 255ms (849 modules)
+ ✓ Compiled in 368ms (2129 modules)
+ ✓ Compiled in 216ms (849 modules)
+ ✓ Compiled in 198ms (849 modules)
+ ✓ Compiled in 373ms (2129 modules)
+ ✓ Compiled in 210ms (849 modules)
+ ✓ Compiled in 311ms (2129 modules)
+ ✓ Compiled in 200ms (849 modules)
+ ✓ Compiled in 632ms (2129 modules)
+ ✓ Compiled in 438ms (2129 modules)
+ ✓ Compiled in 214ms (849 modules)
+ ✓ Compiled in 296ms (2129 modules)
+ ✓ Compiled in 469ms (2129 modules)

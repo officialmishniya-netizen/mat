@@ -33,7 +33,7 @@ export default async function AdminSettingsPage() {
     }
 
     return (
-        <div className="p-8 max-w-4xl mx-auto space-y-6">
+        <div className="p-8 space-y-6">
             <h1 className="text-3xl font-bold text-gray-900">White-Label Branding Settings</h1>
 
             <form action={saveSettings} className="bg-white shadow p-6 rounded-lg space-y-4">

@@ -9,7 +9,7 @@ export default async function ImpersonationPage() {
         .order("username", { ascending: true });
 
     return (
-        <div className="p-8 max-w-4xl mx-auto space-y-6">
+        <div className="p-8 space-y-6">
             <h1 className="text-3xl font-bold text-gray-900 border-b pb-4">Impersonate User</h1>
             <p className="text-gray-600">
                 Logging in as a user allows you to see exactly what they see on their dashboard.

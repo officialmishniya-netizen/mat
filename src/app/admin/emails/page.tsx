@@ -24,7 +24,7 @@ export default async function AdminEmailTemplatesPage() {
     }
 
     return (
-        <div className="p-8 max-w-6xl mx-auto space-y-8">
+        <div className="p-8 space-y-8">
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold text-gray-900">Email Templates</h1>
                 <p className="text-sm text-gray-500">Manage automated system emails and their content.</p>

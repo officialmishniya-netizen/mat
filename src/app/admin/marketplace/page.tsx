@@ -193,7 +193,7 @@ export default function AdminMarketplace() {
     }
 
     return (
-        <div className="container mx-auto py-10 max-w-7xl px-4 md:px-8 space-y-12">
+        <div className="container mx-auto py-10 px-4 md:px-8 space-y-12">
 
             {/* Custom Toasts Overlay */}
             <div className="fixed top-6 right-6 z-[9999] flex flex-col gap-3">
@@ -399,7 +399,7 @@ export default function AdminMarketplace() {
                         </div>
                         <div className="space-y-2">
                             <h3 className="text-3xl font-black text-[#151d48] tracking-tight uppercase">{activeTab} Interface</h3>
-                            <p className="text-[#737791] max-w-md mx-auto text-base font-medium leading-relaxed">
+                            <p className="text-[#737791] text-base font-medium leading-relaxed">
                                 Advanced {activeTab} orchestration is currently under development. All underlying ledger logic is ready.
                             </p>
                         </div>
@@ -437,7 +437,7 @@ export default function AdminMarketplace() {
             {/* Modals --- System Overlays --- */}
             {modalMode && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#151d48]/40 backdrop-blur-md animate-in fade-in duration-300">
-                    <Card className="w-full max-w-2xl border-indigo-600/10 shadow-[0_0_100px_-20px_rgba(99,102,241,0.1)] max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-500 bg-white">
+                    <Card className="w-full border-indigo-600/10 shadow-[0_0_100px_-20px_rgba(99,102,241,0.1)] max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-500 bg-white">
                         <div className="p-8 border-b border-gray-100 flex justify-between items-center">
                             <div>
                                 <h2 className="text-2xl font-black text-[#151d48] uppercase tracking-tight">{selectedId ? 'Modify' : 'Initialize'} {modalMode}</h2>

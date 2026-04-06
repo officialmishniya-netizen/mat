@@ -8,6 +8,13 @@
       "when": 1772966009492,
       "tag": "0000_rapid_hercules",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775515485802,
+      "tag": "0001_steep_earthquake",
+      "breakpoints": true
     }
   ]
 }

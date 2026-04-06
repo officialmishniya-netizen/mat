@@ -29,7 +29,7 @@ export default function StressTestSimulator({ stats }: { stats: Stats }) {
     };
 
     return (
-        <div className="p-6 space-y-6 max-w-6xl mx-auto">
+        <div className="p-6 space-y-6 ">
             <header className="flex justify-between items-end">
                 <div>
                     <h1 className="text-2xl font-bold text-[#151d48]">Liability Stress Test Simulator</h1>

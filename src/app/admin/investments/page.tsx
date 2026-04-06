@@ -104,7 +104,7 @@ export default function AdminInvestmentsPage() {
                         <Lock size={32} />
                     </div>
                     <h3 className="text-xl font-bold text-[#151d48] mb-2">Global Liquidity Guard</h3>
-                    <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">
+                    <p className="text-gray-500 text-sm mb-6 ">
                         Automated circuit breaker that pauses pool redemptions if cash-on-hand drops below 1.15x of 30-day maturing liability.
                     </p>
                     <div className="flex justify-center gap-4">

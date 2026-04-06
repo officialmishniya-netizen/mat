@@ -123,6 +123,7 @@ const navGroups: NavGroup[] = [
             { name: "General Settings", href: "/admin/settings" },
             { name: "Modules & Features", href: "/admin/settings/modules" },
             { name: "System Manager", href: "/admin/settings/system" },
+            { name: "Mobile App Setup", href: "/admin/settings/mobile" },
             { name: "Promotion Tools", href: "/admin/marketing" },
             { name: "Payments Setup", href: "/admin/settings/payments" },
             { name: "Email Editor", href: "/admin/emails" },
@@ -149,7 +150,7 @@ export default function AdminSidebar() {
     };
 
     return (
-        <aside className="w-[280px] bg-white h-screen fixed left-0 top-0 flex flex-col border-r border-gray-100 z-20 overflow-hidden">
+        <aside className="w-[280px] bg-[#0b1120] h-screen fixed left-0 top-0 flex flex-col border-r border-slate-800/50 z-20 overflow-hidden">
             {/* Logo */}
             <div className="h-24 flex items-center px-8 shrink-0">
                 <Link href="/admin" className="block w-full">
@@ -158,7 +159,7 @@ export default function AdminSidebar() {
             </div>
 
             {/* Navigation Layout */}
-            <div className="flex-1 px-4 py-4 overflow-y-auto pb-24 scrollbar-thin scrollbar-thumb-gray-200">
+            <div className="flex-1 px-4 py-4 overflow-y-auto pb-24 scrollbar-thin scrollbar-thumb-slate-700">
                 {navGroups.map((group) => {
                     if (group.reqModule && settings && !settings[group.reqModule]) return null;
 
@@ -182,7 +183,7 @@ export default function AdminSidebar() {
                             {isStandalone ? (
                                 <Link
                                     href={group.href!}
-                                    className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all cursor-pointer ${hasActiveChild ? "bg-[#f97316] text-white shadow-md shadow-orange-500/20" : "text-[#737791] hover:bg-orange-50 hover:text-[#f97316]"
+                                    className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all cursor-pointer ${hasActiveChild ? "bg-[#f97316] text-white shadow-md shadow-orange-500/20" : "text-slate-400 hover:bg-white/5 hover:text-[#f97316]"
                                         }`}
                                 >
                                     <div className="flex items-center space-x-4">
@@ -194,7 +195,7 @@ export default function AdminSidebar() {
                                 <div>
                                     <div
                                         onClick={() => toggleGroup(group.name)}
-                                        className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all cursor-pointer ${hasActiveChild && !isOpen ? "text-[#f97316] bg-orange-50" : "text-[#444a6d] hover:bg-gray-50"
+                                        className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all cursor-pointer ${hasActiveChild && !isOpen ? "text-[#f97316] bg-white/5" : "text-slate-300 hover:bg-white/5"
                                             }`}
                                     >
                                         <div className="flex items-center space-x-4">
@@ -205,7 +206,7 @@ export default function AdminSidebar() {
                                     </div>
 
                                     {isOpen && group.items && (
-                                        <div className="mt-1 ml-4 pl-6 border-l-2 border-orange-100 space-y-1 py-1">
+                                        <div className="mt-1 ml-4 pl-6 border-l-2 border-slate-800 space-y-1 py-1">
                                             {activeItems.map((item) => {
                                                 const isItemActive = pathname === item.href;
                                                 return (
@@ -214,7 +215,7 @@ export default function AdminSidebar() {
                                                         href={item.href}
                                                         className={`block px-4 py-2 rounded-lg transition-all text-sm font-semibold ${isItemActive
                                                             ? "bg-[#f97316] text-white shadow-sm shadow-orange-500/20"
-                                                            : "text-[#737791] hover:text-[#f97316] hover:bg-orange-50"
+                                                            : "text-slate-400 hover:text-[#f97316] hover:bg-white/5"
                                                             }`}
                                                     >
                                                         {item.name}
@@ -229,10 +230,10 @@ export default function AdminSidebar() {
                     );
                 })}
 
-                <div className="mt-8 border-t border-gray-100 pt-4">
+                <div className="mt-8 border-t border-slate-800/50 pt-4">
                     <Link
                         href="/"
-                        className="flex items-center space-x-4 px-4 py-3 rounded-xl transition-all text-red-500 hover:bg-red-50"
+                        className="flex items-center space-x-4 px-4 py-3 rounded-xl transition-all text-red-500 hover:bg-white/5"
                     >
                         <LogOut size={20} />
                         <span className="font-bold whitespace-nowrap">Sign Out</span>

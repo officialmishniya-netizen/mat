@@ -43,6 +43,11 @@ export default function PaymentsSetupPage() {
             const success = await updateSiteSettings({
                 nowpayments_api_key: settings.nowpayments_api_key,
                 nowpayments_ipn_secret: settings.nowpayments_ipn_secret,
+                active_payment_gateway: settings.active_payment_gateway,
+                coinpayments_merchant_id: settings.coinpayments_merchant_id,
+                coinpayments_ipn_secret: settings.coinpayments_ipn_secret,
+                coinbase_api_key: settings.coinbase_api_key,
+                coinbase_webhook_secret: settings.coinbase_webhook_secret,
                 withdrawal_fee_percent: settings.withdrawal_fee_percent,
                 service_fee_percent: settings.service_fee_percent,
                 min_withdrawal_amount: settings.min_withdrawal_amount,
@@ -78,7 +83,7 @@ export default function PaymentsSetupPage() {
     if (!settings) return null;
 
     return (
-        <div className="max-w-4xl space-y-8">
+        <div className="space-y-8">
             <header>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
                     Payments Setup
@@ -89,6 +94,21 @@ export default function PaymentsSetupPage() {
             </header>
 
             <form onSubmit={handleSave} className="space-y-6 pb-20">
+                {/* Active Gateway Selection */}
+                <div className="bg-[#1a1f2e] border border-gray-800 rounded-3xl p-8 mb-8 shadow-xl shadow-black/10">
+                    <h2 className="text-xl font-black text-white mb-4">Active Payment Gateway</h2>
+                    <p className="text-sm text-gray-400 mb-6">Select which gateway will process all deposits and active automated withdrawals.</p>
+                    <select
+                        value={settings.active_payment_gateway || "nowpayments"}
+                        onChange={(e) => setSettings({ ...settings, active_payment_gateway: e.target.value })}
+                        className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-4 text-white font-bold focus:ring-2 focus:ring-orange-500/30 transition-all shadow-inner"
+                    >
+                        <option value="nowpayments">NOWPayments (Recommended)</option>
+                        <option value="coinpayments">CoinPayments (Legacy)</option>
+                        <option value="coinbase">Coinbase Commerce</option>
+                    </select>
+                </div>
+
                 {/* NOWPayments Configuration */}
                 <div className="bg-[#1a1f2e] border border-gray-800 rounded-3xl overflow-hidden shadow-xl shadow-black/20">
                     <div className="bg-gradient-to-r from-orange-500/10 to-transparent border-b border-gray-800 p-8 flex items-center justify-between">
@@ -98,7 +118,9 @@ export default function PaymentsSetupPage() {
                             </div>
                             <div>
                                 <h2 className="text-xl font-black text-white tracking-tight">NOWPayments Gateway</h2>
-                                <p className="text-[10px] text-orange-400 font-black uppercase tracking-[0.2em]">Active Crypto Engine</p>
+                                {settings.active_payment_gateway === "nowpayments" && (
+                                    <p className="text-[10px] text-orange-400 font-black uppercase tracking-[0.2em] mt-1 bg-orange-500/10 inline-block px-2 py-0.5 rounded-full border border-orange-500/20">Active Processor</p>
+                                )}
                             </div>
                         </div>
                         <a
@@ -188,6 +210,88 @@ export default function PaymentsSetupPage() {
                                     <span className="text-[10px] text-slate-500 font-bold uppercase opacity-0 group-hover:opacity-100 transition-opacity">Copy Endpoint</span>
                                 </div>
                                 <p className="text-xs">Ensure your IPN secret matches the one in your NOWPayments dashboard to prevent signature verification failures.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* CoinPayments Configuration */}
+                <div className="bg-[#1a1f2e] border border-gray-800 rounded-3xl overflow-hidden shadow-xl shadow-black/20">
+                    <div className="bg-gradient-to-r from-blue-500/10 to-transparent border-b border-gray-800 p-8 flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                            <div className="p-3 bg-blue-500/20 rounded-2xl">
+                                <Wallet className="w-7 h-7 text-blue-400" />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-black text-white tracking-tight">CoinPayments Gateway</h2>
+                                {settings.active_payment_gateway === "coinpayments" && (
+                                    <p className="text-[10px] text-blue-400 font-black uppercase tracking-[0.2em] mt-1 bg-blue-500/10 inline-block px-2 py-0.5 rounded-full border border-blue-500/20">Active Processor</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="p-8 space-y-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-3">
+                                <label className="text-sm font-bold text-gray-200">Merchant ID</label>
+                                <input
+                                    type="text"
+                                    value={settings.coinpayments_merchant_id || ""}
+                                    onChange={(e) => setSettings({ ...settings, coinpayments_merchant_id: e.target.value })}
+                                    className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl px-5 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 font-mono text-sm"
+                                />
+                            </div>
+
+                            <div className="space-y-3">
+                                <label className="text-sm font-bold text-gray-200">IPN Secret</label>
+                                <input
+                                    type="password"
+                                    value={settings.coinpayments_ipn_secret || ""}
+                                    onChange={(e) => setSettings({ ...settings, coinpayments_ipn_secret: e.target.value })}
+                                    className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl px-5 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 font-mono text-sm"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Coinbase Commerce Configuration */}
+                <div className="bg-[#1a1f2e] border border-gray-800 rounded-3xl overflow-hidden shadow-xl shadow-black/20">
+                    <div className="bg-gradient-to-r from-emerald-500/10 to-transparent border-b border-gray-800 p-8 flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                            <div className="p-3 bg-emerald-500/20 rounded-2xl">
+                                <Wallet className="w-7 h-7 text-emerald-400" />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-black text-white tracking-tight">Coinbase Commerce</h2>
+                                {settings.active_payment_gateway === "coinbase" && (
+                                    <p className="text-[10px] text-emerald-400 font-black uppercase tracking-[0.2em] mt-1 bg-emerald-500/10 inline-block px-2 py-0.5 rounded-full border border-emerald-500/20">Active Processor</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="p-8 space-y-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-3">
+                                <label className="text-sm font-bold text-gray-200">API Key</label>
+                                <input
+                                    type="password"
+                                    value={settings.coinbase_api_key || ""}
+                                    onChange={(e) => setSettings({ ...settings, coinbase_api_key: e.target.value })}
+                                    className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl px-5 py-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30 font-mono text-sm"
+                                />
+                            </div>
+
+                            <div className="space-y-3">
+                                <label className="text-sm font-bold text-gray-200">Webhook Secret</label>
+                                <input
+                                    type="password"
+                                    value={settings.coinbase_webhook_secret || ""}
+                                    onChange={(e) => setSettings({ ...settings, coinbase_webhook_secret: e.target.value })}
+                                    className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl px-5 py-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30 font-mono text-sm"
+                                />
                             </div>
                         </div>
                     </div>

@@ -89,7 +89,7 @@ export default function AdminBadgeManagerPage() {
                 </div>
                 <div>
                     <h4 className="font-bold text-amber-900">Event Stream Integration</h4>
-                    <p className="text-sm text-amber-700/80 leading-relaxed max-w-3xl">
+                    <p className="text-sm text-amber-700/80 leading-relaxed ">
                         Badges are triggered by the central <code>dispatchEvent</code> system located in <code>src/lib/events.ts</code>. When a user completes an action, the system checks for any matching badge triggers and awards them instantly without additional database overhead.
                     </p>
                 </div>

@@ -34,6 +34,11 @@ export const settings = pgTable("settings", {
     secondary_color: text("secondary_color").notNull(),
     nowpayments_api_key: text("nowpayments_api_key"),
     nowpayments_ipn_secret: text("nowpayments_ipn_secret"),
+    active_payment_gateway: text("active_payment_gateway").default("nowpayments").notNull(),
+    coinpayments_merchant_id: text("coinpayments_merchant_id"),
+    coinpayments_ipn_secret: text("coinpayments_ipn_secret"),
+    coinbase_api_key: text("coinbase_api_key"),
+    coinbase_webhook_secret: text("coinbase_webhook_secret"),
     withdrawal_fee_percent: decimal("withdrawal_fee_percent", { precision: 5, scale: 2 }).default("0.00"),
     service_fee_percent: decimal("service_fee_percent", { precision: 5, scale: 2 }).default("0.00"),
     seo_title: text("seo_title").default("MatClick — High-Yield Matrix Engine"),
@@ -60,6 +65,15 @@ export const settings = pgTable("settings", {
     nowpayments_sandbox: boolean("nowpayments_sandbox").default(false).notNull(),
     auto_withdrawal_enabled: boolean("auto_withdrawal_enabled").default(false).notNull(),
     accepted_crypto_methods: text("accepted_crypto_methods").default("BTC,ETH,USDT,LTC,TRX"),
+
+    // Mobile App Configurations
+    mobile_app_maintenance: boolean("mobile_app_maintenance").default(false).notNull(),
+    mobile_min_version: text("mobile_min_version").default("1.0.0").notNull(),
+    mobile_latest_version: text("mobile_latest_version").default("1.0.0").notNull(),
+    onesignal_app_id: text("onesignal_app_id"),
+    onesignal_rest_key: text("onesignal_rest_key"),
+    play_store_url: text("play_store_url"),
+    app_store_url: text("app_store_url"),
 
     updated_at: timestamp("updated_at").defaultNow().notNull()
 });
@@ -1343,4 +1357,28 @@ export const simulationRuns = pgTable('simulation_runs', {
     report: jsonb('report'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// FEATURE 20: Micro-Jobs / Bounties
+export const bounties = pgTable('bounties', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    title: text('title').notNull(),
+    description: text('description').notNull(),
+    rewardAmount: numeric('reward_amount', { precision: 10, scale: 4 }).notNull(),
+    maxSubmissions: integer('max_submissions').default(100),
+    active: boolean('active').default(true).notNull(),
+    icon: text('icon').default('Star'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const bountySubmissions = pgTable('bounty_submissions', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    bountyId: uuid('bounty_id').notNull().references(() => bounties.id),
+    userId: uuid('user_id').notNull().references(() => users.id),
+    proofText: text('proof_text').notNull(),
+    proofImage: text('proof_image'),
+    status: text('status').default('pending').notNull(), // pending | approved | rejected
+    reviewedAt: timestamp('reviewed_at'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
 });

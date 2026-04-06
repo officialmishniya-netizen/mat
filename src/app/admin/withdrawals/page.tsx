@@ -249,7 +249,7 @@ export default function AdminWithdrawalsPage() {
                 </div>
                 <div>
                     <h4 className="font-black text-[#151d48]">Financial Processing Safety</h4>
-                    <p className="text-sm text-[#444a6d] mt-2 leading-relaxed max-w-4xl">
+                    <p className="text-sm text-[#444a6d] mt-2 leading-relaxed ">
                         Approving a withdrawal here will mark the record as approved in the system logs. Ensure you have manually executed the blockchain transaction or verified the automated gateway successfully processed the funds. Ledger adjustment for payouts is handled automatically upon approval.
                     </p>
                 </div>

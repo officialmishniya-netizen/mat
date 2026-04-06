@@ -44,7 +44,7 @@ function Modal({ open, onClose, title, wide, children }: { open: boolean; onClos
     if (!open) return null;
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className={`bg-white rounded-2xl shadow-2xl w-full ${wide ? 'max-w-4xl' : 'max-w-md'} flex flex-col`} style={{ maxHeight: '90vh', minHeight: wide ? '70vh' : 'auto' }}>
+            <div className={`bg-white rounded-2xl shadow-2xl w-full ${wide ? '' : ''} flex flex-col`} style={{ maxHeight: '90vh', minHeight: wide ? '70vh' : 'auto' }}>
                 <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
                     <h3 className="font-bold text-gray-900">{title}</h3>
                     <button onClick={onClose}><X className="h-5 w-5 text-gray-400 hover:text-gray-700" /></button>

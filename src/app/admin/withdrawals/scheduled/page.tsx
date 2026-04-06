@@ -147,7 +147,7 @@ export default function AdminScheduledPayoutsPage() {
                 </div>
                 <div>
                     <h4 className="font-bold text-amber-900">Admin Safety Protocol</h4>
-                    <p className="text-sm text-amber-700/80 leading-relaxed max-w-3xl">
+                    <p className="text-sm text-amber-700/80 leading-relaxed ">
                         Simulation mode allows you to preview the batch without executing real ledger entries. In production, ensure the platform liquidity bridge is funded before triggering the manual cron override. All manual runs are logged for security auditing.
                     </p>
                 </div>

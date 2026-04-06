@@ -50,7 +50,7 @@ export default function BonusSettingsPage() {
     }, []);
 
     return (
-        <div className="p-8 space-y-8 max-w-7xl mx-auto">
+        <div className="p-8 space-y-8 ">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl font-black text-[#151d48]">Bonus Intelligence Center</h1>

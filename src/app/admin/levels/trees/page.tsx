@@ -140,7 +140,7 @@ export default function LiveTreesPage() {
                             </div>
 
                             {/* "Next in Line" Highlight */}
-                            <div className="bg-orange-50 border border-orange-100 rounded-[2rem] p-8 max-w-lg mx-auto">
+                            <div className="bg-orange-50 border border-orange-100 rounded-[2rem] p-8 ">
                                 <div className="flex items-center justify-center gap-2 text-orange-600 mb-4 animate-pulse">
                                     <Zap size={20} fill="currentColor" />
                                     <span className="text-xs font-black uppercase tracking-widest">Next in Line to Cycle</span>
@@ -167,7 +167,7 @@ export default function LiveTreesPage() {
                                 </div>
                             </div>
 
-                            <p className="text-gray-400 text-sm max-w-md mx-auto">
+                            <p className="text-gray-400 text-sm ">
                                 Use the mouse to pan and zoom through the global tree structure. Click on any node to view detailed user genealogy and spillover history.
                             </p>
 
