@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { getLatestSimulationRun } from "@/lib/simulation/logging";
+import { db } from "@/lib/db";
+import { sql } from "drizzle-orm";
 
 export async function GET() {
     try {
@@ -8,11 +10,15 @@ export async function GET() {
     } catch (error: any) {
         let tableList: any[] = [];
         try {
-            tableList = await db.execute(sql`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`);
-        } catch (e) {}
+            // Check if DB is accessible and tables exist
+            const result = await db.execute(sql`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`);
+            tableList = (result as any).rows || [];
+        } catch (e) {
+            console.error("DB Connectivity Error in Status Route:", e);
+        }
 
-        console.error("FULL DB ERROR:", JSON.stringify(error, Object.getOwnPropertyNames(error)));
-        return NextResponse.json({ 
+        console.error("FULL SIMULATION STATUS ERROR:", JSON.stringify(error, Object.getOwnPropertyNames(error)));
+        return NextResponse.json({
             error: error.message || "Unknown error",
             code: error.code || "No code",
             detail: error.detail || "No details",

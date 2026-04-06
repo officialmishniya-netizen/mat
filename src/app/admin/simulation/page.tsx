@@ -13,12 +13,15 @@ export default function SimulationDashboard() {
         depth: 3,
         levelId: 1,
         watchesPerUser: 5,
-        fundAmount: 100
+        fundAmount: 100,
+        runMatrix: true,
+        runPTC: true,
+        runCrossRewards: false
     });
 
     // Polling Logic
     useEffect(() => {
-        let interval: NodeJS.Timeout;
+        let interval: any;
 
         const fetchStatus = async () => {
             try {
@@ -63,7 +66,7 @@ export default function SimulationDashboard() {
 
     const handleWipeData = async () => {
         if (!confirm("CRITICAL: This will delete ALL users with 'sim_' prefix and their history. Proceed?")) return;
-        
+
         setIsWiping(true);
         try {
             const res = await fetch("/api/admin/simulate", {
@@ -95,7 +98,7 @@ export default function SimulationDashboard() {
                     <p className="text-gray-500 font-medium mt-2">Stress test the entire platform ecosystem in a sandbox environment.</p>
                 </div>
                 <div className="flex gap-3">
-                    <button 
+                    <button
                         onClick={handleWipeData}
                         disabled={isWiping}
                         className="bg-white border-2 border-red-100 text-red-500 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-red-50 transition-all disabled:opacity-50"
@@ -103,7 +106,7 @@ export default function SimulationDashboard() {
                         {isWiping ? <RotateCcw className="animate-spin" size={18} /> : <Trash2 size={18} />}
                         WIPE SIM DATA
                     </button>
-                    <button 
+                    <button
                         onClick={handleRunSimulation}
                         disabled={isRunning}
                         className="bg-primary text-white px-8 py-3 rounded-2xl font-black text-sm flex items-center gap-2 shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
@@ -121,7 +124,7 @@ export default function SimulationDashboard() {
                         <Zap className="text-yellow-500" size={20} />
                         Parameters
                     </h2>
-                    
+
                     <div className="space-y-4">
                         {[
                             { label: 'Tree Breadth', key: 'breadth', icon: Users, desc: 'Direct referrals per user' },
@@ -135,15 +138,45 @@ export default function SimulationDashboard() {
                                     <item.icon size={12} />
                                     {item.label}
                                 </label>
-                                <input 
-                                    type="number" 
-                                    value={config[item.key as keyof typeof config]}
-                                    onChange={(e) => setConfig({...config, [item.key]: parseInt(e.target.value)})}
+                                <input
+                                    type="number"
+                                    value={config[item.key as keyof typeof config] as any}
+                                    onChange={(e) => setConfig({ ...config, [item.key]: parseInt(e.target.value) })}
                                     className="w-full bg-gray-50 border-2 border-gray-50 p-4 rounded-2xl font-bold text-[#151d48] focus:border-primary/20 focus:bg-white outline-none transition-all"
                                 />
                                 <p className="text-[10px] text-gray-400 font-medium px-1">{item.desc}</p>
                             </div>
                         ))}
+
+                        <div className="pt-4 border-t border-gray-50 space-y-4">
+                            <div className="flex items-center justify-between">
+                                <label className="text-xs font-bold text-[#444a6d]">Simulate Matrix</label>
+                                <input
+                                    type="checkbox"
+                                    checked={config.runMatrix}
+                                    onChange={(e) => setConfig({ ...config, runMatrix: e.target.checked })}
+                                    className="w-5 h-5 rounded-lg text-primary focus:ring-primary/20"
+                                />
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <label className="text-xs font-bold text-[#444a6d]">Simulate Ad Traffic</label>
+                                <input
+                                    type="checkbox"
+                                    checked={config.runPTC}
+                                    onChange={(e) => setConfig({ ...config, runPTC: e.target.checked })}
+                                    className="w-5 h-5 rounded-lg text-primary focus:ring-primary/20"
+                                />
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <label className="text-xs font-bold text-[#444a6d]">Enable Cross-Rewards</label>
+                                <input
+                                    type="checkbox"
+                                    checked={config.runCrossRewards}
+                                    onChange={(e) => setConfig({ ...config, runCrossRewards: e.target.checked })}
+                                    className="w-5 h-5 rounded-lg text-primary focus:ring-primary/20"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -153,7 +186,7 @@ export default function SimulationDashboard() {
                         <div className="absolute top-0 right-0 p-8 opacity-10">
                             <Terminal size={120} className="text-white" />
                         </div>
-                        
+
                         <div className="relative z-10 space-y-6">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-xl font-black text-white flex items-center gap-3">
@@ -167,7 +200,7 @@ export default function SimulationDashboard() {
 
                             <div className="bg-black/20 rounded-3xl p-8 font-mono text-sm text-green-400 space-y-2 min-h-[350px] overflow-y-auto max-h-[500px] scrollbar-thin scrollbar-thumb-white/10">
                                 <p className="text-white/40 mb-4 font-sans text-xs italic">// Simulation Output Console</p>
-                                
+
                                 {(!latestRun || (!latestRun.logs?.length && !isRunning)) && (
                                     <>
                                         <p>[SYSTEM] Ready for deployment.</p>

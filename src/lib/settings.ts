@@ -27,6 +27,12 @@ export type SiteSettings = {
     enable_contests_module: boolean;
     enable_achievements_module: boolean;
     enable_team_chat_module: boolean;
+    launch_date: string | null;
+    withdrawals_enabled: boolean;
+    next_in_line_enabled: boolean;
+    ptc_enabled: boolean;
+    matrix_enabled: boolean;
+    purchases_enabled: boolean;
 };
 
 const DEFAULT_SETTINGS: SiteSettings = {
@@ -56,6 +62,12 @@ const DEFAULT_SETTINGS: SiteSettings = {
     enable_contests_module: true,
     enable_achievements_module: true,
     enable_team_chat_module: true,
+    launch_date: null,
+    withdrawals_enabled: true,
+    next_in_line_enabled: true,
+    ptc_enabled: true,
+    matrix_enabled: true,
+    purchases_enabled: true,
 };
 
 export const getSiteSettings = async (): Promise<SiteSettings> => {

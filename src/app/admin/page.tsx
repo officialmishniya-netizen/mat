@@ -4,54 +4,46 @@ import {
     AdCyclePerformance,
     LevelDistributionChart
 } from "./DashboardCharts";
-import { supabase } from "@/lib/supabase";
+import { db } from "@/lib/db";
+import {
+    ledger as ledgerSchema,
+    withdrawals as withdrawalsSchema,
+    fraudAlerts as fraudAlertsSchema,
+    levels as levelsSchema,
+    userLevels as userLevelsSchema,
+    users as usersSchema,
+    adWatchLog as adWatchLogSchema
+} from "@/lib/db/schema";
+import { sql, count, gte, eq, desc } from "drizzle-orm";
 import { addMoney, subtractMoney } from "@/lib/money";
 import { Wallet, ActivitySquare, AlertTriangle, UserCheck, ShieldAlert, MonitorPlay, Layers, Banknote } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
+const todayStart = new Date();
+todayStart.setUTCHours(0, 0, 0, 0);
+const todayStr = todayStart.toISOString();
+
 export default async function AdminDashboardPage() {
     // ----------------------------------------------------------------------
-    // 1. FINANCIAL HEALTH CALCULATIONS
+    // 1. FINANCIAL HEALTH CALCULATIONS (SQL Aggregates for Performance)
     // ----------------------------------------------------------------------
-    const { data: ledger } = await supabase.from('ledger').select('amount, type, created_at');
+    const financialStats = await db.select({
+        totalLiability: sql<string>`SUM(amount)`,
+        totalRevenue: sql<string>`SUM(CASE WHEN type = 'deposit' THEN amount ELSE 0 END)`,
+        totalWithdrawn: sql<string>`SUM(CASE WHEN type = 'withdrawal' THEN ABS(amount) ELSE 0 END)`,
+        adRewardsToday: sql<string>`SUM(CASE WHEN type = 'ad_reward' AND created_at >= ${todayStr} THEN amount ELSE 0 END)`,
+        matrixCyclesToday: sql<number>`COUNT(CASE WHEN type = 'matrix_cycle' AND created_at >= ${todayStr} THEN 1 END)`
+    }).from(ledgerSchema);
 
-    let totalLiability = '0.00';
-    let revenueIn = '0.00';
-    let totalWithdrawn = '0.00';
-    let adRewardsToday = '0.00';
-    let matrixCyclesToday = 0;
-
-    const todayStart = new Date();
-    todayStart.setUTCHours(0, 0, 0, 0);
-    const todayStr = todayStart.toISOString();
-
-    if (ledger) {
-        for (const entry of ledger) {
-            // Calculate Global Liability
-            totalLiability = addMoney(totalLiability, entry.amount);
-
-            // Revenue and Withdrawals
-            if (entry.type === 'deposit') {
-                revenueIn = addMoney(revenueIn, entry.amount);
-            } else if (entry.type === 'withdrawal') {
-                // Withdrawals are negative in the ledger, so we subtract it from 0 to get absolute positive
-                totalWithdrawn = addMoney(totalWithdrawn, Math.abs(parseFloat(entry.amount)).toString());
-            }
-
-            // Today's Activity Pulse
-            if (new Date(entry.created_at) >= todayStart) {
-                if (entry.type === 'ad_reward') {
-                    adRewardsToday = addMoney(adRewardsToday, entry.amount);
-                } else if (entry.type === 'matrix_cycle') {
-                    matrixCyclesToday++;
-                }
-            }
-        }
-    }
+    const stats = financialStats[0];
+    const totalLiability = stats.totalLiability || '0.00';
+    const revenueIn = stats.totalRevenue || '0.00';
+    const totalWithdrawn = stats.totalWithdrawn || '0.00';
+    const adRewardsToday = stats.adRewardsToday || '0.00';
+    const matrixCyclesToday = Number(stats.matrixCyclesToday || 0);
 
     // Net Profit: Revenue In - Total Withdrawn - Current Liability
-    // E.g: $100 In - $20 Out - $50 Liability (users holding funds) = $30 System Profit
     const profitAfterWithdrawals = subtractMoney(revenueIn, totalWithdrawn);
     const netProfit = subtractMoney(profitAfterWithdrawals, totalLiability);
     const isProfitNegative = parseFloat(netProfit) < 0;
@@ -59,38 +51,42 @@ export default async function AdminDashboardPage() {
     // ----------------------------------------------------------------------
     // 2. ACTIVITY PULSE (TODAY)
     // ----------------------------------------------------------------------
-    const { count: adViewsToday } = await supabase
-        .from('ad_views')
-        .select('*', { count: 'exact', head: true })
-        .gte('completed_at', todayStr);
+    const activeUsersToday = await db.select({ count: sql<number>`count(distinct user_id)` })
+        .from(ledgerSchema)
+        .where(sql`created_at >= ${todayStr}`)
+        .then(res => Number(res[0]?.count || 0));
 
-    // Estimate Active Users by counting unique users who took an action today (viewed an ad or ledger entry)
-    const { data: uniqueViews } = await supabase.from('ad_views').select('user_id').gte('completed_at', todayStr);
-    const activeUsersSet = new Set(uniqueViews?.map(v => v.user_id));
-    const activeUsersToday = activeUsersSet.size;
+    const adViewsToday = await db.select({ count: sql<number>`count(*)` })
+        .from(adWatchLogSchema)
+        .where(sql`created_at >= ${todayStr}`)
+        .then(res => Number(res[0]?.count || 0));
 
     // ----------------------------------------------------------------------
-    // 3. ACTION NEEDED
+    // 3. ACTION NEEDED ALERTS
     // ----------------------------------------------------------------------
-    // Fetch real pending withdrawals
-    const { count: pendingWithdrawals } = await supabase
-        .from('withdrawals')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'pending');
+    const pendingWithdrawalsCount = await db.select({ count: count() })
+        .from(withdrawalsSchema)
+        .where(eq(withdrawalsSchema.status, 'pending'))
+        .then(res => res[0].count);
 
-    // Fetch real flagged users (new fraud alerts)
-    const { count: flaggedUsers } = await supabase
-        .from('fraud_alerts')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'new');
+    const flaggedUsersCount = await db.select({ count: count() })
+        .from(fraudAlertsSchema)
+        .where(eq(fraudAlertsSchema.status, 'new'))
+        .then(res => res[0].count);
 
     // Matrix Distribution for the pie chart
-    const { data: levels } = await supabase.from('levels').select('id, name');
-    const { data: positions } = await supabase.from('user_levels').select('level_id');
-    const levelDistribution = (levels || []).map(lvl => {
-        const count = positions?.filter(p => p.level_id === lvl.id).length || 0;
-        return { name: lvl.name, count };
-    });
+    const levelDistributionQuery = await db.select({
+        name: levelsSchema.name,
+        count: sql<number>`count(${userLevelsSchema.id})`
+    })
+        .from(levelsSchema)
+        .leftJoin(userLevelsSchema, eq(levelsSchema.id, userLevelsSchema.level_id))
+        .groupBy(levelsSchema.id, levelsSchema.name);
+
+    const levelDistribution = levelDistributionQuery.map(row => ({
+        name: row.name,
+        count: Number(row.count)
+    }));
 
     // ----------------------------------------------------------------------
     // 4. CHART DATA AGGREGATION (Last 7 Days)
@@ -99,84 +95,64 @@ export default async function AdminDashboardPage() {
     sevenDaysAgo.setUTCDate(sevenDaysAgo.getUTCDate() - 6);
     sevenDaysAgo.setUTCHours(0, 0, 0, 0);
 
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const last7DaysLedger: { name: string, deposits: number, payouts: number }[] = [];
-    const last7DaysAds: { name: string, adsViewed: number, limitHits: number }[] = [];
+    const ledgerFlowQuery = await db.select({
+        day: sql<string>`TO_CHAR(created_at, 'Dy')`,
+        deposits: sql<string>`SUM(CASE WHEN type = 'deposit' THEN amount ELSE 0 END)`,
+        payouts: sql<string>`SUM(CASE WHEN type IN ('matrix_cycle', 'matching_bonus', 'ad_reward', 'referral_bonus') THEN ABS(amount) ELSE 0 END)`,
+        dayOrder: sql<string>`TO_CHAR(created_at, 'ID')`
+    })
+        .from(ledgerSchema)
+        .where(gte(ledgerSchema.created_at, sevenDaysAgo))
+        .groupBy(sql`TO_CHAR(created_at, 'Dy')`, sql`TO_CHAR(created_at, 'ID')`)
+        .orderBy(sql`TO_CHAR(created_at, 'ID')`);
 
-    // Initialize days
-    for (let i = 0; i < 7; i++) {
-        const d = new Date(sevenDaysAgo);
-        d.setUTCDate(d.getUTCDate() + i);
-        last7DaysLedger.push({ name: days[d.getUTCDay()], deposits: 0, payouts: 0 });
-        last7DaysAds.push({ name: (i + 1).toString(), adsViewed: 0, limitHits: 0 });
-    }
+    // Ad views aggregation (7 days)
+    const adViews7Days = await db.select({
+        day: sql<string>`TO_CHAR(created_at, 'DD')`,
+        count: sql<number>`count(*)`
+    })
+        .from(adWatchLogSchema)
+        .where(gte(adWatchLogSchema.createdAt, sevenDaysAgo))
+        .groupBy(sql`TO_CHAR(created_at, 'DD')`)
+        .orderBy(sql`TO_CHAR(created_at, 'DD')`);
 
-    if (ledger) {
-        for (const entry of ledger) {
-            const entryDate = new Date(entry.created_at);
-            if (entryDate >= sevenDaysAgo) {
-                const dayIndex = Math.floor((entryDate.getTime() - sevenDaysAgo.getTime()) / (1000 * 60 * 60 * 24));
-                if (dayIndex >= 0 && dayIndex < 7) {
-                    if (entry.type === 'deposit') {
-                        last7DaysLedger[dayIndex].deposits += Math.abs(parseFloat(entry.amount));
-                    } else if (entry.type === 'withdrawal' || entry.type === 'matrix_cycle' || entry.type === 'matching_bonus' || entry.type === 'ad_reward' || entry.type === 'referral_bonus') {
-                        // For payouts, we only count outward flows or rewards paid
-                        // Actually let's just count explicitly requested payout types
-                        if (['matrix_cycle', 'matching_bonus', 'ad_reward', 'referral_bonus'].includes(entry.type)) {
-                            last7DaysLedger[dayIndex].payouts += Math.abs(parseFloat(entry.amount));
-                        }
-                    }
-                }
-            }
+    // User growth aggregation (Monthly)
+    const userGrowthQuery = await db.select({
+        month: sql<string>`TO_CHAR(created_at, 'Mon')`,
+        count: sql<number>`count(*)`
+    })
+        .from(usersSchema)
+        .where(eq(usersSchema.role, 'user'))
+        .groupBy(sql`TO_CHAR(created_at, 'Mon')`, sql`date_trunc('month', created_at)`)
+        .orderBy(sql`date_trunc('month', created_at)`);
+
+    // Map the results back to the expected format for charts
+    const last7DaysLedger = ledgerFlowQuery.map(row => ({
+        name: row.day,
+        deposits: parseFloat(row.deposits || '0'),
+        payouts: parseFloat(row.payouts || '0')
+    }));
+
+    const last7DaysAds = adViews7Days.map(row => ({
+        name: row.day,
+        adsViewed: Number(row.count),
+        limitHits: 0
+    }));
+
+    const userGrowth = userGrowthQuery.map(row => ({
+        name: row.month,
+        free: Number(row.count),
+        pro: 0
+    }));
+
+    // Ensure we have 7 days for ledger chart even if empty
+    if (last7DaysLedger.length === 0) {
+        const daysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(sevenDaysAgo);
+            d.setUTCDate(d.getUTCDate() + i);
+            last7DaysLedger.push({ name: daysShort[d.getUTCDay()], deposits: 0, payouts: 0 });
         }
-    }
-
-    // Ad views aggregation
-    const { data: recentViews } = await supabase
-        .from('ad_views')
-        .select('completed_at')
-        .gte('completed_at', sevenDaysAgo.toISOString());
-
-    if (recentViews) {
-        for (const view of recentViews) {
-            const viewDate = new Date(view.completed_at);
-            const dayIndex = Math.floor((viewDate.getTime() - sevenDaysAgo.getTime()) / (1000 * 60 * 60 * 24));
-            if (dayIndex >= 0 && dayIndex < 7) {
-                last7DaysAds[dayIndex].adsViewed++;
-            }
-        }
-    }
-
-    // User growth aggregation (Simplified monthly for now)
-    const { data: allUsers } = await supabase.from('users').select('created_at, role');
-    const userGrowth: { name: string, free: number, pro: number }[] = [];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    // Group users by month
-    const growthMap: Record<string, { free: number, pro: number }> = {};
-    if (allUsers) {
-        for (const u of allUsers) {
-            const d = new Date(u.created_at);
-            const month = months[d.getUTCMonth()];
-            if (!growthMap[month]) growthMap[month] = { free: 0, pro: 0 };
-            if (u.role === 'admin') continue; // Skip admins
-
-            // For now, let's assume 'pro' if they have any levels, but here we just check role or placeholder
-            // In a real scenario, we'd join with user_levels
-            growthMap[month].free++;
-        }
-    }
-
-    // Convert map to sorted array (last 6 months)
-    const currentMonth = new Date().getUTCMonth();
-    for (let i = 5; i >= 0; i--) {
-        const mIdx = (currentMonth - i + 12) % 12;
-        const mName = months[mIdx];
-        userGrowth.push({
-            name: mName,
-            free: growthMap[mName]?.free || 0,
-            pro: growthMap[mName]?.pro || 0
-        });
     }
 
     return (
@@ -246,7 +222,7 @@ export default async function AdminDashboardPage() {
                                     <Wallet size={18} className="text-orange-600" />
                                     <span className="font-semibold text-sm text-orange-900">Pending Withdrawals</span>
                                 </div>
-                                <span className="bg-orange-600 text-white text-xs font-bold px-2 py-1 rounded-full">{pendingWithdrawals}</span>
+                                <span className="bg-orange-600 text-white text-xs font-bold px-2 py-1 rounded-full">{pendingWithdrawalsCount}</span>
                             </div>
 
                             <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-100">
@@ -254,7 +230,7 @@ export default async function AdminDashboardPage() {
                                     <ShieldAlert size={18} className="text-red-600" />
                                     <span className="font-semibold text-sm text-red-900">Security Threats</span>
                                 </div>
-                                <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">{flaggedUsers}</span>
+                                <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">{flaggedUsersCount}</span>
                             </div>
                         </div>
                     </div>

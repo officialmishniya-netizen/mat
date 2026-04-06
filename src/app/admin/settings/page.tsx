@@ -20,6 +20,12 @@ export default async function AdminSettingsPage() {
             mailgun_api_key: formData.get("mailgun_api_key") as string,
             mailgun_domain: formData.get("mailgun_domain") as string,
             mailgun_from_email: formData.get("mailgun_from_email") as string,
+            launch_date: formData.get("launch_date") ? new Date(formData.get("launch_date") as string).toISOString() : null,
+            withdrawals_enabled: formData.get("withdrawals_enabled") === "on",
+            next_in_line_enabled: formData.get("next_in_line_enabled") === "on",
+            ptc_enabled: formData.get("ptc_enabled") === "on",
+            matrix_enabled: formData.get("matrix_enabled") === "on",
+            purchases_enabled: formData.get("purchases_enabled") === "on",
         });
 
         // Refresh all pages to instantly apply the new styles/branding globally
@@ -143,6 +149,84 @@ export default async function AdminSettingsPage() {
                                 placeholder="notifications@matclick.com"
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="border-t pt-4 space-y-4">
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Launch Readiness & Controls</h3>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Official Launch Date</label>
+                        <input
+                            type="datetime-local"
+                            name="launch_date"
+                            defaultValue={settings.launch_date ? new Date(settings.launch_date).toISOString().slice(0, 16) : ""}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                        />
+                        <p className="text-xs text-gray-400 mt-1">Landing page will show a countdown until this time.</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6 pt-2">
+                        <div className="flex items-center space-x-3">
+                            <input
+                                type="checkbox"
+                                name="withdrawals_enabled"
+                                id="withdrawals_enabled"
+                                defaultChecked={settings.withdrawals_enabled}
+                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                            />
+                            <label htmlFor="withdrawals_enabled" className="text-sm font-medium text-gray-700">
+                                Enable Withdrawals
+                            </label>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                            <input
+                                type="checkbox"
+                                name="next_in_line_enabled"
+                                id="next_in_line_enabled"
+                                defaultChecked={settings.next_in_line_enabled}
+                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                            />
+                            <label htmlFor="next_in_line_enabled" className="text-sm font-medium text-gray-700">
+                                Enable "Next in Line" Progress
+                            </label>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                            <input
+                                type="checkbox"
+                                name="ptc_enabled"
+                                id="ptc_enabled"
+                                defaultChecked={settings.ptc_enabled}
+                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                            />
+                            <label htmlFor="ptc_enabled" className="text-sm font-medium text-gray-700">
+                                Global PTC Activity
+                            </label>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                            <input
+                                type="checkbox"
+                                name="matrix_enabled"
+                                id="matrix_enabled"
+                                defaultChecked={settings.matrix_enabled}
+                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                            />
+                            <label htmlFor="matrix_enabled" className="text-sm font-medium text-gray-700">
+                                Global Matrix Activity
+                            </label>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                            <input
+                                type="checkbox"
+                                name="purchases_enabled"
+                                id="purchases_enabled"
+                                defaultChecked={settings.purchases_enabled}
+                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                            />
+                            <label htmlFor="purchases_enabled" className="text-sm font-medium text-gray-700">
+                                Global Level Purchases
+                            </label>
                         </div>
                     </div>
                 </div>

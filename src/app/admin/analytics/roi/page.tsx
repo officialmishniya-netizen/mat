@@ -30,14 +30,14 @@ export default function AdminAdvertiserROIDashboard() {
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {[
-                    { label: 'Global Impressions', value: '4.8M', icon: BarChart3, color: 'text-blue-600', bg: 'bg-blue-50' },
-                    { label: 'Avg. Platform CTR', value: '4.2%', icon: Target, color: 'text-primary', bg: 'bg-primary/10' },
-                    { label: 'Daily Ad Revenue', value: '$840.00', icon: DollarSign, color: 'text-green-600', bg: 'bg-green-50' },
-                    { label: 'Active Advertisers', value: '42', icon: Users, color: 'text-purple-600', bg: 'bg-purple-50' }
+                    { label: 'Global Impressions', value: '4.8M', IconComponent: BarChart3, color: 'text-blue-600', bg: 'bg-blue-50' },
+                    { label: 'Avg. Platform CTR', value: '4.2%', IconComponent: Target, color: 'text-primary', bg: 'bg-primary/10' },
+                    { label: 'Daily Ad Revenue', value: '$840.00', IconComponent: DollarSign, color: 'text-green-600', bg: 'bg-green-50' },
+                    { label: 'Active Advertisers', value: '42', IconComponent: Users, color: 'text-purple-600', bg: 'bg-purple-50' }
                 ].map((stat, i) => (
                     <div key={i} className={`${stat.bg} rounded-3xl p-6 border border-white/50 backdrop-blur-sm`}>
                         <div className={`p-2.5 rounded-xl bg-white w-fit ${stat.color} shadow-sm mb-4`}>
-                            <stat.icon size={20} />
+                            <stat.IconComponent size={20} />
                         </div>
                         <p className="text-[10px] uppercase font-black tracking-widest text-[#737791] mb-1">{stat.label}</p>
                         <p className={`text-2xl font-black ${stat.color}`}>{stat.value}</p>

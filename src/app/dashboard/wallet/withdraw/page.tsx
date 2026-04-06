@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getUserBalance } from "@/lib/ledger";
 import WithdrawForm from "./WithdrawForm";
+import { getSiteSettings } from "@/lib/settings";
 import { db } from "@/lib/db";
 import { withdrawals } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
@@ -23,6 +24,7 @@ export default async function WithdrawPage() {
 
     // Fetch Current Balance
     const availableBalance = await getUserBalance(effectiveUserId);
+    const settings = await getSiteSettings();
 
     // Fetch Withdrawal History
     const { data: historyData } = await supabase
@@ -47,7 +49,7 @@ export default async function WithdrawPage() {
                 <div className="lg:col-span-2 space-y-6">
                     <div className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100 relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 pointer-events-none"></div>
-                        <WithdrawForm availableBalance={availableBalance} />
+                        <WithdrawForm availableBalance={availableBalance} withdrawalsEnabled={settings.withdrawals_enabled} />
                     </div>
                 </div>
 

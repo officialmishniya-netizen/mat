@@ -39,9 +39,9 @@ export default async function AdminLevelsPage() {
     }
 
     return (
-        <div className="p-8 max-w-7xl mx-auto space-y-8">
+        <div className="p-8 space-y-8">
             <header className="flex flex-col gap-2 border-b pb-6">
-                <h1 className="text-3xl font-black text-[#151d48]">Matrix Level Intelligence</h1>
+                <h1 className="text-3xl font-black text-[#151d48]">Matrix Setup Intelligence</h1>
                 <p className="text-gray-500 text-sm">Configure structural, financial, and automation rules for matrix levels.</p>
             </header>
 

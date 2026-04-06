@@ -70,11 +70,12 @@ export async function investInPool(poolId: string, amount: string) {
  * UPDATE WITHDRAWAL SCHEDULE
  */
 export async function updateWithdrawalSchedule(config: {
+    enabled: boolean;
     frequency: string;
     amount_type: 'fixed' | 'all';
     fixed_amount: string;
-    min_threshold: string;
-    isActive: boolean;
+    threshold: string;
+    gateway?: string;
 }) {
     try {
         const supabase = await createClient();
@@ -82,35 +83,34 @@ export async function updateWithdrawalSchedule(config: {
         if (!session) throw new Error("Unauthorized");
 
         const userId = session.user.id;
-
-        // Note: withdrawing_schedules in schema uses snake_case for some reason?
-        // Let's check schema.ts line 459: export const withdrawalSchedules = pgTable('withdrawal_schedules', { ... })
-        // frequency, amountType, fixedAmount, minThreshold, isActive, nextRunAt, lastRunAt
-
         const nextRunAt = calculateNextRun(config.frequency);
 
-        await db.insert(ledger).values({
-            // This is just a dummy to test if db works, wait, I should upsert schedule.
-        } as any).onConflictDoUpdate({
-            target: [(db as any).$sql`user_id`], // This is not quite correct for Drizzle upsert
-            set: {}
-        });
+        // Import the table from schema if not already imported (it's at top)
+        const { withdrawalSchedules } = require("@/lib/db/schema");
 
-        // Let's do it properly
-        /*
         await db.insert(withdrawalSchedules).values({
             userId,
             frequency: config.frequency,
             amountType: config.amount_type,
             fixedAmount: config.fixed_amount,
-            minThreshold: config.min_threshold,
-            isActive: config.isActive,
+            minThreshold: config.threshold,
+            isActive: config.enabled,
             nextRunAt,
-        } as any).onConflictDoUpdate({ ... });
-        */
+        }).onConflictDoUpdate({
+            target: [withdrawalSchedules.userId],
+            set: {
+                frequency: config.frequency,
+                amountType: config.amount_type,
+                fixedAmount: config.fixed_amount,
+                minThreshold: config.threshold,
+                isActive: config.enabled,
+                nextRunAt,
+            }
+        });
 
         return { success: true };
     } catch (error: any) {
+        console.error("Schedule Update Error:", error);
         return { success: false, error: error.message };
     }
 }

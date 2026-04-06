@@ -75,9 +75,9 @@ const navGroups: NavGroup[] = [
         icon: Zap,
         items: [
             { name: "Watching Ads Setup", href: "/admin/ads", reqModule: "enable_ptc_module" },
-            { name: "Earning Levels", href: "/admin/levels", reqModule: "enable_matrix_module" },
+            { name: "Matrix Setup", href: "/admin/levels", reqModule: "enable_matrix_module" },
             { name: "Bonus Settings", href: "/admin/levels/bonuses" },
-            { name: "Live Growth Trees", href: "/admin/levels/trees" },
+            { name: "Matrix Boards", href: "/admin/levels/trees" },
             { name: "Shop Manager", href: "/admin/marketplace", reqModule: "enable_marketplace_module" },
             { name: "Interactive Games", href: "/dashboard/marketplace/spin", reqModule: "enable_marketplace_module" },
         ]
@@ -134,11 +134,7 @@ export default function AdminSidebar() {
     const pathname = usePathname();
     const { t } = useTranslation();
     const [settings, setSettings] = useState<SiteSettings | null>(null);
-    const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
-        "Overview": true,
-        "Earning Systems": true,
-        "Member Management": true
-    });
+    const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
         getSiteSettings().then(setSettings);

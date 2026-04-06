@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Landmark, ArrowRight, Loader2, DollarSign, Wallet } from "lucide-react";
+import { Landmark, ArrowRight, Loader2, DollarSign, Wallet, AlertCircle } from "lucide-react";
 
-export default function WithdrawForm({ availableBalance }: { availableBalance: string }) {
+export default function WithdrawForm({ availableBalance, withdrawalsEnabled = true }: { availableBalance: string; withdrawalsEnabled?: boolean }) {
     const [amount, setAmount] = useState("");
     const [method, setMethod] = useState("USDT TRC20");
     const [details, setDetails] = useState("");
@@ -77,6 +77,20 @@ export default function WithdrawForm({ availableBalance }: { availableBalance: s
                 >
                     Make Another Request
                 </button>
+            </div>
+        );
+    }
+
+    if (!withdrawalsEnabled) {
+        return (
+            <div className="py-12 flex flex-col items-center justify-center text-center animate-in fade-in">
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6 text-orange-600">
+                    <AlertCircle size={32} />
+                </div>
+                <h3 className="text-xl font-black text-[#151d48] mb-2 tracking-tight">Withdrawals Temporarily Disabled</h3>
+                <p className="text-gray-500 font-medium max-w-sm">
+                    The administration has temporarily disabled withdrawals for system maintenance or security updates. Please check back soon.
+                </p>
             </div>
         );
     }

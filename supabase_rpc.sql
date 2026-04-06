@@ -48,9 +48,17 @@ DECLARE
   v_price NUMERIC;
   v_sponsor_bonus NUMERIC;
   v_sponsor_id UUID;
+  v_free_ad_level_id INTEGER;
+  v_purchases_enabled BOOLEAN;
   v_ad_credits_reward INTEGER;
   v_ad_cycles_reward INTEGER;
 BEGIN
+  -- 0. Check Global Toggle
+  SELECT purchases_enabled INTO v_purchases_enabled FROM public.settings LIMIT 1;
+  IF v_purchases_enabled = FALSE THEN
+    RAISE EXCEPTION 'Global Level Purchases are currently disabled.';
+  END IF;
+
   -- Get Level Info
   SELECT price, sponsor_bonus, ad_credits_reward, ad_cycles_reward 
   INTO v_price, v_sponsor_bonus, v_ad_credits_reward, v_ad_cycles_reward
@@ -67,8 +75,15 @@ BEGIN
   INSERT INTO public.ledger (user_id, amount, type, reference_id)
   VALUES (p_user_id, -v_price, 'matrix_purchase', p_level_id::TEXT);
 
-  -- 2. Place in Matrix
-  PERFORM place_in_matrix(p_user_id, p_level_id);
+  -- 5. Give Free PTC Level if configured
+  SELECT free_ad_level_id INTO v_free_ad_level_id FROM public.levels WHERE id = p_level_id;
+  IF v_free_ad_level_id IS NOT NULL THEN
+      INSERT INTO public.user_ad_levels (user_id, ad_level_id)
+      VALUES (p_user_id, v_free_ad_level_id);
+  END IF;
+
+  -- 6. Trigger Matrix Placement
+  PERFORM public.place_in_matrix(p_user_id, p_level_id);
 
   -- 3. Pay Sponsor Bonus
   IF v_sponsor_id IS NOT NULL AND v_sponsor_bonus > 0 THEN

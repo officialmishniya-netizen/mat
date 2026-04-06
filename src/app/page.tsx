@@ -8,9 +8,11 @@ import {
 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import LaunchCountdown from "@/components/LaunchCountdown";
 
 export default async function LandingPage() {
   const settings = await getSiteSettings();
+  const isPreLaunch = settings.launch_date ? new Date(settings.launch_date).getTime() > Date.now() : false;
 
   const stats = [
     { value: "6,300", prefix: "", suffix: "", label: "Active Members" },
@@ -124,8 +126,10 @@ export default async function LandingPage() {
         </div>
       </nav>
 
-      {/* â•â• HERO â•â• */}
+      {/* ── HERO ── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
+
+        {settings.launch_date && <LaunchCountdown launchDate={settings.launch_date} />}
 
         {/* Animated blobs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -145,8 +149,10 @@ export default async function LandingPage() {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16">
           {/* Live badge */}
           <div className="animate-fade-up inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-8 hover:bg-white/8 transition-colors cursor-default">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold text-white/60 uppercase tracking-[0.15em]">Live & Paying — est. 2026</span>
+            <span className={`w-2 h-2 rounded-full ${isPreLaunch ? "bg-yellow-400" : "bg-emerald-400"} animate-pulse`} />
+            <span className="text-xs font-black text-white/60 uppercase tracking-[0.15em]">
+              {isPreLaunch ? `Pre-Launch Phase — Official Start: ${new Date(settings.launch_date!).toLocaleDateString()}` : "Live & Paying — est. 2026"}
+            </span>
           </div>
 
           {/* Headline */}

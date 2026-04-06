@@ -18,7 +18,7 @@ export default function WithdrawalSchedulePage() {
     const handleSave = async () => {
         setIsSaving(true);
         try {
-            await updateWithdrawalSchedule({
+            const result = await updateWithdrawalSchedule({
                 enabled: isEnabled,
                 frequency,
                 amount_type: amountType as 'fixed' | 'all',
@@ -26,9 +26,15 @@ export default function WithdrawalSchedulePage() {
                 threshold,
                 gateway: 'any' // Default or user preference
             });
+
+            if (!result.success) {
+                throw new Error(result.error || "Failed to save schedule");
+            }
+
             setSuccess(true);
             setTimeout(() => setSuccess(false), 3000);
         } catch (err: any) {
+            console.error("Save Error:", err);
             alert(err.message || "Failed to save schedule");
         } finally {
             setIsSaving(false);

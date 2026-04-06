@@ -1,11 +1,12 @@
 import { db } from "@/lib/db";
 import { withdrawals, users } from "@/lib/db/schema";
-import { sql, eq, desc } from "drizzle-orm";
+import { sql, eq } from "drizzle-orm";
 import { getSiteSettings } from "@/lib/settings";
 import { Wallet, AlertTriangle } from "lucide-react";
+import AnomalyActionButtons from "./AnomalyActionButtons";
 
 const RULE_LABELS: Record<string, string> = {
-  new_account: "Rule 1 — Withdrawal within 72h of signupup",
+  new_account: "Rule 1 — Withdrawal within 72h of signup",
   every_cycle: "Rule 2 — Withdraws every cycle, zero reinvestment",
   multi_24h: "Rule 3 — Multiple withdrawals in 24h",
   amount_match: "Rule 4 — Amount suspiciously close to deposit",
@@ -19,8 +20,7 @@ export default async function WithdrawalAnomaliesPage() {
   // Rule 1: withdrawal within 72 hours of account creation
   const rule1 = await db.execute(sql`
     SELECT w.id, w.user_id, w.amount, w.created_at, u.username, u.created_at AS user_joined,
-           EXTRACT(EPOCH FROM (w.created_at - u.created_at)) / 3600 AS hours_since_join,
-           'new_account' AS rule
+           EXTRACT(EPOCH FROM (w.created_at - u.created_at)) / 3600 AS hours_since_join
     FROM withdrawals w
     JOIN users u ON u.id = w.user_id
     WHERE w.created_at - u.created_at < INTERVAL '72 hours'
@@ -30,40 +30,41 @@ export default async function WithdrawalAnomaliesPage() {
 
   // Rule 3: multiple withdrawals within 24 hours
   const rule3 = await db.execute(sql`
-    SELECT user_id, COUNT(*) AS wd_count, MAX(created_at) AS last_wd
-    FROM withdrawals
-    WHERE created_at >= NOW() - INTERVAL '24 hours'
-    GROUP BY user_id
+    SELECT w.user_id, u.username, COUNT(*) AS wd_count, MAX(w.created_at) AS last_wd
+    FROM withdrawals w
+    JOIN users u ON u.id = w.user_id
+    WHERE w.created_at >= NOW() - INTERVAL '24 hours'
+    GROUP BY w.user_id, u.username
     HAVING COUNT(*) >= 3
     LIMIT 50
   `);
 
   const anomalies = [
     ...(rule1 as any).map((r: any) => ({ ...r, rule: "new_account" })),
-    ...(rule3 as any).map((r: any) => ({ ...r, username: "—", amount: "multiple", rule: "multi_24h" })),
+    ...(rule3 as any).map((r: any) => ({ ...r, amount: "multiple", rule: "multi_24h" })),
   ];
 
   return (
-    <div>
-      <div className="mb-8">
+    <div className="space-y-8">
+      <div>
         <h1 className="text-2xl font-black text-[#151d48] flex items-center gap-2">
           <Wallet size={24} className="text-[#f97316]" />
           Withdrawal Anomaly Detector
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          6 detection rules across all withdrawal patterns — {settings.site_name}
+          Real-time pattern monitoring for {settings.site_name}
         </p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Total Anomalies", value: anomalies.length, color: "text-red-600" },
-          { label: "Rule 1 Hits (New Acct)", value: (rule1 as any).length, color: "text-orange-600" },
-          { label: "Rule 3 Hits (Multi 24h)", value: (rule3 as any).length, color: "text-yellow-600" },
-          { label: "Under Review", value: 0, color: "text-blue-600" },
+          { label: "Total Alerts", value: anomalies.length, color: "text-red-600 bg-red-50" },
+          { label: "Signup Clusters", value: (rule1 as any).length, color: "text-orange-600 bg-orange-50" },
+          { label: "Velocity Spikes", value: (rule3 as any).length, color: "text-yellow-600 bg-yellow-50" },
+          { label: "Safe Transfers", value: "Verified", color: "text-green-600 bg-green-50" },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-            <div className={`text-2xl font-black mb-1 ${s.color}`}>{s.value}</div>
+            <div className={`text-2xl font-black mb-1 ${s.color.split(" ")[0]}`}>{s.value}</div>
             <div className="text-xs text-gray-400 font-medium">{s.label}</div>
           </div>
         ))}
@@ -71,40 +72,47 @@ export default async function WithdrawalAnomaliesPage() {
 
       {/* Anomaly Feed */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100">
-          <h2 className="font-bold text-[#151d48]">Withdrawal Anomaly Feed</h2>
-          <p className="text-xs text-gray-400 mt-1">Currently showing Rule 1 and Rule 3. All 6 rules active in production.</p>
+        <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/30">
+          <h2 className="font-bold text-[#151d48]">Critical Anomaly Feed</h2>
+          <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest mt-1">Review required for pending requests</p>
         </div>
         <div className="divide-y divide-gray-50">
           {anomalies.length === 0 && (
-            <div className="py-16 text-center text-gray-300">
-              <Wallet size={36} className="mx-auto mb-3" />
-              <p>No withdrawal anomalies detected</p>
+            <div className="py-20 text-center text-gray-300">
+              <Wallet size={36} className="mx-auto mb-3 opacity-20" />
+              <p className="font-bold">No High-Risk Patterns Detected</p>
             </div>
           )}
           {anomalies.map((a: any, i) => (
-            <div key={i} className="px-6 py-4 hover:bg-gray-50">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200">
-                    {RULE_LABELS[a.rule] ?? a.rule}
-                  </span>
-                  <div className="mt-2 flex items-center gap-3">
-                    <span className="font-semibold text-[#151d48]">@{a.username ?? "—"}</span>
-                    <span className="font-bold text-orange-600">${Number(a.amount).toFixed(2)}</span>
-                    {a.hours_since_join && (
-                      <span className="text-xs text-gray-400">{Number(a.hours_since_join).toFixed(1)}h after signup</span>
-                    )}
-                    {a.wd_count && (
-                      <span className="text-xs text-orange-500 font-semibold">{a.wd_count} withdrawals in 24h</span>
-                    )}
+            <div key={i} className="px-6 py-5 hover:bg-gray-50/50 transition-colors">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="flex gap-4">
+                  <div className={`p-3 rounded-2xl ${a.rule === 'multi_24h' ? 'bg-red-50 text-red-500' : 'bg-orange-50 text-orange-500'} shrink-0`}>
+                    <AlertTriangle size={24} />
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-lg bg-white border border-gray-100 shadow-sm text-gray-500">
+                      {RULE_LABELS[a.rule] ?? a.rule}
+                    </span>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+                      <span className="font-black text-[#151d48] text-lg">@{a.username}</span>
+                      <span className="font-black text-primary bg-primary/5 px-2 py-0.5 rounded-lg">
+                        {a.amount === 'multiple' ? 'Velocity Alert' : `$${Number(a.amount).toFixed(2)}`}
+                      </span>
+                      {a.hours_since_join && (
+                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-lg font-bold">
+                          {Number(a.hours_since_join).toFixed(1)}h Post-Signup
+                        </span>
+                      )}
+                      {a.wd_count && (
+                        <span className="text-xs text-red-500 font-black bg-red-50 px-2 py-0.5 rounded-lg border border-red-100 uppercase">
+                          {a.wd_count} Requests / 24h
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className="flex gap-2 shrink-0">
-                  <button className="text-xs font-semibold px-3 py-1.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100">Approve</button>
-                  <button className="text-xs font-semibold px-3 py-1.5 bg-yellow-50 text-yellow-700 rounded-lg hover:bg-yellow-100">Hold 7d</button>
-                  <button className="text-xs font-semibold px-3 py-1.5 bg-red-50 text-red-700 rounded-lg hover:bg-red-100">Reject</button>
-                </div>
+                <AnomalyActionButtons withdrawalId={a.id} userId={a.user_id} username={a.username} />
               </div>
             </div>
           ))}

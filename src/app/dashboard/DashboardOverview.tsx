@@ -426,8 +426,11 @@ export function DashboardOverview({
                             <div className="text-center py-6 bg-gray-50/50 rounded-3xl border border-dashed border-gray-200">
                                 <Cpu className="mx-auto text-gray-300 mb-2" size={32} />
                                 <p className="text-sm font-bold text-gray-500 mb-4">No active cycle found.</p>
-                                <Link href="/dashboard/cycles" className="inline-flex items-center space-x-2 px-5 py-2.5 bg-primary text-white text-xs font-black uppercase tracking-widest rounded-xl hover:secondary transition-all">
-                                    <span>Browse Plans</span>
+                                <Link
+                                    href={settings?.purchases_enabled !== false ? "/dashboard/cycles" : "#"}
+                                    className={`inline-flex items-center space-x-2 px-5 py-2.5 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${settings?.purchases_enabled !== false ? 'bg-primary text-white hover:secondary' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
+                                >
+                                    <span>{settings?.purchases_enabled !== false ? "Browse Plans" : "Purchases Disabled"}</span>
                                     <ChevronRight size={14} />
                                 </Link>
                             </div>

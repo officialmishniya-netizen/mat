@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, boolean, uuid, integer, decimal, jsonb, numeric } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, boolean, uuid, integer, decimal, jsonb, numeric, index } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
     id: uuid("id").primaryKey(),
@@ -20,6 +20,11 @@ export const users = pgTable("users", {
     referral_page_title: text("referral_page_title"),
     referral_page_message: text("referral_page_message"),
     created_at: timestamp("created_at").defaultNow().notNull()
+}, (table) => {
+    return {
+        roleIdx: index("users_role_idx").on(table.role),
+        createdAtIdx: index("users_created_at_idx").on(table.created_at),
+    };
 });
 
 export const settings = pgTable("settings", {
@@ -40,6 +45,12 @@ export const settings = pgTable("settings", {
     enable_team_emails: boolean("enable_team_emails").default(true).notNull(),
     enable_direct_messages: boolean("enable_direct_messages").default(true).notNull(),
     enable_training_hub: boolean("enable_training_hub").default(true).notNull(),
+    launch_date: timestamp("launch_date"),
+    withdrawals_enabled: boolean("withdrawals_enabled").default(true).notNull(),
+    next_in_line_enabled: boolean("next_in_line_enabled").default(true).notNull(),
+    ptc_enabled: boolean("ptc_enabled").default(true).notNull(),
+    matrix_enabled: boolean("matrix_enabled").default(true).notNull(),
+    purchases_enabled: boolean("purchases_enabled").default(true).notNull(),
     updated_at: timestamp("updated_at").defaultNow().notNull()
 });
 
@@ -58,6 +69,12 @@ export const ledger = pgTable("ledger", {
     type: text("type").notNull(),
     reference_id: text("reference_id"),
     created_at: timestamp("created_at").defaultNow().notNull()
+}, (table) => {
+    return {
+        userIdIdx: index("ledger_user_id_idx").on(table.user_id),
+        typeIdx: index("ledger_type_idx").on(table.type),
+        createdAtIdx: index("ledger_created_at_idx").on(table.created_at),
+    };
 });
 
 export const levels = pgTable("levels", {
@@ -85,6 +102,7 @@ export const levels = pgTable("levels", {
     auto_rebuy: boolean("auto_rebuy").default(false).notNull(),
     ad_credits_reward: integer("ad_credits_reward").default(0).notNull(),
     ad_cycles_reward: integer("ad_cycles_reward").default(0).notNull(),
+    free_ad_level_id: integer("free_ad_level_id"), // Free entry to this PTC level
     created_at: timestamp("created_at").defaultNow().notNull()
 });
 
@@ -120,6 +138,11 @@ export const adViews = pgTable("ad_views", {
     ad_id: uuid("ad_id").notNull().references(() => ads.id),
     ip_address: text("ip_address").notNull(),
     completed_at: timestamp("completed_at").defaultNow().notNull()
+}, (table) => {
+    return {
+        userIdIdx: index("ad_views_user_id_idx").on(table.user_id),
+        completedAtIdx: index("ad_views_completed_at_idx").on(table.completed_at),
+    };
 });
 
 export const messages = pgTable("messages", {
@@ -169,6 +192,7 @@ export const adLevels = pgTable("ad_levels", {
     ad_submission_cost: decimal("ad_submission_cost", { precision: 15, scale: 2 }).default("0.00").notNull(),
     weekly_service_fee: decimal("weekly_service_fee", { precision: 15, scale: 2 }).default("0.00").notNull(),
     enable_weekly_fee: boolean("enable_weekly_fee").default(false).notNull(),
+    free_matrix_level_id: integer("free_matrix_level_id"), // Free entry to this Matrix level
     created_at: timestamp("created_at").defaultNow().notNull()
 });
 
@@ -213,6 +237,11 @@ export const withdrawals = pgTable("withdrawals", {
     approved_by_admin_id: uuid("approved_by_admin_id").references(() => users.id),
     created_at: timestamp("created_at").defaultNow().notNull(),
     updated_at: timestamp("updated_at").defaultNow().notNull()
+}, (table) => {
+    return {
+        statusIdx: index("withdrawals_status_idx").on(table.status),
+        createdAtIdx: index("withdrawals_created_at_idx").on(table.created_at),
+    };
 });
 
 // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -1131,6 +1160,11 @@ export const fraudAlerts = pgTable('fraud_alerts', {
     resolvedAt: timestamp('resolved_at'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (table) => {
+    return {
+        statusIdx: index("fraud_alerts_status_idx").on(table.status),
+        createdAtIdx: index("fraud_alerts_created_at_idx").on(table.createdAt),
+    };
 });
 
 export const deviceFingerprints = pgTable('device_fingerprints', {

@@ -77,7 +77,7 @@ export default function AdminWithdrawalsPage() {
     };
 
     return (
-        <div className="p-8 space-y-8 max-w-7xl mx-auto">
+        <div className="p-8 space-y-8">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl font-black text-[#151d48]">Withdrawal Management</h1>
@@ -151,8 +151,8 @@ export default function AdminWithdrawalsPage() {
                         key={tab}
                         onClick={() => setFilter(tab)}
                         className={`px-6 py-2.5 rounded-xl text-sm font-black capitalize transition-all ${filter === tab
-                                ? 'bg-white text-primary shadow-sm ring-1 ring-black/5'
-                                : 'text-gray-400 hover:text-gray-600'
+                            ? 'bg-white text-primary shadow-sm ring-1 ring-black/5'
+                            : 'text-gray-400 hover:text-gray-600'
                             }`}
                     >
                         {tab}

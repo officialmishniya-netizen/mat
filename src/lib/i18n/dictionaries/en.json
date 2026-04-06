@@ -43,7 +43,15 @@
         "contest_manager": "Contest Manager",
         "badge_manager": "Badge Manager",
         "chat_moderation": "Chat Moderation",
-        "security_center": "Security Center"
+        "security_center": "Security Center",
+        "customer_support": "Customer Support",
+        "support_tickets": "Support Tickets",
+        "matrix_setup": "Matrix Setup",
+        "matrix_boards": "Matrix Boards",
+        "interactive_games": "Interactive Games",
+        "deposit_logs": "Deposit Logs",
+        "sponsor_manager": "Sponsor Manager",
+        "roi": "ROI Intelligence"
     },
     "ad_click": {
         "clicks_completed": "Clicks Completed",

@@ -21,6 +21,9 @@ type Events = {
             levelId?: number;
             watchesPerUser?: number;
             fundAmount?: number;
+            runMatrix?: boolean;
+            runPTC?: boolean;
+            runCrossRewards?: boolean;
         };
     };
     "simulation/wipe": {

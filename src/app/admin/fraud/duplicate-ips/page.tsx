@@ -1,9 +1,9 @@
 import { db } from "@/lib/db";
-import { adViews, users, fraudWhitelist, userAccountStatus } from "@/lib/db/schema";
-import { sql, eq, notExists } from "drizzle-orm";
+import { adViews, users, fraudWhitelist } from "@/lib/db/schema";
+import { sql, eq } from "drizzle-orm";
 import { getSiteSettings } from "@/lib/settings";
-import Link from "next/link";
-import { Network, Shield, AlertTriangle } from "lucide-react";
+import { Network, AlertTriangle } from "lucide-react";
+import FraudActionButtons from "./FraudActionButtons";
 
 export default async function DuplicateIPsPage() {
   const settings = await getSiteSettings();
@@ -15,11 +15,12 @@ export default async function DuplicateIPsPage() {
     .where(eq(fraudWhitelist.type, "ip"));
   const whitelistedIps = new Set(whitelist.map((w) => w.value));
 
-  // Group adViews by IP, count distinct users
+  // Group adViews by IP, count distinct users, and capture user IDs
   const rawGroups = await db
     .select({
       ip: adViews.ip_address,
       userCount: sql<number>`COUNT(DISTINCT ${adViews.user_id})`,
+      userIds: sql<string[]>`array_agg(DISTINCT ${adViews.user_id})`,
       latestView: sql<string>`MAX(${adViews.completed_at})`,
     })
     .from(adViews)
@@ -109,17 +110,7 @@ export default async function DuplicateIPsPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex gap-2">
-                        <button className="text-xs font-semibold px-3 py-1.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
-                          Whitelist
-                        </button>
-                        <button className="text-xs font-semibold px-3 py-1.5 bg-orange-50 text-orange-700 rounded-lg hover:bg-orange-100 transition-colors">
-                          Freeze All
-                        </button>
-                        <button className="text-xs font-semibold px-3 py-1.5 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors">
-                          Ban All
-                        </button>
-                      </div>
+                      <FraudActionButtons ip={group.ip!} userIds={group.userIds} />
                     </td>
                   </tr>
                 );

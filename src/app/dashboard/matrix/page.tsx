@@ -52,6 +52,7 @@ export function MatrixTree({ root }: { root: MatrixNode | null }) {
 export default function MatrixVisualizationPage() {
     const [rootNode, setRootNode] = useState<MatrixNode | null>(null);
     const [loading, setLoading] = useState(true);
+    const [settings, setSettings] = useState<any>(null);
     const [stats, setStats] = useState({
         total: 0,
         active: 0,
@@ -87,6 +88,10 @@ export default function MatrixVisualizationPage() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session?.user) return;
 
+            // Fetch Settings
+            const { data: setts } = await supabase.from('settings').select('*').single();
+            setSettings(setts);
+
             // 1. Get user's first active position
             const { data: pos } = await supabase
                 .from('matrix_positions')
@@ -118,6 +123,22 @@ export default function MatrixVisualizationPage() {
 
         fetchTree();
     }, []);
+
+    if (settings && settings.matrix_enabled === false) {
+        return (
+            <div className="p-6 h-[80vh] flex items-center justify-center">
+                <div className="bg-white rounded-[3rem] p-12 shadow-xl border border-orange-100 text-center max-w-xl space-y-6">
+                    <div className="w-24 h-24 bg-orange-50 rounded-3xl flex items-center justify-center mx-auto text-orange-500">
+                        <ShieldCheck size={48} />
+                    </div>
+                    <h2 className="text-3xl font-black text-[#151d48]">Matrix Module Temporarily Offline</h2>
+                    <p className="text-gray-500 font-bold leading-relaxed">
+                        The Global Matrix system is currently undergoing scheduled maintenance or the launch counter has not yet concluded. Please check back later.
+                    </p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="p-6 space-y-6">

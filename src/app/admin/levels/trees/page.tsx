@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Network, Users, ArrowRight, Zap, RefreshCw, Search, ListFilter } from 'lucide-react';
 import { supabase } from "@/lib/supabase";
 
@@ -79,10 +80,10 @@ export default function LiveTreesPage() {
     }
 
     return (
-        <div className="p-8 space-y-8 max-w-7xl mx-auto">
+        <div className="p-8 space-y-8">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h1 className="text-3xl font-black text-[#151d48]">Live Ecosystem Trees</h1>
+                    <h1 className="text-3xl font-black text-[#151d48]">Matrix Boards Intelligence</h1>
                     <p className="text-gray-500 text-sm mt-1">Real-time visualization of matrix depth and cycle queues.</p>
                 </div>
                 <div className="flex gap-3">
@@ -170,9 +171,11 @@ export default function LiveTreesPage() {
                                 Use the mouse to pan and zoom through the global tree structure. Click on any node to view detailed user genealogy and spillover history.
                             </p>
 
-                            <button className="bg-[#151d48] text-white px-8 py-4 rounded-2xl font-black text-sm hover:bg-primary transition-all shadow-xl shadow-blue-900/10">
-                                Launch Full Interactive Tree View
-                            </button>
+                            <Link href="/admin/levels/trees/visualizer">
+                                <button className="bg-[#151d48] text-white px-8 py-4 rounded-2xl font-black text-sm hover:bg-primary transition-all shadow-xl shadow-blue-900/10">
+                                    Launch Full Interactive Tree View
+                                </button>
+                            </Link>
                         </div>
                     </div>
 

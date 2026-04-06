@@ -6,8 +6,15 @@ import { withdrawals, ledger } from "@/lib/db/schema";
 import { getUserBalance } from "@/lib/ledger";
 import { toMoney } from "@/lib/money";
 
+import { getSiteSettings } from "@/lib/settings";
+
 export async function POST(req: Request) {
     try {
+        const settings = await getSiteSettings();
+        if (!settings.withdrawals_enabled) {
+            return NextResponse.json({ error: "Withdrawals are currently disabled." }, { status: 403 });
+        }
+
         const { amount, method, details } = await req.json();
 
         if (!amount || isNaN(amount) || amount <= 0) {

@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { users, ledger, matrixPositions, adWatchLog, userAdPositions, ads, adPlans } from "@/lib/db/schema";
+import { users, ledger, matrixPositions, adWatchLog, userAdPositions, ads, adPlans, adLevels, userAdLevels } from "@/lib/db/schema";
 import { generateSimUsers, SIM_PREFIX } from "./engine";
 import { eq, sql, and, desc } from "drizzle-orm";
 import { createLedgerEntry } from "@/lib/ledger";
@@ -15,7 +15,7 @@ import { createLedgerEntry } from "@/lib/ledger";
  */
 export async function stagePopulateTree(breadth: number, depth: number) {
     console.log(`Starting Tree Generation: breadth=${breadth}, depth=${depth}`);
-    
+
     // Create Root
     const [root] = await generateSimUsers(1);
     let currentLevel: any[] = [root];
@@ -38,7 +38,7 @@ export async function stagePopulateTree(breadth: number, depth: number) {
  */
 export async function stageMassFund(amount: number) {
     const simUsers = await db.select({ id: users.id }).from(users).where(sql`username LIKE ${SIM_PREFIX} || '%'`);
-    
+
     for (const user of simUsers) {
         await createLedgerEntry(user.id, amount, 'deposit', 'SIM_AUTO_FUND');
     }
@@ -52,7 +52,7 @@ export async function stageMassFund(amount: number) {
  */
 export async function stageMatrixMassBuy(levelId: number) {
     const simUsers = await db.select({ id: users.id }).from(users).where(sql`username LIKE ${SIM_PREFIX} || '%'`);
-    
+
     const results: any[] = [];
     for (const user of simUsers) {
         try {
@@ -66,8 +66,8 @@ export async function stageMatrixMassBuy(levelId: number) {
         }
     }
 
-    return { 
-        attempted: simUsers.length, 
+    return {
+        attempted: simUsers.length,
         success: results.filter(r => r.success).length,
         failed: results.filter(r => !r.success).length
     };
@@ -81,7 +81,7 @@ export async function stageMatrixMassBuy(levelId: number) {
 export async function stageSimulateAdTraffic(watchesPerUser: number) {
     const simUsers = await db.select({ id: users.id }).from(users).where(sql`username LIKE ${SIM_PREFIX} || '%'`);
     const [sampleAd] = await db.select().from(ads).where(eq(ads.active, true)).limit(1);
-    
+
     if (!sampleAd) return { error: "No active ads to watch." };
 
     for (const user of simUsers) {
@@ -92,12 +92,12 @@ export async function stageSimulateAdTraffic(watchesPerUser: number) {
                     .from(userAdPositions)
                     .where(and(eq(userAdPositions.userId, user.id), eq(userAdPositions.status, 'active')))
                     .limit(1);
-                
+
                 if (!pos) return;
 
                 const earnedAmount = sampleAd.reward;
                 const lockedBalanceAfter = (parseFloat(pos.lockedBalance || "0") + parseFloat(earnedAmount)).toString();
-                
+
                 await tx.insert(adWatchLog).values({
                     userId: user.id,
                     adId: sampleAd.id,
@@ -119,4 +119,43 @@ export async function stageSimulateAdTraffic(watchesPerUser: number) {
     }
 
     return { usersInvolved: simUsers.length, totalWatches: simUsers.length * watchesPerUser };
+}
+
+/**
+ * Stage 5: PTC Mass-Buy
+ * All sim users buy a specific ad level.
+ */
+export async function stagePtcMassBuy(levelId: number) {
+    const simUsers = await db.select({ id: users.id }).from(users).where(sql`username LIKE ${SIM_PREFIX} || '%'`);
+
+    const results: any[] = [];
+    for (const user of simUsers) {
+        try {
+            // We use the new server action logic (directly via DB for speed in simulation)
+            await db.transaction(async (tx) => {
+                const level = await tx.query.adLevels.findFirst({ where: eq(adLevels.id, levelId) });
+                if (!level) throw new Error("Ad level not found");
+
+                await tx.insert(userAdLevels).values({
+                    user_id: user.id,
+                    ad_level_id: levelId,
+                    status: 'active'
+                });
+
+                // Cross-Reward Trigger
+                if (level.free_matrix_level_id) {
+                    await tx.execute(sql`SELECT buy_matrix_level(${user.id}, ${level.free_matrix_level_id})`);
+                }
+            });
+            results.push({ userId: user.id, success: true });
+        } catch (e) {
+            results.push({ userId: user.id, success: false, error: (e as Error).message });
+        }
+    }
+
+    return {
+        attempted: simUsers.length,
+        success: results.filter(r => r.success).length,
+        failed: results.filter(r => !r.success).length
+    };
 }
