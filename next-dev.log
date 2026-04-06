@@ -1,0 +1,80 @@
+
+> matclick@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.15
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1658ms
+ ○ Compiling /admin ...
+ ✓ Compiled /admin in 5.1s (1790 modules)
+ ⨯ src\app\admin\page.tsx (261:62) @ adsViewed
+ ⨯ TypeError: Cannot read properties of undefined (reading 'adsViewed')
+    at AdminDashboardPage (./src/app/admin/page.tsx:932:70)
+    at stringify (<anonymous>)
+digest: "915520455"
+[0m [90m 259 |[39m                             stats[33m=[39m{{[0m
+[0m [90m 260 |[39m                                 viewsPerDay[33m:[39m [33mMath[39m[33m.[39mround(last7DaysAds[33m.[39mreduce((acc[33m,[39m curr) [33m=>[39m acc [33m+[39m curr[33m.[39madsViewed[33m,[39m [35m0[39m) [33m/[39m [35m7[39m)[33m,[39m[0m
+[0m[31m[1m>[22m[39m[90m 261 |[39m                                 drainStatus[33m:[39m last7DaysAds[[35m6[39m][33m.[39madsViewed [33m>[39m last7DaysAds[[35m0[39m][33m.[39madsViewed [33m?[39m [32m'Increasing'[39m [33m:[39m [32m'Stable'[39m[0m
+[0m [90m     |[39m                                                              [31m[1m^[22m[39m[0m
+[0m [90m 262 |[39m                             }}[0m
+[0m [90m 263 |[39m                         [33m/[39m[33m>[39m[0m
+[0m [90m 264 |[39m                     [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m[0m
+ ✓ Compiled in 368ms (829 modules)
+ ⨯ src\app\admin\page.tsx (261:62) @ adsViewed
+ ⨯ TypeError: Cannot read properties of undefined (reading 'adsViewed')
+    at AdminDashboardPage (./src/app/admin/page.tsx:932:70)
+    at stringify (<anonymous>)
+digest: "915520455"
+[0m [90m 259 |[39m                             stats[33m=[39m{{[0m
+[0m [90m 260 |[39m                                 viewsPerDay[33m:[39m [33mMath[39m[33m.[39mround(last7DaysAds[33m.[39mreduce((acc[33m,[39m curr) [33m=>[39m acc [33m+[39m curr[33m.[39madsViewed[33m,[39m [35m0[39m) [33m/[39m [35m7[39m)[33m,[39m[0m
+[0m[31m[1m>[22m[39m[90m 261 |[39m                                 drainStatus[33m:[39m last7DaysAds[[35m6[39m][33m.[39madsViewed [33m>[39m last7DaysAds[[35m0[39m][33m.[39madsViewed [33m?[39m [32m'Increasing'[39m [33m:[39m [32m'Stable'[39m[0m
+[0m [90m     |[39m                                                              [31m[1m^[22m[39m[0m
+[0m [90m 262 |[39m                             }}[0m
+[0m [90m 263 |[39m                         [33m/[39m[33m>[39m[0m
+[0m [90m 264 |[39m                     [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m[0m
+ GET /admin 500 in 7082ms
+ ✓ Compiled in 756ms (1899 modules)
+CRITICAL DASHBOARD DATA ERROR: DrizzleQueryError: Failed query: select SUM(amount), SUM(CASE WHEN type = 'deposit' THEN amount ELSE 0 END), SUM(CASE WHEN type = 'withdrawal' THEN ABS(amount) ELSE 0 END), SUM(CASE WHEN type = 'ad_reward' AND created_at >= $1 THEN amount ELSE 0 END), COUNT(CASE WHEN type = 'matrix_cycle' AND created_at >= $2 THEN 1 END) from "ledger"
+params: 2026-04-06T00:00:00.000Z,2026-04-06T00:00:00.000Z
+    at PostgresJsPreparedQuery.queryWithCache (webpack-internal:///(rsc)/./node_modules/drizzle-orm/pg-core/session.js:53:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async eval (webpack-internal:///(rsc)/./node_modules/drizzle-orm/postgres-js/session.js:50:20)
+    at async AdminDashboardPage (webpack-internal:///(rsc)/./src/app/admin/page.tsx:46:26) {
+  query: `select SUM(amount), SUM(CASE WHEN type = 'deposit' THEN amount ELSE 0 END), SUM(CASE WHEN type = 'withdrawal' THEN ABS(amount) ELSE 0 END), SUM(CASE WHEN type = 'ad_reward' AND created_at >= $1 THEN amount ELSE 0 END), COUNT(CASE WHEN type = 'matrix_cycle' AND created_at >= $2 THEN 1 END) from "ledger"`,
+  params: [ '2026-04-06T00:00:00.000Z', '2026-04-06T00:00:00.000Z' ],
+  cause: Error: getaddrinfo ENOTFOUND db.ziaoqtmmdwjbbqghkpda.supabase.co
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -3008,
+    code: 'ENOTFOUND',
+    syscall: 'getaddrinfo',
+    hostname: 'db.ziaoqtmmdwjbbqghkpda.supabase.co'
+  }
+}
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(90%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /admin 200 in 556ms
+ ✓ Compiled /favicon.ico in 219ms (1101 modules)
+ GET /favicon.ico 200 in 269ms
+ ✓ Compiled /admin/settings/payments in 434ms (1941 modules)
+ GET /favicon.ico 200 in 17ms
+ ○ Compiling /admin/settings/system ...
+ ✓ Compiled /admin/settings/system in 762ms (2146 modules)
+ GET /favicon.ico 200 in 13ms

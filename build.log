@@ -1,0 +1,175 @@
+
+> matclick@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.15
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/108) ...
+   Generating static pages (27/108) 
+Marketplace Cron Error: Error: getaddrinfo ENOTFOUND db.ziaoqtmmdwjbbqghkpda.supabase.co
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+  errno: -3008,
+  code: 'ENOTFOUND',
+  syscall: 'getaddrinfo',
+  hostname: 'db.ziaoqtmmdwjbbqghkpda.supabase.co'
+}
+Schema check failed: T [Error]: Failed query: SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'simulation_runs')
+params: 
+    at ex.queryWithCache (D:\ptcmatrix\.next\server\chunks\4100.js:8:36640)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async d (D:\ptcmatrix\.next\server\app\api\admin\simulate\status\route.js:1:825)
+    at async D:\ptcmatrix\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:36957
+    at async eC.execute (D:\ptcmatrix\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:27552)
+    at async eC.handle (D:\ptcmatrix\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:38291)
+    at async exportAppRoute (D:\ptcmatrix\node_modules\next\dist\export\routes\app-route.js:77:26)
+    at async exportPageImpl (D:\ptcmatrix\node_modules\next\dist\export\worker.js:175:20)
+    at async Span.traceAsyncFn (D:\ptcmatrix\node_modules\next\dist\trace\trace.js:154:20)
+    at async Object.exportPage (D:\ptcmatrix\node_modules\next\dist\export\worker.js:236:20) {
+  query: "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'simulation_runs')",
+  params: [],
+  cause: Error: getaddrinfo ENOTFOUND db.ziaoqtmmdwjbbqghkpda.supabase.co
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -3008,
+    code: 'ENOTFOUND',
+    syscall: 'getaddrinfo',
+    hostname: 'db.ziaoqtmmdwjbbqghkpda.supabase.co'
+  }
+}
+   Generating static pages (54/108) 
+   Generating static pages (81/108) 
+ ✓ Generating static pages (108/108)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ƒ /                                    2.6 kB         96.8 kB
+├ ƒ /_not-found                          880 B          88.2 kB
+├ ƒ /admin                               14.8 kB         213 kB
+├ ƒ /admin/achievements                  2.91 kB        90.3 kB
+├ ƒ /admin/ads                           233 B          87.6 kB
+├ ƒ /admin/analytics/cohorts             2.66 kB          90 kB
+├ ƒ /admin/analytics/roi                 3.01 kB        90.4 kB
+├ ƒ /admin/analytics/stress-test         3.52 kB        90.9 kB
+├ ƒ /admin/audit                         2.78 kB          97 kB
+├ ƒ /admin/contests                      2.8 kB         90.2 kB
+├ ƒ /admin/deposits                      3.1 kB          145 kB
+├ ƒ /admin/emails                        233 B          87.6 kB
+├ ƒ /admin/fraud                         233 B          87.6 kB
+├ ƒ /admin/fraud/bots                    779 B           143 kB
+├ ƒ /admin/fraud/burst-registrations     233 B          87.6 kB
+├ ƒ /admin/fraud/devices                 233 B          87.6 kB
+├ ƒ /admin/fraud/dormant                 232 B          87.6 kB
+├ ƒ /admin/fraud/duplicate-ips           1.05 kB        91.7 kB
+├ ƒ /admin/fraud/earnings-mismatch       233 B          87.6 kB
+├ ƒ /admin/fraud/network                 3.32 kB        90.7 kB
+├ ƒ /admin/fraud/self-referral           233 B          87.6 kB
+├ ƒ /admin/fraud/settings                2.89 kB        90.3 kB
+├ ƒ /admin/fraud/speed-violations        233 B          87.6 kB
+├ ƒ /admin/fraud/vpn-detector            3.19 kB        93.9 kB
+├ ƒ /admin/fraud/withdrawals             2.01 kB        92.7 kB
+├ ƒ /admin/impersonate                   233 B          87.6 kB
+├ ƒ /admin/investments                   7.08 kB        94.4 kB
+├ ƒ /admin/ledger                        233 B          87.6 kB
+├ ƒ /admin/levels                        233 B          87.6 kB
+├ ƒ /admin/levels/bonuses                3.81 kB         142 kB
+├ ƒ /admin/levels/trees                  3.96 kB         149 kB
+├ ƒ /admin/levels/trees/visualizer       2.21 kB         151 kB
+├ ƒ /admin/marketing                     233 B          87.6 kB
+├ ƒ /admin/marketplace                   8.81 kB        96.2 kB
+├ ƒ /admin/receipts                      3.75 kB        91.1 kB
+├ ƒ /admin/settings                      233 B          87.6 kB
+├ ƒ /admin/settings/modules              4.81 kB         147 kB
+├ ƒ /admin/settings/payments             4.82 kB         147 kB
+├ ƒ /admin/settings/system               3.37 kB          94 kB
+├ ƒ /admin/simulate                      1.37 kB        88.7 kB
+├ ƒ /admin/simulation                    4.57 kB        95.2 kB
+├ ƒ /admin/team-chat                     3.2 kB         90.6 kB
+├ ƒ /admin/tickets                       3.66 kB         145 kB
+├ ƒ /admin/tickets/[id]                  3.62 kB         145 kB
+├ ƒ /admin/users                         11.6 kB         109 kB
+├ ƒ /admin/users/[userId]                233 B          87.6 kB
+├ ƒ /admin/users/[userId]/audit          233 B          87.6 kB
+├ ƒ /admin/users/impersonate             233 B          87.6 kB
+├ ƒ /admin/users/sponsor                 4.75 kB         147 kB
+├ ƒ /admin/withdrawals                   7.83 kB         150 kB
+├ ƒ /admin/withdrawals/scheduled         7.46 kB         146 kB
+├ ƒ /api/admin/fraud/clawback            0 B                0 B
+├ ƒ /api/admin/fraud/settings            0 B                0 B
+├ ƒ /api/admin/simulate                  0 B                0 B
+├ ○ /api/admin/simulate/status           0 B                0 B
+├ ƒ /api/ads/start                       0 B                0 B
+├ ƒ /api/ads/verify                      0 B                0 B
+├ ƒ /api/cron/marketplace-maintenance    0 B                0 B
+├ ƒ /api/cron/telegram-ads-ready         0 B                0 B
+├ ƒ /api/inngest                         0 B                0 B
+├ ƒ /api/simulate                        0 B                0 B
+├ ƒ /api/support/tickets                 0 B                0 B
+├ ƒ /api/support/tickets/[id]            0 B                0 B
+├ ƒ /api/team/email                      0 B                0 B
+├ ƒ /api/team/follow-ups                 0 B                0 B
+├ ƒ /api/team/messages                   0 B                0 B
+├ ƒ /api/team/tracking-links             0 B                0 B
+├ ƒ /api/telegram/setup                  0 B                0 B
+├ ƒ /api/telegram/webhook                0 B                0 B
+├ ƒ /api/wallet/deposit/create           0 B                0 B
+├ ƒ /api/wallet/transfer                 0 B                0 B
+├ ƒ /api/wallet/withdraw                 0 B                0 B
+├ ƒ /api/webhooks/nowpayments            0 B                0 B
+├ ƒ /auth/login                          2.58 kB         101 kB
+├ ƒ /auth/register                       3.45 kB         153 kB
+├ ƒ /dashboard                           12.9 kB         172 kB
+├ ƒ /dashboard/achievements              3.17 kB        90.5 kB
+├ ƒ /dashboard/ads                       2.23 kB        89.6 kB
+├ ƒ /dashboard/community                 233 B          87.6 kB
+├ ƒ /dashboard/contests                  3.17 kB        90.5 kB
+├ ƒ /dashboard/cycles                    2.5 kB         89.9 kB
+├ ƒ /dashboard/invest                    2.64 kB        95.3 kB
+├ ƒ /dashboard/marketplace               233 B          87.6 kB
+├ ƒ /dashboard/marketplace/spin          3.35 kB        90.7 kB
+├ ƒ /dashboard/matrix                    183 B           142 kB
+├ ƒ /dashboard/messages                  1.55 kB         140 kB
+├ ƒ /dashboard/profile                   4.12 kB        91.5 kB
+├ ƒ /dashboard/promotion                 1.4 kB         88.8 kB
+├ ƒ /dashboard/roi                       3.31 kB        90.7 kB
+├ ƒ /dashboard/shoutbox                  3.43 kB         142 kB
+├ ƒ /dashboard/support                   180 B          94.4 kB
+├ ƒ /dashboard/support/[id]              2.91 kB        97.1 kB
+├ ƒ /dashboard/support/new               2.91 kB        97.1 kB
+├ ƒ /dashboard/team                      3.04 kB        97.2 kB
+├ ƒ /dashboard/team-chat                 3.06 kB        90.4 kB
+├ ƒ /dashboard/team/email                4.59 kB        95.3 kB
+├ ƒ /dashboard/team/follow-ups           4.08 kB        94.7 kB
+├ ƒ /dashboard/team/invites              2.27 kB        99.8 kB
+├ ƒ /dashboard/team/leaderboard          3.05 kB        90.4 kB
+├ ƒ /dashboard/team/messages             4.21 kB        91.6 kB
+├ ƒ /dashboard/team/proof-cards          3.83 kB        94.5 kB
+├ ƒ /dashboard/team/referral-page        3.46 kB        94.1 kB
+├ ƒ /dashboard/team/tracking-links       3.88 kB         205 kB
+├ ƒ /dashboard/team/training             3.32 kB          94 kB
+├ ƒ /dashboard/wallet                    232 B          87.6 kB
+├ ƒ /dashboard/wallet/deposit            3.58 kB         104 kB
+├ ƒ /dashboard/wallet/ledger             233 B          87.6 kB
+├ ƒ /dashboard/wallet/receipts           3.4 kB          142 kB
+├ ƒ /dashboard/wallet/schedule           2.6 kB         95.2 kB
+├ ƒ /dashboard/wallet/transfer           3.01 kB        90.4 kB
+├ ƒ /dashboard/wallet/withdraw           3.51 kB        90.9 kB
+├ ƒ /r/[username]                        0 B                0 B
+├ ƒ /ref/[username]                      602 B            88 kB
+└ ƒ /training/[id]                       233 B          87.6 kB
++ First Load JS shared by all            87.4 kB
+  ├ chunks/2117-215a95ed03bf59da.js      31.8 kB
+  ├ chunks/fd9d1056-0d6d92bdbc7391a1.js  53.6 kB
+  └ other shared chunks (total)          1.97 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

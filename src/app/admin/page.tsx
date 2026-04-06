@@ -143,7 +143,6 @@ export default async function AdminDashboardPage() {
 
     } catch (error: any) {
         console.error("CRITICAL DASHBOARD DATA ERROR:", error);
-        // Fallback for UI variables
     }
 
     const stats = financialStats[0] || {};
@@ -156,6 +155,26 @@ export default async function AdminDashboardPage() {
     const profitAfterWithdrawals = subtractMoney(revenueIn, totalWithdrawn);
     const netProfit = subtractMoney(profitAfterWithdrawals, totalLiability);
     const isProfitNegative = parseFloat(netProfit) < 0;
+
+    const daysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const startDay = new Date();
+    startDay.setUTCDate(startDay.getUTCDate() - 6);
+
+    if (last7DaysLedger.length === 0) {
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(startDay);
+            d.setUTCDate(d.getUTCDate() + i);
+            last7DaysLedger.push({ name: daysShort[d.getUTCDay()], deposits: 0, payouts: 0 });
+        }
+    }
+
+    if (last7DaysAds.length === 0) {
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(startDay);
+            d.setUTCDate(d.getUTCDate() + i);
+            last7DaysAds.push({ name: String(d.getUTCDate()).padStart(2, '0'), adsViewed: 0, limitHits: 0 });
+        }
+    }
 
     if (last7DaysLedger.length === 0) {
         const daysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -322,7 +341,7 @@ export default async function AdminDashboardPage() {
                             data={last7DaysAds}
                             stats={{
                                 viewsPerDay: Math.round(last7DaysAds.reduce((acc, curr) => acc + curr.adsViewed, 0) / 7),
-                                drainStatus: last7DaysAds[6].adsViewed > last7DaysAds[0].adsViewed ? 'Increasing' : 'Stable'
+                                drainStatus: (last7DaysAds[6]?.adsViewed || 0) > (last7DaysAds[0]?.adsViewed || 0) ? 'Increasing' : 'Stable'
                             }}
                         />
                     </div>
