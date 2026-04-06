@@ -122,6 +122,7 @@ const navGroups: NavGroup[] = [
         items: [
             { name: "General Settings", href: "/admin/settings" },
             { name: "Modules & Features", href: "/admin/settings/modules" },
+            { name: "System Manager", href: "/admin/settings/system" },
             { name: "Promotion Tools", href: "/admin/marketing" },
             { name: "Payments Setup", href: "/admin/settings/payments" },
             { name: "Email Editor", href: "/admin/emails" },
