@@ -120,7 +120,7 @@ export default async function FraudAlertCenter() {
                     </div>
                     <p className="text-sm font-semibold text-[#1e2a4a] truncate">{alert.title}</p>
                     <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">{alert.description}</p>
-                    {(alert.involvedUsernames as string[]).length > 0 && (
+                    {alert.involvedUsernames && (alert.involvedUsernames as string[]).length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-1.5">
                         {(alert.involvedUsernames as string[]).map((u) => (
                           <span key={u} className="text-[11px] bg-orange-50 text-orange-600 font-semibold px-2 py-0.5 rounded-lg">
